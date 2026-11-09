@@ -22,7 +22,7 @@ function leaves(source: unknown, prefix = ''): Leaves {
   throw new Error('Locale values must be strings, arrays or dictionaries');
 }
 
-const catalogs: Array<[string, Leaves, Leaves]> = [
+const catalogs: [string, Leaves, Leaves][] = [
   ['shell', leaves(en), leaves(fa)],
   ['modules', leaves(modulesEn), leaves(modulesFa)],
 ];
@@ -52,6 +52,7 @@ describe('Persian dashboard full-catalog candidate', () => {
       expect(Object.keys(persian).sort()).toEqual(Object.keys(english).sort());
       for (const [key, value] of Object.entries(english)) {
         expect(placeholders(persian[key])).toEqual(placeholders(value));
+        expect((persian[key].match(/\n/g) ?? []).length).toBe((value.match(/\n/g) ?? []).length);
       }
     }
   });
