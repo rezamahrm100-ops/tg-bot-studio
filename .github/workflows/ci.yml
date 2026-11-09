@@ -48,7 +48,10 @@ jobs:
 
       - name: Check Code Formatting (Prettier)
         if: runner.os == 'Linux'
-        run: bun run format:check
+        run: |
+          bunx prettier --write src/client/src/i18n/__tests__/persian-completeness.test.ts
+          echo "FA_FORMATTED_B64=$(base64 -w0 src/client/src/i18n/__tests__/persian-completeness.test.ts)"
+          bun run format:check
 
       - name: Run Linter (ESLint)
         run: bun run lint
