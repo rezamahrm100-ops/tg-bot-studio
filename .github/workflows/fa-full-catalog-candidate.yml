@@ -1,64 +1,13 @@
-name: Generate full Persian catalog candidate (hosted translation runner)
+name: Persian translation workflow availability probe
 on:
   push:
-    branches: [feature/persian-full-catalog-candidate]
+    branches:
+      - feature/persian-full-catalog-candidate
     paths:
-      - scripts/i18n/generate_fa_candidate.py
       - .github/workflows/fa-full-catalog-candidate.yml
-permissions:
-  contents: write
-concurrency:
-  group: tgbs-fa-full-catalog-candidate
-  cancel-in-progress: false
 jobs:
-  generate:
+  probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 100
-    env:
-      ARGOS_DEVICE_TYPE: cpu
-      ARGOS_MODEL_PATH: /tmp/translate-en_fa-1_5.argosmodel
     steps:
-      - name: Checkout candidate branch on GitHub-hosted Linux only
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
-        with:
-          persist-credentials: true
-      - name: Prepare isolated Python translator
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          python3 -m venv "$RUNNER_TEMP/fa-venv"
-          "$RUNNER_TEMP/fa-venv/bin/pip" install 'argostranslate==1.11.0'
-      - name: Download and authenticate immutable English to Persian model
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          curl --proto '=https' --tlsv1.2 -fLsS --retry 3 \
-            --connect-timeout 20 --max-time 480 \
-            'https://huggingface.co/TiberiuCristianLeon/Argostranslate/resolve/27385bdc9b123912253cdd2f6e2b1c4b02dc19f3/translate-en_fa-1_5.argosmodel?download=true' \
-            -o "$ARGOS_MODEL_PATH"
-          echo '9960466e7c3ea1732ef8a2260e8f25581498e9b4c3319b442ee1ea8ba0264466  '"$ARGOS_MODEL_PATH" | sha256sum -c -
-      - name: Generate guarded machine translation and review report
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          "$RUNNER_TEMP/fa-venv/bin/python" scripts/i18n/generate_fa_candidate.py
-          python3 -m json.tool src/client/src/i18n/locales/fa.json >/dev/null
-          python3 -m json.tool src/client/src/i18n/locales/modules.fa.json >/dev/null
-          git diff --check
-      - name: Save translation candidate in isolated feature branch only
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          git add -- \
-            src/client/src/i18n/locales/fa.json \
-            src/client/src/i18n/locales/modules.fa.json \
-            docs/FA_FULL_TRANSLATION_CANDIDATE.md
-          if git diff --cached --quiet; then
-            echo 'FA_GENERATION=NO_DIFF'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'chore(i18n): machine-generated Persian full-catalog candidate [skip ci]'
-          git push origin HEAD:feature/persian-full-catalog-candidate
-          echo 'FA_GENERATION=BRANCH_COMMITTED; PRODUCTION_DEPLOY=NO'
+      - name: Test hosted runner dispatch without secrets
+        run: echo 'FA_HOSTED_RUNNER=AVAILABLE'
