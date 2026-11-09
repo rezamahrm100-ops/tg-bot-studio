@@ -76,6 +76,7 @@
     "@emotion/cache": "^11.14.0",
     "@mui/stylis-plugin-rtl": "^9.5.0",
     "stylis": "^4.3.6",
-    "@fontsource-variable/vazirmatn": "^5.3.0"
+    "@fontsource-variable/vazirmatn": "^5.3.0",
+    "@types/stylis": "^4.2.7"
   }
 }
