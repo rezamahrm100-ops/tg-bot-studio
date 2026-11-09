@@ -48,5 +48,10 @@ html[lang='fa'] input[type='number'] {
   unicode-bidi: isolate;
   text-align: left;
 }
-html[lang='fa'] .skip-link { left: auto; inset-inline-start: -9999px; }
-html[lang='fa'] .skip-link:focus { inset-inline-start: 0; }
+html[lang='fa'] .skip-link {
+  left: auto;
+  inset-inline-start: -9999px;
+}
+html[lang='fa'] .skip-link:focus {
+  inset-inline-start: 0;
+}
