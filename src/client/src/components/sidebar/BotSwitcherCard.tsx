@@ -12,7 +12,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import AppsIcon from '@mui/icons-material/Apps';
 import CheckIcon from '@mui/icons-material/Check';
@@ -37,6 +37,8 @@ export function BotSwitcherCard({
   onNavigate?: () => void;
 }): React.ReactElement {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isRtl = theme.direction === 'rtl';
   const { bots, activeBot, setActiveBotId } = useBots();
   const navigate = useNavigate();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -79,7 +81,7 @@ export function BotSwitcherCard({
             justifyContent: collapsed ? 'center' : 'flex-start',
             gap: 1.25,
             p: collapsed ? 0.75 : 1,
-            textAlign: 'left',
+            textAlign: 'start',
             borderRadius: '10px',
             border: '1px solid',
             borderColor: collapsed ? 'transparent' : 'divider',
@@ -147,15 +149,15 @@ export function BotSwitcherCard({
         onClose={() => setAnchor(null)}
         anchorOrigin={{
           vertical: collapsed ? 'top' : 'bottom',
-          horizontal: collapsed ? 'right' : 'left',
+          horizontal: collapsed ? (isRtl ? 'left' : 'right') : isRtl ? 'right' : 'left',
         }}
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: isRtl ? 'right' : 'left' }}
         slotProps={{
           paper: {
             sx: {
               width: 272,
               mt: collapsed ? 0 : 0.75,
-              ml: collapsed ? 1 : 0,
+              marginInlineStart: collapsed ? 8 : 0,
               borderRadius: '12px',
               border: '1px solid',
               borderColor: 'divider',
