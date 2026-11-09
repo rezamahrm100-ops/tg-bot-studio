@@ -1,0 +1,83 @@
+name: Publish full-coverage Persian dashboard preview assets
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: tgbs-fa-complete-preview-static-release
+  cancel-in-progress: false
+jobs:
+  package-static-only:
+    if: >-
+      github.repository == 'rezamahrm100-ops/tg-bot-studio' &&
+      github.event.workflow_run.repository.full_name == 'rezamahrm100-ops/tg-bot-studio' &&
+      github.event.workflow_run.head_branch == 'master' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.actor.login == 'rezamahrm100-ops'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout only the successful and reviewed source revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Verify immutable provenance and release intent
+        env:
+          GH_TOKEN: ${ github.token }}
+          SOURCE_SHA: ${ github.event.workflow_run.head_sha }}
+          SOURCE_RUN: ${ github.event.workflow_run.id }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          run_info="$(gh api "repos/rezamahrm100-ops/tg-bot-studio/actions/runs/$SOURCE_RUN" --jq '[.head_sha,.head_branch,.event,.conclusion] | join(" ")')"
+          test "$run_info" = "$SOURCE_SHA master push success"
+          title="$(git log -1 --pretty=%s)"
+          test "$title" = 'feat(i18n): full-coverage Persian dashboard catalog preview'
+          test -f src/client/src/i18n/locales/fa.json
+          test -f src/client/src/i18n/locales/modules.fa.json
+          echo 'TGBS_FA_PREVIEW_PROVENANCE=PASS'
+      - name: Obtain proven build outputs from the successful CI run
+        uses: actions/download-artifact@v4
+        with:
+          repository: rezamahrm100-ops/tg-bot-studio
+          run-id: ${ github.event.workflow_run.id }}
+          github-token: ${ github.token }}
+          name: dist
+          path: dist
+      - name: Validate static assets and produce immutable digest
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -s dist/client/index.html
+          test -d dist/client/assets
+          grep -R -q -- 'فارسی' dist/client/assets
+          test ! -e dist/client/.env
+          test ! -e dist/client/.env.production
+          test ! -e dist/client/data
+          tar -czf tgbs-fa-complete-preview-client.tar.gz -C dist client
+          sha256sum tgbs-fa-complete-preview-client.tar.gz > tgbs-fa-complete-preview-client.sha256
+          sha256sum -c tgbs-fa-complete-preview-client.sha256
+          echo 'TGBS_FA_PREVIEW_STATIC_ONLY=PASS'
+      - name: Publish public browser-only assets (no VPS changes)
+        env:
+          GH_TOKEN: ${ github.token }}
+          SOURCE_SHA: ${ github.event.workflow_run.head_sha }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          short="${SOURCE_SHA:0:12}"
+          tag="fa-complete-preview-$short"
+          gh release create "$tag" \
+            tgbs-fa-complete-preview-client.tar.gz tgbs-fa-complete-preview-client.sha256 \
+            --repo rezamahrm100-ops/tg-bot-studio \
+            --target "$SOURCE_SHA" \
+            --title "TG Bot Studio full-coverage Persian dashboard preview $short" \
+            --notes "Static browser assets only, verified from successful master CI. All 1,697 catalog keys covered; 12 technical-only strings stay in original syntax. Machine-assisted draft requires human Persian quality and visual RTL review. No credentials, bots, database, server backend or shared VPS configuration." \
+            --latest=false
+          echo 'TGBS_FA_PREVIEW_RELEASE=PUBLISHED'
