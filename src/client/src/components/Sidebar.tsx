@@ -168,6 +168,7 @@ export default function Sidebar({
   }
 
   const dark = theme.palette.mode === 'dark';
+  const isRtl = theme.direction === 'rtl';
 
   return (
     <Box
@@ -416,7 +417,7 @@ export default function Sidebar({
                   component="span"
                   sx={{
                     flex: 1,
-                    textAlign: 'left',
+                    textAlign: 'start',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
@@ -594,7 +595,9 @@ export default function Sidebar({
                   },
                 }}
               >
-                <LogoutOutlinedIcon sx={{ fontSize: 18 }} />
+                <LogoutOutlinedIcon
+                  sx={{ fontSize: 18, transform: isRtl ? 'scaleX(-1)' : 'none' }}
+                />
               </IconButton>
             </RailTooltip>
 
@@ -612,7 +615,11 @@ export default function Sidebar({
                     borderColor: 'divider',
                   }}
                 >
-                  <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
+                  {isRtl ? (
+                    <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+                  ) : (
+                    <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
+                  )}
                 </IconButton>
               </RailTooltip>
             )}
@@ -729,7 +736,9 @@ export default function Sidebar({
                     },
                   })}
                 >
-                  <LogoutOutlinedIcon sx={{ fontSize: 18 }} />
+                  <LogoutOutlinedIcon
+                  sx={{ fontSize: 18, transform: isRtl ? 'scaleX(-1)' : 'none' }}
+                />
                 </IconButton>
               </Tooltip>
             </Stack>
@@ -756,7 +765,11 @@ export default function Sidebar({
                     },
                   })}
                 >
-                  <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+                  {isRtl ? (
+                    <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
+                  ) : (
+                    <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+                  )}
                 </IconButton>
               </Tooltip>
             )}
