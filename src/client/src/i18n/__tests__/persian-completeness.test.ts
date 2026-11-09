@@ -84,9 +84,7 @@ describe('Persian dashboard catalog completeness', () => {
 
   it('keeps executable JSON button examples unchanged', () => {
     expect(fa.broadcast.buttonsExample).toBe(en.broadcast.buttonsExample);
-    expect(modulesFa.scheduler.fields.buttons.help).toBe(
-      modulesEn.scheduler.fields.buttons.help,
-    );
+    expect(modulesFa.scheduler.fields.buttons.help).toBe(modulesEn.scheduler.fields.buttons.help);
     expect(JSON.parse(fa.broadcast.buttonsExample)).toEqual(
       JSON.parse(en.broadcast.buttonsExample),
     );
