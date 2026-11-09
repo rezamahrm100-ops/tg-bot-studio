@@ -1,4 +1,4 @@
-/** Regression gate: Persian dashboard coverage, technical literals and RTL safety. */
+/** Regression gate: complete Persian dashboard catalog and technical literal safety. */
 import { describe, expect, it } from 'bun:test';
 import en from '../locales/en.json';
 import fa from '../locales/fa.json';
@@ -6,20 +6,28 @@ import modulesEn from '../locales/modules.en.json';
 import modulesFa from '../locales/modules.fa.json';
 
 type Leaves = Record<string, string>;
-function leaves(source: unknown, prefix = ''): Leaves {
-  if (typeof source === 'string') return { [prefix]: source };
-  if (Array.isArray(source)) {
-    return Object.assign({}, ...source.map((part, i) => leaves(part, prefix + '[' + i + ']')));
+
+function leaves(source: unknown): Leaves {
+  const result: Leaves = {};
+  function visit(node: unknown, path: string): void {
+    if (typeof node === 'string') {
+      result[path] = node;
+      return;
+    }
+    if (Array.isArray(node)) {
+      node.forEach((value, index) => visit(value, path + '[' + index + ']'));
+      return;
+    }
+    if (node && typeof node === 'object') {
+      for (const [key, value] of Object.entries(node)) {
+        visit(value, path ? path + '.' + key : key);
+      }
+      return;
+    }
+    throw new Error('Locale values must be strings, arrays, or dictionaries');
   }
-  if (source && typeof source === 'object') {
-    return Object.assign(
-      {},
-      ...Object.entries(source).map(([key, value]) =>
-        leaves(value, prefix ? prefix + '.' + key : key),
-      ),
-    );
-  }
-  throw new Error('Locale values must be strings, arrays or dictionaries');
+  visit(source, '');
+  return result;
 }
 
 const catalogs: [string, Leaves, Leaves][] = [
@@ -27,8 +35,8 @@ const catalogs: [string, Leaves, Leaves][] = [
   ['modules', leaves(modulesEn), leaves(modulesFa)],
 ];
 
-// These are identifiers, dynamic placeholder examples and literal JSON, not prose.
-const INTENTIONALLY_UNTRANSLATED = new Set([
+// Technical identifiers and literal examples are not natural-language strings.
+const TECHNICAL_EXCEPTIONS = new Set([
   'shell:support.mediaTypePlaceholder',
   'shell:broadcast.buttonsExample',
   'shell:visual.jsonTab',
@@ -43,38 +51,38 @@ const INTENTIONALLY_UNTRANSLATED = new Set([
   'modules:scheduler.fields.buttons.help',
 ]);
 
-const placeholders = (text: string) =>
-  (text.match(/\{\{[^{}]+\}\}|\{[^{}]+\}/g) ?? []).sort();
+const tokens = (text: string) => (text.match(/\{\{[^{}]+\}\}|\{[^{}]+\}/g) ?? []).sort();
+const lineBreaks = (text: string) => text.split('\n').length - 1;
 
-describe('Persian dashboard full-catalog candidate', () => {
-  it('keeps every source key and all original interpolation variables intact', () => {
+describe('Persian dashboard catalog completeness', () => {
+  it('preserves every source key, interpolation variable, and line break', () => {
     for (const [, english, persian] of catalogs) {
       expect(Object.keys(persian).sort()).toEqual(Object.keys(english).sort());
       for (const [key, value] of Object.entries(english)) {
-        expect(placeholders(persian[key])).toEqual(placeholders(value));
-        expect((persian[key].match(/\n/g) ?? []).length).toBe((value.match(/\n/g) ?? []).length);
+        expect(tokens(persian[key])).toEqual(tokens(value));
+        expect(lineBreaks(persian[key])).toBe(lineBreaks(value));
       }
     }
   });
 
-  it('has Persian prose for all keys except exact, documented technical literals', () => {
+  it('translates natural-language prose and preserves only documented technical exceptions', () => {
     const actualExceptions: string[] = [];
     let count = 0;
     for (const [name, english, persian] of catalogs) {
-      for (const [key, value] of Object.entries(english)) {
+      for (const [key, original] of Object.entries(english)) {
         count++;
         const translated = persian[key];
         expect(translated.trim().length).toBeGreaterThan(0);
-        if (translated === value) actualExceptions.push(name + ':' + key);
+        if (translated === original) actualExceptions.push(name + ':' + key);
         else expect(/[\u0600-\u06ff]/.test(translated)).toBe(true);
         expect(/[\u202a-\u202e\u2066-\u2069]/.test(translated)).toBe(false);
       }
     }
     expect(count).toBe(1697);
-    expect(actualExceptions.sort()).toEqual([...INTENTIONALLY_UNTRANSLATED].sort());
+    expect(actualExceptions.sort()).toEqual([...TECHNICAL_EXCEPTIONS].sort());
   });
 
-  it('does not translate executable JSON button examples', () => {
+  it('keeps executable JSON button examples unchanged', () => {
     expect(fa.broadcast.buttonsExample).toBe(en.broadcast.buttonsExample);
     expect(modulesFa.scheduler.fields.buttons.help).toBe(
       modulesEn.scheduler.fields.buttons.help,
