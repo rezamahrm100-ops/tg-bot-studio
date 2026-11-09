@@ -24,13 +24,13 @@ jobs:
       - name: Checkout only the successful and reviewed source revision
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: ${ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
       - name: Verify immutable provenance and release intent
         env:
-          GH_TOKEN: ${ github.token }}
-          SOURCE_SHA: ${ github.event.workflow_run.head_sha }}
-          SOURCE_RUN: ${ github.event.workflow_run.id }}
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+          SOURCE_RUN: ${{ github.event.workflow_run.id }}
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -46,8 +46,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           repository: rezamahrm100-ops/tg-bot-studio
-          run-id: ${ github.event.workflow_run.id }}
-          github-token: ${ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
           name: dist
           path: dist
       - name: Validate static assets and produce immutable digest
@@ -66,8 +66,8 @@ jobs:
           echo 'TGBS_FA_PREVIEW_STATIC_ONLY=PASS'
       - name: Publish public browser-only assets (no VPS changes)
         env:
-          GH_TOKEN: ${ github.token }}
-          SOURCE_SHA: ${ github.event.workflow_run.head_sha }}
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
         shell: bash
         run: |
           set -Eeuo pipefail
