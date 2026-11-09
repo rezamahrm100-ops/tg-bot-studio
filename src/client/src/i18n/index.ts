@@ -16,6 +16,7 @@ export const UI_LANGUAGES = [
   { code: 'tr', native: 'Türkçe' },
   { code: 'de', native: 'Deutsch' },
   { code: 'ru', native: 'Русский' },
+  { code: 'fa', native: 'فارسی (آزمایشی)' },
 ] as const;
 
 /** Codes of the supported dashboard languages. */

@@ -38,3 +38,20 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Persian UI direction; preserve source identifiers, URLs and code in LTR. */
+html[lang='fa'] code,
+html[lang='fa'] pre,
+html[lang='fa'] input[type='url'],
+html[lang='fa'] input[type='number'] {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+html[lang='fa'] .skip-link {
+  left: auto;
+  inset-inline-start: -9999px;
+}
+html[lang='fa'] .skip-link:focus {
+  inset-inline-start: 0;
+}

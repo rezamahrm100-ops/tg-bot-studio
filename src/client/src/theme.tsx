@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import rtlPlugin from '@mui/stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Enterprise theme mode (persisted to localStorage).
@@ -36,9 +41,12 @@ function initialMode(): ThemeMode {
  * @param {ThemeMode} mode - Requested color mode.
  * @returns {ReturnType<typeof createTheme>} Configured MUI theme.
  */
-function buildTheme(mode: ThemeMode) {
+const rtlCache = createCache({ key: 'tgbs-rtl', stylisPlugins: [prefixer, rtlPlugin] });
+
+function buildTheme(mode: ThemeMode, direction: 'ltr' | 'rtl') {
   const dark = mode === 'dark';
   return createTheme({
+    direction,
     palette: {
       mode,
       primary: { main: '#2563eb' },
@@ -55,7 +63,10 @@ function buildTheme(mode: ThemeMode) {
     },
     shape: { borderRadius: 10 },
     typography: {
-      fontFamily: "'Inter Variable', 'Inter', sans-serif",
+      fontFamily:
+        direction === 'rtl'
+          ? "'Vazirmatn Variable', Tahoma, sans-serif"
+          : "'Inter Variable', 'Inter', sans-serif",
       h6: { fontWeight: 700, letterSpacing: '-0.01em' },
       subtitle2: { fontWeight: 600 },
       button: { textTransform: 'none', fontWeight: 600 },
@@ -88,6 +99,8 @@ export function StudioThemeProvider({
   children: React.ReactNode;
 }): React.ReactElement {
   const [mode, setMode] = useState<ThemeMode>(initialMode);
+  const { i18n } = useTranslation();
+  const direction: 'ltr' | 'rtl' = i18n.resolvedLanguage === 'fa' ? 'rtl' : 'ltr';
 
   const value = useMemo<ThemeContextValue>(
     () => ({
@@ -103,14 +116,23 @@ export function StudioThemeProvider({
     [mode],
   );
 
-  const theme = useMemo(() => buildTheme(mode), [mode]);
+  const theme = useMemo(() => buildTheme(mode, direction), [mode, direction]);
 
   return (
     <ThemeModeContext.Provider value={value}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      {direction === 'rtl' ? (
+        <CacheProvider value={rtlCache}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </CacheProvider>
+      ) : (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      )}
     </ThemeModeContext.Provider>
   );
 }
