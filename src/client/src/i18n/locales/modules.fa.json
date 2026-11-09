@@ -4,99 +4,99 @@
     "description": "دفترچهٔ مرکزی گروه‌ها و کانال‌ها؛ ماژول‌ها مقصد پیام را از همین فهرست انتخاب می‌کنند.",
     "docs": {
       "overview": [
-        "Register each group, supergroup, and channel the bot operates in once — every target-chat field in the studio then offers them as a dropdown.",
-        "Chats the bot is added to are discovered automatically; Sync imports them with their titles and types.",
-        "Connections accept numeric ids (-100…) or public @usernames, and can be deactivated without deletion.",
-        "Every chat-targeting module (scheduler, broadcast, giveaways, VIP subscriptions, paid media, webhooks) picks its targets from this list — keeping it current keeps every picker accurate."
+        "هر گروه، سوپرگروه و کانالی که ربات در آن فعالیت می‌کند را یک بار ثبت کنید - سپس هر فیلد چت هدف در استودیو آنها را به صورت یک منوی کشویی ارائه می‌دهد.",
+        "چت‌هایی که ربات به آنها اضافه می‌شود، به‌طور خودکار شناسایی می‌شوند؛ همگام‌سازی آنها را به همراه عناوین و انواعشان وارد می‌کند.",
+        "اتصال‌ها شناسه‌های عددی (مانند ‎-100…) یا نام‌های کاربری عمومی مثل @username را می‌پذیرند و بدون حذف‌شدن می‌توان آن‌ها را غیرفعال کرد.",
+        "هر ماژول هدف‌گیری چت (زمانبند، پخش، جوایز، اشتراک‌های VIP، رسانه‌های پولی، وب‌هوک‌ها) اهداف خود را از این لیست انتخاب می‌کند - به‌روز نگه داشتن آن، هر انتخاب‌کننده را دقیق نگه می‌دارد."
       ],
       "setup": [
-        "Add the bot to the target group or channel as an administrator (posting rights are enough for channels).",
-        "Press Sync to import chats the bot already discovered, or add entries manually with their chat id or @username.",
-        "Reference the same list from the Scheduler, Support Desk, Giveaways, VIP Subscriptions, Paid Media, and Webhooks modules.",
-        "Forum-enabled supergroups additionally unlock the Support Desk and Topics modules."
+        "ربات را به عنوان مدیر به گروه یا کانال هدف اضافه کنید (حق ارسال پست برای کانال‌ها کافی است).",
+        "برای واردکردن گفت‌وگوهایی که ربات قبلاً شناسایی کرده است، «همگام‌سازی» را بزنید؛ یا با شناسهٔ گفت‌وگو یا @username آن‌ها را دستی اضافه کنید.",
+        "به همین لیست از ماژول‌های زمان‌بندی، میز پشتیبانی، هدایا، اشتراک‌های VIP، رسانه‌های پولی و وب‌هوک‌ها مراجعه کنید.",
+        "سوپرگروه‌های فعال در انجمن، ماژول‌های پشتیبانی و مباحث را نیز فعال می‌کنند."
       ],
       "troubleshooting": [
-        "A numeric chat id is required for private chats; @usernames only work for public channels and groups.",
-        "Sync only knows chats where the bot received at least one update (my_chat_member events).",
-        "Removing a connection never kicks the bot; it only removes the studio-side shortcut.",
-        "Discovery needs the bot to receive at least one update from a chat; channels need posting rights, groups only membership."
+        "برای چت‌های خصوصی، یک شناسه چت عددی لازم است؛ @usernames فقط برای کانال‌ها و گروه‌های عمومی کار می‌کند.",
+        "همگام‌سازی فقط چت‌هایی را می‌شناسد که ربات حداقل یک به‌روزرسانی دریافت کرده باشد (رویدادهای my_chat_member).",
+        "حذف یک اتصال هرگز ربات را از کار نمی‌اندازد؛ فقط میانبر سمت استودیو را حذف می‌کند.",
+        "برای دیسکاور، ربات باید حداقل یک به‌روزرسانی از یک چت دریافت کند؛ کانال‌ها به حق ارسال پست نیاز دارند، و گروه‌ها فقط عضویت."
       ]
     }
   },
   "start-menu": {
     "name": "منوی شروع",
-    "description": "منوی یکپارچهٔ /start با دکمه‌های گروه، کانال، پوشهٔ گفتگو و وب، تنظیم چیدمان و آمار کلیک.",
+    "description": "منوی یکپارچهٔ /start با دکمه‌های گروه، کانال، پوشهٔ گفت‌وگو و وب؛ همراه با بخش‌بندی، تنظیم چیدمان، آمار کلیک و امکان بازکردن مجدد با /menu.",
     "docs": {
       "overview": [
-        "The consolidated start menu: every destination your bot offers on /start lives here — chat folder share links (t.me/addlist/...), channels, groups, and external web links.",
-        "Flat style renders one button list; categorized style groups destinations by type with section headers in the message text.",
-        "Button layout is controlled per row (1-4 columns) and users can re-open the menu anytime with /menu.",
-        "Click counters quantify engagement per menu item when tracking is enabled.",
-        "The Start Menu owns /start whenever enabled — the Autoresponder default /start message steps aside while drip auto-subscribe still enrolls silently."
+        "در منوی شروع یکپارچه، همهٔ مقصدهایی که ربات با دستور /start ارائه می‌کند مدیریت می‌شوند: لینک اشتراک‌گذاری پوشهٔ گفت‌وگو (t.me/addlist/...)، کانال‌ها، گروه‌ها و پیوندهای وب.",
+        "سبک مسطح یک لیست دکمه را رندر می‌کند؛ سبک دسته‌بندی‌شده، مقصدها را بر اساس نوع با سرصفحه‌های بخش در متن پیام گروه‌بندی می‌کند.",
+        "طرح دکمه‌ها به ازای هر ردیف (۱ تا ۴ ستون) کنترل می‌شود و کاربران می‌توانند هر زمان که بخواهند، منو را دوباره باز کنند. /menu.",
+        "شمارنده‌های کلیک، میزان تعامل را برای هر آیتم منو، زمانی که ردیابی فعال باشد، اندازه‌گیری می‌کنند.",
+        "وقتی ماژول منوی شروع فعال باشد، پاسخ به دستور /start را مدیریت می‌کند. در این حالت پیام پیش‌فرض /start در پاسخ‌گوی خودکار کنار می‌رود، اما عضویت خودکار در توالی پیام‌ها همچنان در پس‌زمینه انجام می‌شود."
       ],
       "setup": [
-        "In Telegram, create a chat folder and use its share link (t.me/addlist/...) as a menu item of type folder.",
-        "Add channels, groups, and web destinations as items of their matching type; order controls button position.",
-        "Set a start message with placeholders ({first_name}, {mention}) for a personalized header.",
-        "Optionally set a public base URL to route buttons through the built-in click tracker.",
-        "Send /start (or /menu) to the bot to verify the menu renders.",
-        "Combine with Drip Sequences (auto-subscribe on /start) so new users see the menu and enter a nurture flow at the same time."
+        "در تلگرام، یک پوشه چت ایجاد کنید و از لینک اشتراک‌گذاری آن (t.me/addlist/...) به عنوان یک آیتم منو از نوع پوشه استفاده کنید.",
+        "کانال‌ها، گروه‌ها و مقاصد وب را به عنوان مواردی از نوع منطبق با آنها اضافه کنید؛ موقعیت دکمه‌های کنترل را مرتب کنید.",
+        "یک پیام شروع با متغیرهایی ( تنظیم کنید{first_name}, {mention}) برای یک هدر شخصی‌سازی‌شده.",
+        "به صورت اختیاری، یک URL پایه عمومی برای هدایت دکمه‌ها از طریق ردیاب کلیک داخلی تنظیم کنید.",
+        "برای اطمینان از نمایش درست منو، دستور /start یا /menu را برای ربات بفرستید.",
+        "منوی شروع را با «توالی پیام‌ها» ترکیب کنید. در صورت فعال‌بودن عضویت خودکار با /start، کاربر تازه‌وارد هم منو را می‌بیند و هم وارد توالی پیام‌ها می‌شود."
       ],
       "troubleshooting": [
-        "Click tracking requires the studio to be reachable on a public HTTPS URL.",
-        "Telegram caches inline keyboards briefly; edits apply to newly sent menus.",
-        "When both this module and Custom Commands define a /start reply, the Start Menu takes priority.",
-        "If the menu does not render for a user, check that no autoresponder command rule also claims /start with a different payload."
+        "ردیابی کلیک مستلزم آن است که استودیو از طریق یک URL عمومی HTTPS قابل دسترسی باشد.",
+        "تلگرام کیبوردهای درون‌خطی را موقتاً ذخیره می‌کند؛ ویرایش‌ها روی منوهای تازه ارسال‌شده اعمال می‌شوند.",
+        "اگر این ماژول و «دستورهای سفارشی» هر دو برای /start پاسخ تعریف کرده باشند، منوی شروع اولویت دارد.",
+        "اگر منو برای کاربری نمایش داده نمی‌شود، بررسی کنید قانون دیگری در پاسخ‌گوی خودکار برای دستور /start با محتوای متفاوت تعریف نشده باشد."
       ]
     },
     "fields": {
       "menuStyle": {
-        "label": "Menu style",
-        "help": "Flat shows one button list; categorized groups destinations with headers"
+        "label": "سبک منو",
+        "help": "نمایش مسطح یک لیست با دکمه؛ دسته‌بندی مقاصد با سربرگ"
       },
       "startMessage": {
-        "label": "Start message",
-        "help": "Supports placeholders such as {first_name} and {mention}"
+        "label": "پیام شروع",
+        "help": "از متغیرهایی مانند {first_name} و {mention}"
       },
       "buttonsPerRow": {
-        "label": "Buttons per row",
-        "help": "Inline button columns, 1-4"
+        "label": "دکمه‌ها در هر ردیف",
+        "help": "ستون‌های دکمه درون‌خطی، ۱-۴"
       },
       "enableMenuCommand": {
-        "label": "Enable /menu command",
-        "help": "Users can re-open the menu anytime with /menu"
+        "label": "فعال کردن /menu فرمان",
+        "help": "کاربران می‌توانند هر زمان که بخواهند، منو را دوباره باز کنند. /menu"
       },
       "trackClicks": {
-        "label": "Track clicks via redirect"
+        "label": "پیگیری کلیک‌ها از طریق ریدایرکت"
       },
       "publicBaseUrl": {
-        "label": "Public base URL",
-        "help": "Required for click tracking, e.g. https://studio.example.com"
+        "label": "آدرس پایگاه عمومی",
+        "help": "برای ردیابی کلیک مورد نیاز است، مثلاً https://studio.example.com"
       },
       "title": {
-        "label": "Title"
+        "label": "عنوان"
       },
       "type": {
-        "label": "Type",
-        "help": "folder = chat folder (t.me/addlist/...) share link"
+        "label": "نوع",
+        "help": "folder = لینک اشتراک‌گذاری پوشهٔ گفت‌وگو (t.me/addlist/...)"
       },
       "url": {
         "label": "URL"
       },
       "description": {
-        "label": "Description"
+        "label": "توضیحات"
       },
       "orderIndex": {
-        "label": "Order"
+        "label": "سفارش دهید"
       }
     },
     "columns": {
-      "title": "Title",
-      "type": "Type",
+      "title": "عنوان",
+      "type": "نوع",
       "url": "URL",
-      "order_index": "Order",
-      "click_count": "Clicks",
-      "is_active": "Active"
+      "order_index": "سفارش دهید",
+      "click_count": "کلیک‌ها",
+      "is_active": "فعال"
     }
   },
   "scheduler": {
@@ -104,55 +104,55 @@
     "description": "ارسال پست‌های زمان‌بندی‌شدهٔ کانال با دکمه و واترمارک زیرنویس.",
     "docs": {
       "overview": [
-        "Queue posts to channels with precise dispatch times, rich media, and inline buttons.",
-        "A branded watermark line is appended to captions for consistent channel identity.",
-        "Targets come from Chat Connections and are multi-selectable: every selected chat gets its own post.",
-        "The timezone offset feeds the {date} and {time} placeholders; the watermark can be overridden per chat."
+        "پست‌ها را با زمان دقیق ارسال، محتوای غنی و دکمه‌های درون‌خطی در صف کانال‌ها قرار دهید.",
+        "برای حفظ هویت کانال، یک خط واترمارک برند به زیرنویس‌ها اضافه می‌شود.",
+        "اهداف از Chat Connections می‌آیند و قابل انتخاب چندگانه هستند: هر چت انتخاب شده پست مخصوص به خود را دریافت می‌کند.",
+        "جبران منطقه زمانی تغذیه می‌کند {date} و {time} جای‌نگهدارها؛ واترمارک را می‌توان در هر گفتگو لغو کرد."
       ],
       "setup": [
-        "Add the bot as an administrator in the target channel with permission to post.",
-        "Pick one or many connected chats in the post form — a separate post is scheduled per chat.",
-        "Schedule posts; the dispatcher checks every 30 seconds.",
-        "Use Broadcast for immediate announcements and the Scheduler for planned slots — the two never conflict."
+        "ربات را به عنوان مدیر در کانال هدف با اجازه ارسال پست اضافه کنید.",
+        "یک یا چند چت مرتبط را در فرم ارسال پست انتخاب کنید - برای هر چت یک پست جداگانه برنامه‌ریزی می‌شود.",
+        "پست‌ها را زمان‌بندی کنید؛ مسئول ارسال هر 30 ثانیه بررسی می‌کند.",
+        "برای اعلان‌های فوری از Broadcast و برای زمان‌های برنامه‌ریزی‌شده از Scheduler استفاده کنید - این دو هرگز با هم تداخل ندارند."
       ],
       "troubleshooting": [
-        "Posts fail with 400 when the bot lacks admin rights in the target chat.",
-        "Times are stored and compared in UTC ISO format.",
-        "Watermarks only apply to scheduled captions, not to posts sent through Broadcast."
+        "وقتی ربات فاقد حقوق مدیر در چت هدف باشد، پست‌ها با خطای ۴۰۰ مواجه می‌شوند.",
+        "زمان‌ها با فرمت UTC ISO ذخیره و مقایسه می‌شوند.",
+        "واترمارک‌ها فقط برای زیرنویس‌های زمان‌بندی‌شده اعمال می‌شوند، نه برای پست‌هایی که از طریق پخش عمومی ارسال می‌شوند."
       ]
     },
     "fields": {
       "watermarkText": {
-        "label": "Watermark text",
-        "help": "Appended to every scheduled caption; overridable per chat below"
+        "label": "متن واترمارک",
+        "help": "به هر عنوان زمان‌بندی‌شده اضافه می‌شود؛ قابل لغو برای هر چت زیر"
       },
       "timezoneOffsetMinutes": {
-        "label": "Timezone offset (minutes, e.g. 180 for UTC+3)",
-        "help": "Local time offset for {date} and {time} placeholders and scheduling"
+        "label": "انحراف منطقه زمانی (دقیقه، مثلاً ۱۸۰ برای UTC+3)",
+        "help": "انحراف زمان محلی برای {date} و {time} متغیرها و زمان‌بندی"
       },
       "targetChatId": {
-        "label": "Target chats (one or many)",
-        "help": "Every selected chat receives its own scheduled post; manage the list in Chat Connections"
+        "label": "چت‌های هدف (یک یا چند)",
+        "help": "هر گفتگوی انتخاب‌شده، پست زمان‌بندی‌شده‌ی خودش را دریافت می‌کند؛ فهرست را در Chat Connections مدیریت کنید"
       },
       "messageText": {
-        "label": "Message text"
+        "label": "متن پیام"
       },
       "mediaUrl": {
-        "label": "Media URL (photo/video)"
+        "label": "آدرس رسانه (عکس/فیلم)"
       },
       "buttons": {
-        "label": "Buttons (JSON array)",
+        "label": "دکمه‌ها (آرایه JSON)",
         "help": "[{\"text\":\"Open\",\"url\":\"https://...\"}]"
       },
       "scheduledAt": {
-        "label": "Dispatch at (UTC ISO)"
+        "label": "ارسال در (UTC ISO)"
       }
     },
     "columns": {
-      "target_chat_id": "Target chat",
-      "message_text": "Message",
-      "scheduled_at": "Scheduled at",
-      "status": "Status"
+      "target_chat_id": "چت هدف",
+      "message_text": "پیام",
+      "scheduled_at": "برنامه‌ریزی شده در",
+      "status": "وضعیت"
     }
   },
   "support": {
@@ -160,33 +160,33 @@
     "description": "گفتگوی دوسویه با کاربران از طریق موضوعات اختصاصی در گروه مدیریتی.",
     "docs": {
       "overview": [
-        "Every user message opens a dedicated forum topic in your admin supergroup.",
-        "Admins reply inside the topic; the bot relays the answer to the user.",
-        "Quick commands: /ban, /unban, /info while replying in a topic.",
-        "When enabled, Support owns private chats: the AI Assistant stands down while autoresponder keyword rules keep answering."
+        "هر پیام کاربر، یک موضوع انجمن اختصاصی را در سوپرگروه مدیریت شما باز می‌کند.",
+        "مدیران در داخل تاپیک پاسخ می‌دهند؛ ربات پاسخ را به کاربر منتقل می‌کند.",
+        "دستورات سریع: /ban, /unban, /info هنگام پاسخ دادن در یک تاپیک.",
+        "وقتی این گزینه فعال باشد، پشتیبانی چت‌های خصوصی را در اختیار دارد: دستیار هوش مصنوعی خاموش می‌شود در حالی که قوانین کلمات کلیدی پاسخگوی خودکار به پاسخگویی ادامه می‌دهند."
       ],
       "setup": [
-        "Create a supergroup, enable Topics in its settings, and add the bot as an admin.",
-        "Copy the supergroup id into the configuration and save.",
-        "Users message the bot directly; topics appear automatically.",
-        "AI escalations land here automatically — keep the module enabled (even without AI) to receive human-handoff tickets."
+        "یک سوپرگروه ایجاد کنید، موضوعات را در تنظیمات آن فعال کنید و ربات را به عنوان مدیر اضافه کنید.",
+        "شناسه سوپرگروه را در پیکربندی کپی کرده و ذخیره کنید.",
+        "کاربران مستقیماً به ربات پیام می‌دهند؛ موضوعات به‌طور خودکار نمایش داده می‌شوند.",
+        "ارجاعات هوش مصنوعی به طور خودکار در اینجا انجام می‌شود - ماژول را (حتی بدون هوش مصنوعی) فعال نگه دارید تا بتوانید تیکت‌های مربوط به انتقال توسط انسان را دریافت کنید."
       ],
       "troubleshooting": [
-        "Topic creation requires the bot to be an administrator with can_manage_topics.",
-        "The auto-reply is throttled per user to avoid spamming receipts.",
-        "Topics only appear in the configured forum supergroup; regular groups cannot host topics."
+        "ایجاد موضوع مستلزم آن است که ربات مدیر باشد و دسترسی can_manage_topics داشته باشد.",
+        "پاسخ خودکار برای هر کاربر محدود می‌شود تا از ارسال هرزنامه جلوگیری شود.",
+        "موضوعات فقط در سوپرگروه انجمن پیکربندی شده نمایش داده می‌شوند؛ گروه‌های معمولی نمی‌توانند میزبان موضوعات باشند."
       ]
     },
     "fields": {
       "adminChatId": {
-        "label": "Admin supergroup",
-        "help": "Forum-enabled admin group; manage the list in Chat Connections"
+        "label": "سوپرگروه مدیریتی",
+        "help": "گروه مدیریت فعال در انجمن؛ مدیریت لیست در Chat Connections"
       },
       "welcomeText": {
-        "label": "Auto-reply text"
+        "label": "متن پاسخ خودکار"
       },
       "autoReplyThrottleMinutes": {
-        "label": "Auto-reply throttle (minutes)"
+        "label": "دریچه گاز پاسخ خودکار (دقیقه)"
       }
     }
   },
@@ -195,29 +195,29 @@
     "description": "پاسخ‌گویی خودکار به مشتریان حساب کسب‌وکاری تلگرام.",
     "docs": {
       "overview": [
-        "Handles messages arriving through a manager personal Telegram Business connection.",
-        "Useful for after-hours acknowledgements and triage outside working time.",
-        "Fully isolated from normal bot chats: replies only touch the Business account conversations."
+        "پیام‌های دریافتی از طریق یک اتصال شخصی مدیر در تلگرام تجاری را مدیریت می‌کند.",
+        "برای تاییدیه‌های بعد از ساعات کاری و ارزیابی وضعیت بیماران در خارج از ساعات کاری مفید است.",
+        "کاملاً جدا از چت‌های معمولی ربات: پاسخ‌ها فقط مکالمات حساب تجاری را پوشش می‌دهند."
       ],
       "setup": [
-        "In Telegram Business settings, connect the bot to the manager account.",
-        "Copy the emitted business_connection_id into the configuration.",
-        "Write a concise, professional auto-reply and enable the module.",
-        "Telegram Business must be active on the connected account; the bot token itself needs no extra rights."
+        "در تنظیمات تلگرام تجاری، ربات را به حساب مدیر متصل کنید.",
+        "business_connection_id منتشر شده را در پیکربندی کپی کنید.",
+        "یک پاسخ خودکار مختصر و حرفه‌ای بنویسید و ماژول را فعال کنید.",
+        "تلگرام تجاری باید در حساب متصل فعال باشد؛ خود توکن ربات نیازی به دسترسی اضافی ندارد."
       ],
       "troubleshooting": [
-        "Business message APIs evolve; replies are sent through the raw Bot API surface.",
-        "If replies fail, verify the connection is still active in Telegram settings.",
-        "Only text auto-replies are sent today; media and buttons in business replies are not supported."
+        "APIهای پیام‌های تجاری تکامل می‌یابند؛ پاسخ‌ها از طریق سطح خام API ربات ارسال می‌شوند.",
+        "اگر پاسخ‌ها ناموفق بودند، تأیید کنید که اتصال هنوز در تنظیمات تلگرام فعال است.",
+        "امروز فقط پاسخ‌های خودکار متنی ارسال می‌شوند؛ رسانه‌ها و دکمه‌ها در پاسخ‌های تجاری پشتیبانی نمی‌شوند."
       ]
     },
     "fields": {
       "connectionId": {
-        "label": "Business connection id",
-        "help": "Leave empty to answer every connection"
+        "label": "شناسه ارتباط تجاری",
+        "help": "برای پاسخ به هر اتصال، خالی بگذارید"
       },
       "autoReplyText": {
-        "label": "Auto-reply text"
+        "label": "متن پاسخ خودکار"
       }
     }
   },
@@ -226,39 +226,39 @@
     "description": "ارسال مرحله‌ای و زمان‌بندی‌شدهٔ پیام برای همراه‌سازی کاربران.",
     "docs": {
       "overview": [
-        "Classic day-1/day-3/day-7 onboarding and promotional journeys.",
-        "Each step delays a configurable number of minutes after the previous one.",
-        "Subscribers can be added manually or automatically on /start.",
-        "Steps reuse the broadcast placeholders; enrollment works no matter which module answers /start."
+        "سفرهای کلاسیک آشنایی و تبلیغاتی روز اول/روز سوم/روز هفتم.",
+        "هر مرحله، به تعداد قابل تنظیمی دقیقه پس از مرحله قبلی به تأخیر می‌افتد.",
+        "می‌توان مشترکان را دستی اضافه کرد یا پس از دریافت دستور /start به‌صورت خودکار عضو کرد.",
+        "گام‌های توالی از متغیرهای پیام همگانی استفاده می‌کنند؛ فرایند عضویت مستقل از این است که کدام ماژول به /start پاسخ می‌دهد."
       ],
       "setup": [
-        "Create a campaign with at least one step (delayMinutes + text).",
-        "Enable auto-subscribe on start or add subscribers from the campaign view.",
-        "The scheduler advances steps every 30 seconds.",
-        "Time the first step right after the Start Menu welcome so the first hour feels coherent."
+        "یک کمپین با حداقل یک مرحله (delayMinutes + text) ایجاد کنید.",
+        "اشتراک خودکار را در شروع فعال کنید یا مشترکین را از نمای کمپین اضافه کنید.",
+        "زمانبند هر 30 ثانیه گام‌ها را به جلو می‌برد.",
+        "اولین قدم را درست بعد از خوشامدگویی در منوی استارت زمان‌بندی کنید تا ساعت اول منسجم به نظر برسد."
       ],
       "troubleshooting": [
-        "Users who blocked the bot are unsubscribed automatically on delivery failure.",
-        "delayMinutes counts from the previous step, not from subscription.",
-        "Campaigns are bot-scoped: cloning a bot copies campaign shells, not drip subscribers."
+        "کاربرانی که ربات را مسدود کرده‌اند، در صورت عدم موفقیت در تحویل، به‌طور خودکار لغو اشتراک می‌شوند.",
+        "تابع delayMinutes از مرحله قبل شمارش می‌کند، نه از مرحله عضویت.",
+        "کمپین‌ها محدود به ربات هستند: شبیه‌سازی یک ربات، پوسته‌های کمپین را کپی می‌کند، نه مشترکین قطره‌ای را."
       ]
     },
     "fields": {
       "subscribeOnStart": {
-        "label": "Auto-subscribe on /start"
+        "label": "اشتراک خودکار در /start"
       },
       "name": {
-        "label": "Campaign name"
+        "label": "نام کمپین"
       },
       "steps": {
-        "label": "Steps (JSON)",
-        "help": "[{\"delayMinutes\":60,\"text\":\"Welcome {first_name}\"}]"
+        "label": "مراحل (JSON)",
+        "help": "[{\"delayMinutes\":60,\"text\":\"خوش آمدید {first_name}\"}]"
       }
     },
     "columns": {
-      "name": "Campaign",
-      "subscribers": "Subscribers",
-      "is_active": "Active"
+      "name": "کمپین",
+      "subscribers": "مشترکین",
+      "is_active": "فعال"
     }
   },
   "broadcast": {
@@ -266,21 +266,21 @@
     "description": "ارسال انبوه پیام با فیلتر مخاطبان و رعایت محدودیت سرعت تلگرام.",
     "docs": {
       "overview": [
-        "Send announcements to everyone, a language segment, or recently active users.",
-        "Rich media and inline buttons are supported with per-recipient placeholders.",
-        "Success and failure counters update live while the queue drains.",
-        "Audience filters read the subscriber profiles the engine records — language and recent activity come straight from CRM data."
+        "اعلان‌ها را برای همه، یک بخش زبانی یا کاربران اخیراً فعال ارسال کنید.",
+        "رسانه‌های غنی و دکمه‌های درون‌خطی با متغیرهایی برای هر گیرنده پشتیبانی می‌شوند.",
+        "شمارنده‌های موفقیت و شکست به صورت زنده و همزمان با اتمام صف به‌روزرسانی می‌شوند.",
+        "فیلترهای مخاطب، پروفایل‌های مشترکین را که موتور ثبت می‌کند، می‌خوانند - زبان و فعالیت اخیر مستقیماً از داده‌های CRM می‌آیند."
       ],
       "setup": [
-        "Grow the audience first: every user who messages the bot is recorded.",
-        "Compose the broadcast, choose a target filter, and queue it.",
-        "Monitor progress in the history table.",
-        "Tag users in the CRM first if you plan to hand-pick segments manually via CSV export."
+        "ابتدا مخاطبان را افزایش دهید: هر کاربری که به ربات پیام می‌دهد، ثبت می‌شود.",
+        "پخش را تشکیل دهید، یک فیلتر هدف انتخاب کنید و آن را در صف قرار دهید.",
+        "پیشرفت را در جدول تاریخچه پیگیری کنید.",
+        "اگر قصد دارید بخش‌ها را به صورت دستی از طریق خروجی CSV انتخاب کنید، ابتدا کاربران را در CRM تگ کنید."
       ],
       "troubleshooting": [
-        "Telegram limits broadcasts to ~30 messages per second; the engine paces below that.",
-        "Users who blocked the bot count as failures and are skipped in spirit by future targeting.",
-        "Broadcasts target private-chat subscribers; posting into groups is the Scheduler’s job."
+        "تلگرام تعداد پیام‌های ارسالی را به حدود ۳۰ پیام در ثانیه محدود می‌کند؛ سرعت موتور کمتر از این مقدار است.",
+        "کاربرانی که ربات را مسدود کرده‌اند، به عنوان کاربر ناموفق در نظر گرفته می‌شوند و در هدف‌گیری‌های آینده از قلم می‌افتند.",
+        "پخش‌ها مشترکین چت خصوصی را هدف قرار می‌دهند؛ ارسال پست در گروه‌ها وظیفه‌ی زمان‌بندی است."
       ]
     }
   },
@@ -289,20 +289,20 @@
     "description": "پروفایل مشترکان، برچسب، یادداشت و خروجی CSV/JSON.",
     "docs": {
       "overview": [
-        "Every bot interaction upserts a subscriber profile automatically.",
-        "Tag users into segments (VIP, beta, churn-risk) and keep internal notes.",
-        "Export the full audience as CSV or JSON for external tooling.",
-        "Point balances shown here are the same ledger used by Referrals, Quizzes, Reactions and the AI Assistant."
+        "هر تعامل ربات به طور خودکار یک پروفایل مشترک ایجاد می‌کند.",
+        "کاربران را به بخش‌های مختلف (VIP، بتا، ریسک ریزش) دسته‌بندی کنید و یادداشت‌های داخلی داشته باشید.",
+        "برای ابزارهای خارجی، کل مخاطبان را به صورت CSV یا JSON صادر کنید.",
+        "موجودی امتیاز نشان داده شده در اینجا همان دفتر کل مورد استفاده توسط Referrals، Quizzes، Reactions و AI Assistant است."
       ],
       "setup": [
-        "No setup required; profiles accumulate as the bot runs.",
-        "Use tags as broadcast filters and segmentation hooks.",
-        "Tags are organizational today — broadcast targeting uses language and activity, not tags."
+        "نیازی به تنظیم نیست؛ پروفایل‌ها همزمان با اجرای ربات جمع‌آوری می‌شوند.",
+        "از برچسب‌ها به عنوان فیلترهای پخش و قلاب‌های تقسیم‌بندی استفاده کنید.",
+        "امروزه برچسب‌ها سازمانی هستند - هدف‌گیری پخش از زبان و فعالیت استفاده می‌کند، نه از برچسب‌ها."
       ],
       "troubleshooting": [
-        "Search matches username, name, and Telegram id.",
-        "Points shown here feed the referral and gamification modules.",
-        "Deleted profiles reappear automatically when the user messages the bot again."
+        "جستجو با نام کاربری، نام و شناسه تلگرام مطابقت دارد.",
+        "نقاط نشان داده شده در اینجا، ماژول‌های ارجاع و بازی‌سازی را تغذیه می‌کنند.",
+        "پروفایل‌های حذف‌شده وقتی کاربر دوباره به ربات پیام می‌دهد، به‌طور خودکار دوباره ظاهر می‌شوند."
       ]
     }
   },
@@ -311,63 +311,63 @@
     "description": "پیام‌های خوشامد و خداحافظی با رسانه، دکمه و پاک‌سازی پیام‌های سیستمی.",
     "fields": {
       "welcomeEnabled": {
-        "label": "Welcome messages enabled"
+        "label": "پیام‌های خوشامدگویی فعال شدند"
       },
       "template": {
-        "label": "Welcome template"
+        "label": "قالب خوشامدگویی"
       },
       "autoDeleteSeconds": {
-        "label": "Auto-delete after (seconds, 0 = off)"
+        "label": "حذف خودکار پس از (ثانیه، 0 = خاموش)"
       },
       "cleanWelcome": {
-        "label": "Replace previous greeting"
+        "label": "جایگزین کردن تبریک قبلی"
       },
       "mediaUrl": {
-        "label": "Welcome media",
-        "help": "Photo, video or GIF sent with the greeting — upload a file, paste a URL / file_id, or pick from the media library"
+        "label": "خوش آمدید به رسانه‌ها",
+        "help": "عکس، ویدیو یا گیف ارسال شده به همراه تبریک - یک فایل آپلود کنید، یک URL / file_id را جایگذاری کنید، یا از کتابخانه رسانه انتخاب کنید"
       },
       "buttonsJson": {
-        "label": "Welcome buttons",
-        "help": "Inline buttons under the greeting (URL, callback, Web App, copy text)"
+        "label": "دکمه‌های خوشامدگویی",
+        "help": "دکمه‌های درون‌خطی زیر خوشامدگویی (URL، callback، برنامه وب، کپی متن)"
       },
       "goodbyeEnabled": {
-        "label": "Goodbye messages enabled"
+        "label": "پیام‌های خداحافظی فعال شدند"
       },
       "goodbyeText": {
-        "label": "Goodbye template"
+        "label": "الگوی خداحافظ"
       },
       "goodbyeMediaUrl": {
-        "label": "Goodbye media",
-        "help": "Media sent with the goodbye message"
+        "label": "خداحافظ رسانه‌ها",
+        "help": "رسانه‌ها با پیام خداحافظی ارسال شدند"
       },
       "deleteServiceMessages": {
-        "label": "Delete join service messages"
+        "label": "پیام‌های مربوط به سرویس اتصال را حذف کنید"
       },
       "deleteLeaveMessages": {
-        "label": "Delete leave service messages"
+        "label": "پیام‌های مرخصی را حذف کنید"
       }
     },
     "docs": {
       "overview": [
-        "Greets new members with templates, media and inline buttons.",
-        "Goodbye messages and clean-welcome keep exactly one greeting visible.",
-        "Join/leave service messages are removed automatically.",
-        "Runs on every join in groups; enable Captcha alongside — the captcha challenge is a separate message from the greeting."
+        "با قالب‌ها، رسانه‌ها و دکمه‌های درون‌خطی به اعضای جدید خوشامد می‌گوید.",
+        "پیام‌های خداحافظی و خوشامدگویی تمیز، دقیقاً یک پیام تبریک قابل مشاهده را حفظ می‌کنند.",
+        "پیام‌های مربوط به پیوستن/ترک سرویس به‌طور خودکار حذف می‌شوند.",
+        "روی هر بار پیوستن به گروه‌ها اجرا می‌شود؛ در کنار آن کپچا را نیز فعال کنید — چالش کپچا پیامی جداگانه از پیام خوشامدگویی است."
       ],
       "setup": [
-        "Add the bot as a group administrator with delete permissions.",
-        "Save a per-chat entry for the group below — enabling the module alone keeps it idle in that chat.",
-        "Compose templates with placeholders such as {mention} and {group_name}.",
-        "Attach media (file upload, URL or file_id) and build the buttons visually.",
-        "Keep the greeting short when Captcha is enabled so both messages stay readable in busy chats."
+        "ربات را به عنوان مدیر گروه با مجوزهای حذف اضافه کنید.",
+        "برای هر گروه زیر، یک ورودی به ازای هر چت ذخیره کنید - فعال کردن این ماژول به تنهایی، آن را در آن چت غیرفعال نگه می‌دارد.",
+        "قالب‌ها را با متغیرهایی مانند {mention} و {group_name}.",
+        "رسانه (آپلود فایل، URL یا file_id) را ضمیمه کنید و دکمه‌ها را به صورت بصری بسازید.",
+        "هنگام فعال بودن کپچا، پیام خوشامدگویی را کوتاه نگه دارید تا هر دو پیام در چت‌های شلوغ قابل خواندن باشند."
       ],
       "troubleshooting": [
-        "Joins are detected from both service messages and chat_member updates, so greetings still fire when the group hides join messages.",
-        "Goodbyes also fire on kicks and bans, which never produce a leave service message.",
-        "Templates are sent as HTML; invalid markup (a raw < or &) falls back to plain text and logs a server-side warning.",
-        "Media greetings (uploads, URLs, file_ids) fall back to text when they cannot be sent.",
-        "Auto-delete accepts 15 seconds up to one hour.",
-        "Does not fire in channels; welcomes are group/supergroup only."
+        "پیوستن‌ها هم از طریق پیام‌های سرویس و هم از طریق به‌روزرسانی‌های chat_member شناسایی می‌شوند، بنابراین وقتی گروه پیام‌های پیوستن را پنهان می‌کند، پیام‌های خوشامدگویی همچنان ارسال می‌شوند.",
+        "خداحافظی‌ها همچنین به لگدها و ممنوعیت‌ها شلیک می‌کنند، که هرگز پیام ترک خدمت ایجاد نمی‌کنند.",
+        "قالب‌ها به صورت HTML ارسال می‌شوند؛ نشانه‌گذاری نامعتبر (یک < یا & خام) به متن ساده تبدیل می‌شود و یک هشدار سمت سرور ثبت می‌کند.",
+        "خوشامدگویی‌های رسانه‌ای (آپلودها، URLها، file_idها) وقتی قابل ارسال نباشند، به متن تبدیل می‌شوند.",
+        "حذف خودکار از ۱۵ ثانیه تا یک ساعت قابل قبول است.",
+        "در کانال‌ها فعال نمی‌شود؛ خوشامدگویی‌ها فقط در گروه/سوپرگروه انجام می‌شود."
       ]
     }
   },
@@ -376,41 +376,41 @@
     "description": "تأیید ورود با دکمه، مسئلهٔ ریاضی یا پیام خصوصی و مدیریت درخواست عضویت.",
     "fields": {
       "mode": {
-        "label": "Mod",
-        "help": "pm-math challenges in PM and falls back to a button"
+        "label": "وزارت دفاع",
+        "help": "چالش‌های ریاضی بعد از ظهر در PM و بازگشت به یک دکمه"
       },
       "timeoutSeconds": {
-        "label": "Timeout (seconds)"
+        "label": "زمان انتظار (ثانیه)"
       },
       "kickOnFail": {
-        "label": "Kick on timeout"
+        "label": "ضربه در زمان تایم اوت"
       },
       "successText": {
-        "label": "Success message"
+        "label": "پیام موفقیت"
       },
       "buttonText": {
-        "label": "Verify button label"
+        "label": "برچسب دکمه را تأیید کنید"
       },
       "joinRequestIntegration": {
-        "label": "Handle join requests via PM captcha"
+        "label": "درخواست‌های عضویت را از طریق کپچای پیام خصوصی مدیریت کنید"
       }
     },
     "docs": {
       "overview": [
-        "Anti-raid gate: new members must verify within the configured window.",
-        "Button mode taps to verify; math replies with a sum; pm-math verifies in PM.",
-        "Members stay muted until verified and solve the captcha once per group.",
-        "Pairs with AntiRaid for full protection: AntiRaid throttles mass joins, the captcha then filters the survivors."
+        "دروازه ضد حمله: اعضای جدید باید در پنجره پیکربندی شده تأیید هویت شوند.",
+        "حالت دکمه برای تأیید ضربه می‌زند؛ math با جمع پاسخ می‌دهد؛ pm-math در PM تأیید می‌کند.",
+        "اعضا تا زمان تأیید بی‌صدا می‌مانند و در هر گروه یک بار کپچا را حل می‌کنند.",
+        "برای محافظت کامل با AntiRaid جفت می‌شود: AntiRaid اتصال‌های دسته جمعی را مسدود می‌کند، سپس کپچا بازماندگان را فیلتر می‌کند."
       ],
       "setup": [
-        "Add the bot as a group administrator with ban permissions.",
-        "Choose a mode and timeout, then enable the module.",
-        "The bot needs restrict rights — mutes are lifted automatically on successful verification."
+        "ربات را به عنوان مدیر گروه با مجوزهای ممنوعیت اضافه کنید.",
+        "یک حالت و زمان انقضا را انتخاب کنید، سپس ماژول را فعال کنید.",
+        "ربات نیاز به محدود کردن دسترسی‌ها دارد - پس از تأیید موفقیت‌آمیز، بی‌صداها به‌طور خودکار برداشته می‌شوند."
       ],
       "troubleshooting": [
-        "pm-math falls back to a group button when the user never started the bot.",
-        "Join-request integration needs chat_join_request updates (enabled).",
-        "Approved users are not exempt: every new member solves the captcha exactly once per group."
+        "وقتی کاربر هرگز ربات را شروع نکرده باشد، pm-math به دکمه گروه برمی‌گردد.",
+        "ادغام درخواست عضویت نیاز به به‌روزرسانی‌های chat_join_request (فعال) دارد.",
+        "کاربران تأیید شده از این قاعده مستثنی نیستند: هر عضو جدید در هر گروه دقیقاً یک بار کپچا را حل می‌کند."
       ]
     }
   },
@@ -419,55 +419,55 @@
     "description": "فیلتر واژگان، مسدودسازی پیوند، کنترل پیام‌های پیاپی و اخطار مرحله‌ای.",
     "docs": {
       "overview": [
-        "Deletes messages matching blacklisted words (plain or /regex/ form), links, or floods.",
-        "Repeat offenders escalate to a studio-level ban and chat kick.",
-        "Banned users are listed here for review and manual unbans.",
-        "The Locks module runs before this one when both are enabled, so lock hits never reach the blocklist."
+        "پیام‌هایی را که با کلمات لیست سیاه مطابقت دارند (ساده یا ...) حذف می‌کند. /regex/ فرم)، لینک‌ها، یا سیل‌ها.",
+        "متخلفان مکرر به محرومیت در سطح استودیو و محرومیت از چت منجر می‌شوند.",
+        "کاربران مسدود شده برای بررسی و رفع مسدودیت دستی در اینجا فهرست شده‌اند.",
+        "ماژول قفل‌ها قبل از این ماژول اجرا می‌شود، زمانی که هر دو فعال باشند، بنابراین قفل‌ها هرگز به لیست سیاه نمی‌رسند."
       ],
       "setup": [
-        "Grant the bot administrator rights with message deletion.",
-        "Tune thresholds conservatively to avoid false positives.",
-        "Warnings recorded here share the ledger of Group Moderation Commands — limits and warn modes apply to both."
+        "با حذف پیام، به ربات حق مدیریت بدهید.",
+        "برای جلوگیری از مثبت‌های کاذب، آستانه‌ها را به صورت محافظه‌کارانه تنظیم کنید.",
+        "هشدارهای ثبت‌شده در اینجا، دفتر کل دستورات مدیریت گروه را به اشتراک می‌گذارند - محدودیت‌ها و حالت‌های هشدار برای هر دو اعمال می‌شوند."
       ],
       "troubleshooting": [
-        "Regex entries use the /pattern/flags form, e.g. /\\bfree crypto\\b/i.",
-        "Flood windows are per user per group and held in memory.",
-        "Admins and approved users are always exempt from blocklist, link and flood checks."
+        "ورودی‌های Regex از /patternفرم /flags، مثلاً /\\bfree crypto\\b/i.",
+        "پنجره‌های Flood به ازای هر کاربر و هر گروه هستند و در حافظه نگهداری می‌شوند.",
+        "مدیران و کاربران تأیید شده همیشه از بررسی‌های بلاک لیست، لینک و سیل معاف هستند."
       ]
     },
     "fields": {
       "blockedWords": {
-        "label": "Blocked words (one per line or /regex/)"
+        "label": "کلمات مسدود شده (یکی در هر خط یا /regex/)"
       },
       "blockLinks": {
-        "label": "Block links"
+        "label": "مسدود کردن لینک‌ها"
       },
       "floodMessageLimit": {
-        "label": "Flood limit (0 = off)"
+        "label": "محدودیت سیل (۰ = خاموش)"
       },
       "floodWindowSeconds": {
-        "label": "Flood window (seconds)"
+        "label": "پنجره سیل (ثانیه)"
       },
       "autoBanAfterStrikes": {
-        "label": "Auto-ban after strikes (0 = off)"
+        "label": "بن خودکار پس از ضربه (۰ = خاموش)"
       },
       "blocklistMode": {
-        "label": "Blocklist mode",
-        "help": "Punishment for blocklist hits; per-entry {action} overrides this"
+        "label": "حالت لیست سیاه",
+        "help": "مجازات برای بازدیدهای لیست سیاه؛ به ازای هر ورودی {action} این را لغو می‌کند"
       },
       "blocklistDelete": {
-        "label": "Delete matching messages"
+        "label": "پیام‌های مشابه را حذف کنید"
       },
       "floodMode": {
-        "label": "Flood punishment"
+        "label": "مجازات سیل"
       },
       "blocklistDurationSeconds": {
-        "label": "Blocklist tban/tmute duration (seconds)",
-        "help": "Duration for timed blocklist punishments (0 = default)"
+        "label": "مدت زمان tban/tmute در لیست مسدود شده (ثانیه)",
+        "help": "مدت زمان مجازات‌های زمان‌بندی‌شده در لیست سیاه (0 = پیش‌فرض)"
       },
       "floodDurationSeconds": {
-        "label": "Flood punishment duration (seconds)",
-        "help": "Duration for tmute/tban flood punishments (0 = default)"
+        "label": "مدت زمان مجازات سیل (ثانیه)",
+        "help": "مدت زمان اعمال مجازات‌های سیل‌آسای tmute/tban (0 = پیش‌فرض)"
       }
     }
   },
@@ -476,50 +476,50 @@
     "description": "قرعه‌کشی مشروط به عضویت با انتخاب قابل‌بررسی برندگان.",
     "docs": {
       "overview": [
-        "Users join via /giveaway and inline Participate buttons.",
-        "Membership in required channels is verified through getChatMember.",
-        "Winners are drawn with a seeded shuffle reproducible from the participant list.",
-        "Required channels are picked from Chat Connections; membership checks need bot admin rights in those channels."
+        "کاربران از طریق /giveaway و دکمه‌های مشارکت درون‌خطی.",
+        "عضویت در کانال‌های مورد نیاز از طریق getChatMember تأیید می‌شود.",
+        "برندگان با استفاده از یک بُر زدنِ رده‌بندی‌شده که از فهرست شرکت‌کنندگان قابل تکرار است، قرعه‌کشی می‌شوند.",
+        "کانال‌های مورد نیاز از Chat Connections انتخاب می‌شوند؛ بررسی عضویت نیازمند دسترسی ادمین ربات در آن کانال‌ها است."
       ],
       "setup": [
-        "Add the bot as an administrator in every required channel.",
-        "Create the giveaway with channel ids and an end time.",
-        "Announce /giveaway in your community to start collecting participants.",
-        "Announce with Broadcast right after creating a giveaway for maximum participation."
+        "ربات را به عنوان مدیر در هر کانال مورد نیاز اضافه کنید.",
+        "با استفاده از شناسه کانال‌ها و زمان پایان، قرعه‌کشی را انجام دهید.",
+        "اعلام کردن /giveaway در جامعه خود برای شروع جمع‌آوری شرکت‌کنندگان.",
+        "بلافاصله پس از ایجاد یک مسابقه برای حداکثر مشارکت، آن را با Broadcast اعلام کنید."
       ],
       "troubleshooting": [
-        "Verification fails when the bot cannot see the channel member list.",
-        "Draws run every 60 seconds after ends_at passes.",
-        "Point rewards are not part of giveaways — winners are drawn, not scored."
+        "وقتی ربات نتواند لیست اعضای کانال را ببیند، تأیید ناموفق است.",
+        "قرعه‌کشی‌ها هر ۶۰ ثانیه پس از پاس‌های ends_at اجرا می‌شوند.",
+        "جوایز امتیازی بخشی از قرعه‌کشی نیستند - برندگان قرعه‌کشی می‌شوند، امتیازی کسب نمی‌کنند."
       ]
     },
     "fields": {
       "announceWinners": {
-        "label": "Message winners"
+        "label": "برندگان پیام"
       },
       "title": {
-        "label": "Title"
+        "label": "عنوان"
       },
       "prizeDetails": {
-        "label": "Prize details"
+        "label": "جزئیات جایزه"
       },
       "requiredChannels": {
-        "label": "Required channels",
-        "help": "Membership gates verified on join; manage the list in Chat Connections"
+        "label": "کانال‌های مورد نیاز",
+        "help": "دروازه‌های عضویت در هنگام عضویت تأیید شدند؛ فهرست را در Chat Connections مدیریت کنید"
       },
       "winnersCount": {
-        "label": "Winners count"
+        "label": "برندگان شمارش می‌شوند"
       },
       "endsAt": {
-        "label": "Ends at (UTC ISO, empty = manual)"
+        "label": "پایان در (UTC ISO، خالی = دستی)"
       }
     },
     "columns": {
-      "title": "Title",
-      "winners_count": "Winners",
-      "participants": "Participants",
-      "ends_at": "Ends at",
-      "status": "Status"
+      "title": "عنوان",
+      "winners_count": "برندگان",
+      "participants": "شرکت‌کنندگان",
+      "ends_at": "پایان می‌یابد در",
+      "status": "وضعیت"
     }
   },
   "referrals": {
@@ -527,27 +527,27 @@
     "description": "ردیابی معرفی با پیوند اختصاصی و امتیازدهی.",
     "docs": {
       "overview": [
-        "Users share t.me/bot?start=ref_<id> deep links; attribution is automatic.",
-        "Referrers earn points instantly; /top shows the standing leaderboard.",
-        "Balances surface in Audience CRM and the AI Assistant quotes them when users ask about points."
+        "کاربران پیوندهای ارجاع مانند t.me/bot?start=ref_<id> را به اشتراک می‌گذارند و سامانه ارجاع را خودکار ثبت می‌کند.",
+        "معرف‌ها فوراً امتیاز کسب می‌کنند؛ /top جدول امتیازات ایستاده را نشان می‌دهد.",
+        "ترازها در Audience CRM نمایش داده می‌شوند و دستیار هوش مصنوعی وقتی کاربران در مورد امتیازها سوال می‌کنند، آنها را نقل قول می‌کند."
       ],
       "setup": [
-        "Enable the module and configure the reward per referral.",
-        "Broadcast the personal link pattern to your community.",
-        "Combine with Broadcast to teach the community the personal link pattern."
+        "ماژول را فعال کنید و پاداش را به ازای هر ارجاع پیکربندی کنید.",
+        "الگوی لینک شخصی را در جامعه خود پخش کنید.",
+        "با Broadcast ترکیب شوید تا الگوی پیوند شخصی را به جامعه آموزش دهید."
       ],
       "troubleshooting": [
-        "Self-referrals and repeat attributions are ignored.",
-        "The referrer must already be a known subscriber when the invitee arrives.",
-        "Referral points cannot be reversed automatically; adjust points in the CRM if needed."
+        "ارجاعات شخصی و انتساب‌های مکرر نادیده گرفته می‌شوند.",
+        "معرف باید از قبل، زمانی که دعوت‌شده می‌رسد، یک مشترک شناخته‌شده باشد.",
+        "امتیازهای ارجاعی را نمی‌توان به طور خودکار معکوس کرد؛ در صورت نیاز، امتیازها را در CRM تنظیم کنید."
       ]
     },
     "fields": {
       "pointsPerReferral": {
-        "label": "Points per referral"
+        "label": "امتیاز به ازای هر ارجاع"
       },
       "leaderboardSize": {
-        "label": "Leaderboard size"
+        "label": "اندازه جدول امتیازات"
       }
     }
   },
@@ -556,19 +556,19 @@
     "description": "پرسش‌های زمان‌دار با امتیاز و رتبه‌بندی ذخیره‌شده.",
     "docs": {
       "overview": [
-        "sendPoll-powered quizzes with correct answers scored automatically.",
-        "Points and per-quiz scoreboards persist for leaderboards (/scoreboard).",
-        "Points land in the same ledger as referrals and reactions; /scoreboard reads it back per quiz."
+        "آزمون‌های مبتنی بر sendPoll که پاسخ‌های صحیح به صورت خودکار امتیازدهی می‌شوند.",
+        "امتیازها و جدول امتیازات هر مسابقه برای جدول امتیازات (/scoreboard).",
+        "امتیازها در همان دفتر کلِ ارجاعات و واکنش‌ها ثبت می‌شوند؛ /scoreboard آن را برای هر آزمون دوباره می‌خواند."
       ],
       "setup": [
-        "Create quizzes in the engagement tab (question, options, correct index, points).",
-        "Users start a random quiz with the configured command.",
-        "Share the trigger command in groups — quizzes are group-surface engagement."
+        "در برگه تعامل (سوال، گزینه‌ها، فهرست صحیح، امتیازها) آزمون ایجاد کنید.",
+        "کاربران با دستور پیکربندی‌شده، یک آزمون تصادفی را شروع می‌کنند.",
+        "دستور فعال‌سازی را در گروه‌ها به اشتراک بگذارید - آزمون‌ها تعامل سطحی گروهی هستند."
       ],
       "troubleshooting": [
-        "Polls must be non-anonymous for scoring; the module enforces this.",
-        "Reactions analytics live in the same engagement tab.",
-        "Quiz polls need no extra rights beyond the bot being able to send polls in the group."
+        "نظرسنجی‌ها برای امتیازدهی باید غیر ناشناس باشند؛ ماژول این را الزامی می‌کند.",
+        "تجزیه و تحلیل واکنش‌ها (Reactions Analytics) در همان تب تعامل (Engagement) قرار دارد.",
+        "نظرسنجی‌های مسابقه‌ای به هیچ حق دسترسی اضافی فراتر از توانایی ربات برای ارسال نظرسنجی در گروه نیاز ندارند."
       ]
     },
     "fields": {}
@@ -578,24 +578,24 @@
     "description": "ثبت واکنش به پست‌های کانال و اختصاص امتیاز.",
     "docs": {
       "overview": [
-        "Counts emoji reactions on posts and awards points to the reacting member.",
-        "The summary chart shows which emojis resonate with the audience.",
-        "Works automatically: the engine subscribes to message_reaction updates — no extra BotFather setting."
+        "واکنش‌های ایموجی را در پست‌ها می‌شمارد و به عضو واکنش‌دهنده امتیاز می‌دهد.",
+        "نمودار خلاصه نشان می‌دهد که کدام ایموجی‌ها با مخاطب ارتباط برقرار می‌کنند.",
+        "به صورت خودکار کار می‌کند: موتور به‌روزرسانی‌های message_reaction را دریافت می‌کند - بدون تنظیم اضافی BotFather."
       ],
       "setup": [
-        "Add the bot as an administrator in the tracked channel.",
-        "Reaction updates require the chat to permit bot reaction events.",
-        "Best on channels with a linked discussion group so bot-visible reactions accumulate."
+        "ربات را به عنوان مدیر در کانال ردیابی شده اضافه کنید.",
+        "به‌روزرسانی‌های واکنش مستلزم آن است که چت اجازه رویدادهای واکنش ربات را بدهد.",
+        "بهترین حالت در کانال‌هایی است که دارای یک گروه بحث مرتبط هستند تا واکنش‌های قابل مشاهده توسط ربات جمع‌آوری شوند."
       ],
       "troubleshooting": [
-        "Anonymous reactor identities cannot be attributed and are skipped.",
-        "Emoji-only reactions are counted; paid and custom reactions are ignored.",
-        "Reactions on posts older than the bot’s subscription are not retroactive."
+        "هویت‌های ناشناس راکتور قابل انتساب نیستند و از قلم می‌افتند.",
+        "واکنش‌های صرفاً ایموجی شمرده می‌شوند؛ واکنش‌های پولی و سفارشی نادیده گرفته می‌شوند.",
+        "واکنش‌ها به پست‌های قدیمی‌تر از زمان اشتراک ربات، عطف به ماسبق نمی‌شوند."
       ]
     },
     "fields": {
       "pointsPerReaction": {
-        "label": "Points per reaction"
+        "label": "امتیاز به ازای هر واکنش"
       }
     }
   },
@@ -604,39 +604,39 @@
     "description": "امتیازدهی به فعالیت اعضای گروه و انتشار جدول رتبه‌بندی.",
     "docs": {
       "overview": [
-        "Every member message in your groups builds a per-day activity record: messages, replies to others, and media count separately.",
-        "The weighted score ranks the most active members for any period (today, 7 days, 30 days, or all time).",
-        "Rich leaderboard messages (header, per-member row template, footer, medals, parse mode, silent flag) can be sent instantly or on a recurring schedule to one or many connected chats.",
-        "Schedules support once, hourly, daily, and weekly recurrences in UTC.",
-        "Counts all member messages including admins; service messages and bots are ignored."
+        "هر پیام عضو در گروه‌های شما یک سابقه فعالیت روزانه ایجاد می‌کند: پیام‌ها، پاسخ‌ها به دیگران و رسانه‌ها جداگانه حساب می‌شوند.",
+        "امتیاز وزنی، فعال‌ترین اعضا را برای هر دوره زمانی (امروز، ۷ روز، ۳۰ روز یا تمام دوران) رتبه‌بندی می‌کند.",
+        "پیام‌های جدول امتیازات غنی (هدر، الگوی ردیف هر عضو، پاورقی، مدال‌ها، حالت تجزیه، پرچم بی‌صدا) را می‌توان فوراً یا طبق یک برنامه زمانی تکرارشونده به یک یا چند چت متصل ارسال کرد.",
+        "برنامه‌ها از تکرارهای یک‌باره، ساعتی، روزانه و هفتگی بر اساس UTC پشتیبانی می‌کنند.",
+        "تمام پیام‌های اعضا از جمله مدیران را می‌شمارد؛ پیام‌های خدماتی و ربات‌ها نادیده گرفته می‌شوند."
       ],
       "setup": [
-        "Disable bot privacy mode via BotFather (or make the bot an admin) so it can see member messages in groups.",
-        "Enable the module and tune the score weights in the configuration card.",
-        "Pick one or more target chats, design the message format with placeholders, and check the live preview.",
-        "Press Send now for a one-off posting, or Save as schedule to automate it.",
-        "The composer’s chat picker reuses Chat Connections, exactly like Broadcast and the Scheduler."
+        "حالت حریم خصوصی ربات را از طریق BotFather غیرفعال کنید (یا ربات را به حالت ادمین درآورید) تا بتواند پیام‌های اعضا را در گروه‌ها ببیند.",
+        "ماژول را فعال کنید و وزن‌های امتیاز را در کارت پیکربندی تنظیم کنید.",
+        "یک یا چند چت هدف را انتخاب کنید، قالب پیام را با متغیرهایی طراحی کنید و پیش‌نمایش زنده را بررسی کنید.",
+        "برای ارسال یکباره، گزینه «ارسال کن» را انتخاب کنید، یا برای خودکارسازی، گزینه «ذخیره به عنوان برنامه» را انتخاب کنید.",
+        "انتخابگر چت آهنگساز دقیقاً مانند Broadcast و Scheduler از Chat Connections دوباره استفاده می‌کند."
       ],
       "troubleshooting": [
-        "No members on the leaderboard usually means privacy mode is hiding group messages from the bot.",
-        "Service messages (joins, pins, title changes) never count towards the score.",
-        "Sending fails with 403 when the bot is not a member of the target chat or lacks posting rights.",
-        "Scheduled times use UTC; daily/weekly runs fire at the configured HH:mm.",
-        "Scheduled leaderboards use the bot’s configured timezone from Bot settings."
+        "عدم وجود عضو در جدول امتیازات معمولاً به این معنی است که حالت حریم خصوصی، پیام‌های گروه را از ربات پنهان می‌کند.",
+        "پیام‌های سرویس (پیوستن، پین کردن، تغییر عنوان) هرگز در امتیاز محاسبه نمی‌شوند.",
+        "وقتی ربات عضو چت هدف نباشد یا حق ارسال نداشته باشد، ارسال با خطای ۴۰۳ مواجه می‌شود.",
+        "زمان‌های برنامه‌ریزی‌شده از UTC استفاده می‌کنند؛ اجراهای روزانه/هفتگی در HH:mm پیکربندی‌شده اجرا می‌شوند.",
+        "جدول امتیازات زمان‌بندی‌شده از منطقه زمانی پیکربندی‌شده توسط ربات در تنظیمات ربات استفاده می‌کنند."
       ]
     },
     "fields": {
       "messageWeight": {
-        "label": "Score per message",
-        "help": "Weight added for every regular member message"
+        "label": "امتیاز به ازای هر پیام",
+        "help": "وزن اضافه شده برای هر پیام عضو عادی"
       },
       "replyWeight": {
-        "label": "Score per reply",
-        "help": "Extra weight when a member replies to someone else"
+        "label": "امتیاز به ازای هر پاسخ",
+        "help": "وقتی عضوی به شخص دیگری پاسخ می‌دهد، وزن اضافی ایجاد می‌شود"
       },
       "mediaWeight": {
-        "label": "Score per media message",
-        "help": "Weight for photos, videos, stickers, voice, and files"
+        "label": "امتیاز به ازای هر پیام رسانه‌ای",
+        "help": "وزن عکس‌ها، ویدیوها، استیکرها، صدا و فایل‌ها"
       }
     }
   },
@@ -645,68 +645,68 @@
     "description": "پاسخ‌گویی شبانه‌روزی با OpenAI، Gemini و سرویس‌های سازگار.",
     "docs": {
       "overview": [
-        "Answers private user messages around the clock with an enterprise tone.",
-        "Speaks the OpenAI Chat Completions protocol, so every OpenAI-compatible service works: OpenRouter, DeepSeek, Groq, Ollama, vLLM, and more; Gemini uses its native API.",
-        "Keeps a short per-user history for contextual answers.",
-        "Knows loyalty point balances and recent mini-app orders — it quotes them when users ask about points or deliveries."
+        "به صورت شبانه‌روزی به پیام‌های خصوصی کاربران با لحنی رسمی پاسخ می‌دهد.",
+        "با پروتکل OpenAI Chat Completions صحبت می‌کند، بنابراین هر سرویس سازگار با OpenAI کار می‌کند: OpenRouter، DeepSeek، Groq، Ollama، vLLM و موارد دیگر؛ Gemini از API بومی خود استفاده می‌کند.",
+        "برای پاسخ‌های متنی، تاریخچه کوتاهی برای هر کاربر نگه می‌دارد.",
+        "موجودی امتیازهای وفاداری و سفارش‌های اخیر مینی‌اپ را می‌داند - وقتی کاربران درباره امتیازها یا تحویل‌ها سوال می‌کنند، آنها را اعلام می‌کند."
       ],
       "setup": [
-        "Pick a provider: openai, openrouter, gemini, or custom (your own OpenAI-compatible base URL).",
-        "Paste the API key, set the model id in the provider format (OpenRouter uses vendor/model such as openai/gpt-4o-mini), and tune the system prompt.",
-        "Use the built-in test button before enabling.",
-        "Escalations from the frustration classifier create Support Desk tickets automatically, even with Support disabled."
+        "یک ارائه‌دهنده انتخاب کنید: openai، openrouter، gemini یا custom (URL پایه سازگار با OpenAI خودتان).",
+        "کلید API را جایگذاری کنید، شناسه مدل را در قالب ارائه دهنده تنظیم کنید (OpenRouter از فروشنده/مدلی مانند openai/gpt-4o-mini استفاده می‌کند) و اعلان سیستم را تنظیم کنید.",
+        "قبل از فعال کردن، از دکمه تست داخلی استفاده کنید.",
+        "ارجاعات از طبقه‌بندی‌کننده‌ی نارضایتی، حتی با غیرفعال بودن پشتیبانی، به طور خودکار تیکت‌های پشتیبانی ایجاد می‌کنند."
       ],
       "troubleshooting": [
-        "The assistant defers to the support desk and autoresponder keyword rules.",
-        "Provider errors surface in the chat as a temporary-unavailable notice.",
-        "Voice transcription needs an OpenAI-compatible /audio/transcriptions endpoint; OpenRouter does not expose one, so set transcriptionModel against a compatible provider (OpenAI, Groq, local Whisper).",
-        "Knowledge retrieval and tool context run in private chats only; group messages are not answered."
+        "دستیار از قوانین مربوط به کلمات کلیدی میز پشتیبانی و پاسخگوی خودکار پیروی می‌کند.",
+        "خطاهای ارائه دهنده در چت به صورت اعلان عدم دسترسی موقت ظاهر می‌شوند.",
+        "رونویسی صدا به یک نرم‌افزار سازگار با OpenAI نیاز دارد /audio/transcriptions endpoint؛ OpenRouter چنین چیزی را نمایش نمی‌دهد، بنابراین transcriptionModel را روی یک ارائه‌دهنده سازگار (OpenAI، Groq، Whisper محلی) تنظیم کنید.",
+        "بازیابی دانش و ابزار زمینه فقط در چت‌های خصوصی اجرا می‌شوند؛ به پیام‌های گروهی پاسخ داده نمی‌شود."
       ]
     },
     "fields": {
       "provider": {
-        "label": "Provider",
-        "help": "openrouter/custom call any model through the OpenAI-compatible base URL"
+        "label": "ارائه دهنده",
+        "help": "openrouter/custom هر مدلی را از طریق URL پایه سازگار با OpenAI فراخوانی می‌کند"
       },
       "baseUrl": {
-        "label": "Base URL (OpenAI-compatible)",
-        "help": "Ignored for openai/openrouter. Custom example: http://localhost:11434/v1 (Ollama), https://api.deepseek.com/v1"
+        "label": "آدرس اینترنتی پایه (سازگار با OpenAI)",
+        "help": "برای openai/openrouter نادیده گرفته شده است. مثال سفارشی: http://localhost:11434/v1 (اولاما)، https://api.deepseek.com/v1"
       },
       "apiKey": {
-        "label": "API key"
+        "label": "کلید API"
       },
       "model": {
-        "label": "Model",
-        "help": "Provider model id: gpt-4o-mini, openai/gpt-4o-mini (OpenRouter), anthropic/claude-3.5-sonnet (OpenRouter), gemini-2.0-flash"
+        "label": "مدل",
+        "help": "شناسه مدل ارائه دهنده: gpt-4o-mini، openai/gpt-4o-mini (OpenRouter)، anthropic/claude-3.5-sonnet (OpenRouter)، gemini-2.0-flash"
       },
       "transcriptionModel": {
-        "label": "Voice transcription model",
-        "help": "Model for voice notes on the OpenAI-compatible /audio/transcriptions endpoint; empty = whisper-1"
+        "label": "مدل رونویسی صدا",
+        "help": "مدلی برای یادداشت‌های صوتی روی سازگار با OpenAI /audioنقطه پایانی /رونویسی‌ها؛ خالی = زمزمه-۱"
       },
       "systemPrompt": {
-        "label": "System prompt"
+        "label": "اعلان سیستم"
       },
       "maxTokens": {
-        "label": "Max tokens"
+        "label": "حداکثر توکن‌ها"
       },
       "historyLimit": {
-        "label": "History turns"
+        "label": "تاریخ می‌چرخد"
       },
       "smartHandoff": {
-        "label": "Smart human handoff (AI classifier)",
-        "help": "Classifies requests for a human agent with the LLM; falls back to keywords when off or on failure"
+        "label": "انتقال هوشمند انسان (طبقه‌بندی‌کننده هوش مصنوعی)",
+        "help": "درخواست‌های مربوط به یک عامل انسانی را با LLM طبقه‌بندی می‌کند؛ در صورت عدم موفقیت یا عدم موفقیت، به کلمات کلیدی برمی‌گردد."
       },
       "showSources": {
-        "label": "Append knowledge sources to replies",
-        "help": "Shows which knowledge base documents grounded the answer"
+        "label": "منابع دانش را به پاسخ‌ها اضافه کنید",
+        "help": "نشان می‌دهد که کدام اسناد پایگاه دانش، پاسخ را پایه‌گذاری کرده‌اند."
       },
       "embeddingModel": {
-        "label": "Embedding model (semantic RAG, optional)",
-        "help": "OpenAI-compatible embeddings, e.g. text-embedding-3-small; empty = keyword-only retrieval"
+        "label": "مدل جاسازی (RAG معنایی، اختیاری)",
+        "help": "جاسازی‌های سازگار با OpenAI، مثلاً جاسازی متن-۳-کوچک؛ خالی = بازیابی فقط کلمه کلیدی"
       },
       "knowledgeTags": {
-        "label": "Knowledge tag filter (optional)",
-        "help": "Comma-separated tags; only docs carrying one of these are retrieved"
+        "label": "فیلتر برچسب دانش (اختیاری)",
+        "help": "برچسب‌های جدا شده با کاما؛ فقط اسنادی که یکی از این موارد را دارند بازیابی می‌شوند"
       }
     }
   },
@@ -715,65 +715,65 @@
     "description": "دستورهای اختصاصی و پاسخ به واژه‌های کلیدی با پشتیبانی از رسانه.",
     "docs": {
       "overview": [
-        "Custom commands like /pricing and /faq answered instantly with media.",
-        "Non-slash triggers match message substrings as keyword auto-responders.",
-        "Rules can run in groups too — scope each rule to private, group, or both, and pin it to one chat if needed."
+        "دستورات سفارشی مانند /pricing و /faq فوراً با رسانه‌ها پاسخ داده شد.",
+        "تریگرهای بدون اسلش، زیررشته‌های پیام را به عنوان پاسخ‌دهنده‌های خودکار کلمه کلیدی مطابقت می‌دهند.",
+        "قوانین می‌توانند به صورت گروهی نیز اجرا شوند - هر قانون را به صورت خصوصی، گروهی یا هر دو تنظیم کنید و در صورت نیاز آن را به یک گفتگو پین کنید."
       ],
       "setup": [
-        "Create rules; commands must start with /, keywords must not. Comma-separate several triggers (/price, /pricing, fiyat) so one rule answers them all.",
-        "Photo URLs and inline buttons are optional enhancements.",
-        "Keyword matches temporarily pause the AI Assistant for that message to prevent double answers."
+        "ایجاد قوانین؛ دستورات باید با / شروع شوند، کلمات کلیدی نباید با / شروع شوند. چندین تریگر را با کاما از هم جدا کنید (/price, /pricing، فیات) بنابراین یک قانون به همه آنها پاسخ می‌دهد.",
+        "آدرس‌های اینترنتی عکس و دکمه‌های درون‌خطی، از جمله موارد اختیاری هستند که می‌توان به آن‌ها اضافه کرد.",
+        "تطابق کلمات کلیدی، دستیار هوش مصنوعی را برای آن پیام موقتاً متوقف می‌کند تا از پاسخ‌های دوگانه جلوگیری شود."
       ],
       "troubleshooting": [
-        "When the Start Menu module owns /start, its menu takes precedence.",
-        "Keyword rules also pause AI assistant replies to avoid double answers.",
-        "Hashtag notes (#faq) and prefix/exact modes work on every chat surface the rule is scoped to."
+        "اگر ماژول منوی شروع مسئول پاسخ به /start باشد، منوی آن بر پاسخ‌گوی خودکار اولویت دارد.",
+        "قوانین کلمات کلیدی همچنین پاسخ‌های دستیار هوش مصنوعی را متوقف می‌کنند تا از پاسخ‌های دوگانه جلوگیری شود.",
+        "یادداشت‌های هشتگ (#faq) و حالت‌های پیشوند/دقیق روی هر صفحه چتی که قانون در آن اعمال می‌شود، کار می‌کنند."
       ]
     },
     "fields": {
       "startMessage": {
-        "label": "Default /start message"
+        "label": "پیام پیش‌فرض دستور /start"
       },
       "command": {
-        "label": "Triggers (comma-separated)",
-        "help": "One rule can answer several commands/keywords, e.g. /price, /pricing, fiyat"
+        "label": "محرک‌ها (با کاما از هم جدا می‌شوند)",
+        "help": "یک قانون می‌تواند به چندین دستور/کلمه کلیدی پاسخ دهد، مثلاً /price, /pricing، فیات"
       },
       "responseText": {
-        "label": "Response text"
+        "label": "متن پاسخ"
       },
       "mediaUrl": {
-        "label": "Photo URL"
+        "label": "آدرس عکس"
       },
       "buttons": {
-        "label": "Buttons (JSON array)"
+        "label": "دکمه‌ها (آرایه JSON)"
       },
       "scope": {
-        "label": "Scope"
+        "label": "محدوده"
       },
       "chatId": {
-        "label": "Target chat (optional)"
+        "label": "چت هدف (اختیاری)"
       },
       "matchMode": {
-        "label": "Match mode"
+        "label": "حالت تطبیق"
       },
       "replyToMessage": {
-        "label": "Reply to user message",
-        "help": "Send response as a reply to the triggering message"
+        "label": "پاسخ به پیام کاربر",
+        "help": "ارسال پاسخ به عنوان پاسخ به پیام آغازگر"
       },
       "deletePreviousResponse": {
-        "label": "Delete previous response",
-        "help": "Automatically delete the previous bot reply for this trigger in the chat when triggered again"
+        "label": "پاسخ قبلی را حذف کنید",
+        "help": "وقتی دوباره فعال شود، پاسخ قبلی ربات برای این تریگر در چت به طور خودکار حذف می‌شود"
       }
     },
     "columns": {
-      "command": "Triggers",
-      "response_text": "Response",
-      "media_url": "Media",
-      "scope": "Scope",
-      "chat_id": "Chat",
-      "reply_to_message": "Reply",
-      "is_active": "Active",
-      "delete_previous_response": "Clean Prev"
+      "command": "محرک‌ها",
+      "response_text": "پاسخ",
+      "media_url": "رسانه",
+      "scope": "محدوده",
+      "chat_id": "چت",
+      "reply_to_message": "پاسخ",
+      "is_active": "فعال",
+      "delete_previous_response": "تمیز قبلی"
     }
   },
   "paid-media": {
@@ -781,27 +781,27 @@
     "description": "عکس و ویدئوی قفل‌شده با پرداخت ستارهٔ تلگرام.",
     "docs": {
       "overview": [
-        "Sends media that users unlock by paying Telegram Stars.",
-        "Funds settle to the bot owner's Fragment balance.",
-        "Dashboard-triggered only — pair with Broadcast to announce a paid drop to the right audience."
+        "رسانه‌هایی را ارسال می‌کند که کاربران با پرداخت ستاره‌های تلگرام، قفل آنها را باز می‌کنند.",
+        "وجوه به موجودی Fragment صاحب ربات واریز می‌شود.",
+        "فقط از طریق داشبورد - با Broadcast جفت شوید تا یک قطره پولی را به مخاطب مناسب اعلام کنید."
       ],
       "setup": [
-        "Send paid media from the monetization tab to any chat id.",
-        "Price each send in Stars; recipients see a native paywall.",
-        "Recipients pay in Telegram Stars; no extra bot configuration is needed beyond a modern Bot API."
+        "رسانه‌های پولی را از تب کسب درآمد به هر شناسه چتی ارسال کنید.",
+        "برای هر ارسال، ستاره تعیین کنید؛ دریافت‌کنندگان، یک دیوار پرداخت محلی می‌بینند.",
+        "دریافت‌کنندگان با ستاره‌های تلگرام پرداخت می‌کنند؛ هیچ پیکربندی ربات اضافی فراتر از یک API ربات مدرن مورد نیاز نیست."
       ],
       "troubleshooting": [
-        "Requires a Bot API version supporting sendPaidMedia.",
-        "Media must be publicly reachable URLs.",
-        "Stars revenue settles in the bot owner’s Fragment payout, not in the studio."
+        "به نسخه‌ای از API ربات نیاز دارد که از sendPaidMedia پشتیبانی کند.",
+        "رسانه‌ها باید دارای آدرس‌های اینترنتی (URL) قابل دسترسی برای عموم باشند.",
+        "درآمد ستاره‌ها در پرداخت Fragment به صاحب ربات منظور می‌شود، نه در استودیو."
       ]
     },
     "fields": {
       "starCount": {
-        "label": "Default price (Stars)"
+        "label": "قیمت پیش‌فرض (ستاره)"
       },
       "protectCaption": {
-        "label": "Protect caption content"
+        "label": "محافظت از محتوای زیرنویس"
       }
     }
   },
@@ -810,31 +810,31 @@
     "description": "دعوت به کانال با پرداخت ستاره و مدیریت زمان انقضا.",
     "docs": {
       "overview": [
-        "createChatSubscriptionInviteLink generates Star-billed invite links.",
-        "Expired members are removed automatically by the sweep timer.",
-        "Username-only connections cannot host VIP subscriptions — a numeric channel id from Chat Connections is required."
+        "createChatSubscriptionInviteLink لینک‌های دعوت ستاره‌دار ایجاد می‌کند.",
+        "اعضای منقضی شده به طور خودکار توسط تایمر جارو حذف می‌شوند.",
+        "اتصالات فقط با نام کاربری نمی‌توانند میزبان اشتراک‌های VIP باشند - یک شناسه کانال عددی از Chat Connections مورد نیاز است."
       ],
       "setup": [
-        "Create a private channel and add the bot as an administrator.",
-        "Set the channel id, period, and Star price, then grant subscriptions.",
-        "Grant subscriptions from the Monetization tab; the expiry sweeper removes lapsed members every minute."
+        "یک کانال خصوصی ایجاد کنید و ربات را به عنوان مدیر اضافه کنید.",
+        "شناسه کانال، دوره و قیمت ستاره را تنظیم کنید، سپس اشتراک‌ها را اعطا کنید.",
+        "از طریق تب کسب درآمد، اشتراک اعطا کنید؛ افزونه‌ی حذف اعضا، هر دقیقه اعضای منقضی شده را حذف می‌کند."
       ],
       "troubleshooting": [
-        "The channel must allow the bot to manage invite links.",
-        "Removal uses ban + unban, so the member can rejoin after renewing.",
-        "If removal fails, re-check that the bot still has ban rights in the VIP channel."
+        "کانال باید به ربات اجازه مدیریت لینک‌های دعوت را بدهد.",
+        "حذف از ترکیب بن + لغو بن استفاده می‌کند، بنابراین عضو می‌تواند پس از تمدید دوباره عضو شود.",
+        "اگر حذف ناموفق بود، دوباره بررسی کنید که ربات هنوز در کانال VIP حق مسدود شدن دارد یا خیر."
       ]
     },
     "fields": {
       "channelChatId": {
-        "label": "VIP channel",
-        "help": "Private channel the bot administrates; manage the list in Chat Connections"
+        "label": "کانال وی آی پی",
+        "help": "کانال خصوصی که ربات مدیریت می‌کند؛ مدیریت لیست در Chat Connections"
       },
       "subscriptionPeriodDays": {
-        "label": "Period (days)"
+        "label": "دوره (روز)"
       },
       "starPrice": {
-        "label": "Price (Stars)"
+        "label": "قیمت (ستاره)"
       }
     }
   },
@@ -843,21 +843,21 @@
     "description": "رویدادهای امضاشدهٔ خروجی و محرک‌های خودکارسازی ورودی.",
     "docs": {
       "overview": [
-        "Stream events (orders, form submissions, support activity) to Zapier, Make, or n8n.",
-        "Every delivery is signed with HMAC-SHA256 in X-Studio-Signature.",
-        "Inbound hooks render templated messages into a chat from external systems.",
-        "order_created, order_paid and form_submitted fire from Mini App checkouts and forms — wire them to fulfillment tools."
+        "رویدادها (سفارش‌ها، ارسال فرم، فعالیت‌های پشتیبانی) را در Zapier، Make یا n8n پخش کنید.",
+        "هر تحویل با HMAC-SHA256 در X-Studio-Signature امضا می‌شود.",
+        "قلاب‌های ورودی، پیام‌های قالب‌بندی‌شده را از سیستم‌های خارجی به یک چت رندر می‌کنند.",
+        "دستورهای order_created، order_paid و form_submitted را از پرداخت‌ها و فرم‌های Mini App فعال کنید - آنها را به ابزارهای تکمیل سفارش متصل کنید."
       ],
       "setup": [
-        "Register an outgoing endpoint with a shared secret and event filter.",
-        "Verify signatures on the receiving side before trusting payloads.",
-        "For inbound, create a hook and POST JSON to its URL.",
-        "Use the delivery log tab to debug signatures; every payload is HMAC-signed."
+        "یک نقطه پایانی خروجی را با یک رمز مشترک و فیلتر رویداد ثبت کنید.",
+        "قبل از اعتماد به پیلودها، امضاها را در سمت گیرنده تأیید کنید.",
+        "برای ورودی، یک هوک ایجاد کنید و JSON را به URL آن ارسال کنید.",
+        "برای اشکال‌زدایی امضاها از برگه گزارش تحویل استفاده کنید؛ هر بار داده با امضای HMAC امضا شده است."
       ],
       "troubleshooting": [
-        "Empty event lists subscribe an endpoint to every event.",
-        "Failed deliveries are logged in the delivery log tab.",
-        "Inbound hooks bypass the JWT guard by design — keep hook ids unguessable."
+        "لیست‌های رویداد خالی، یک نقطه پایانی را برای هر رویداد مشترک می‌کنند.",
+        "تحویل‌های ناموفق در برگه گزارش تحویل ثبت می‌شوند.",
+        "قلاب‌های ورودی به طور طراحی‌شده‌ای از محافظ JWT عبور می‌کنند - شناسه‌های قلاب را غیرقابل حدس نگه دارید."
       ]
     }
   },
@@ -866,23 +866,23 @@
     "description": "ساخت، میزبانی و انتشار مینی‌اپ بدون میزبانی جداگانه.",
     "docs": {
       "overview": [
-        "Build and host Telegram Mini Apps directly from the studio on the unified /tma/* route.",
-        "Five enterprise templates: E-Commerce storefront, Loyalty hub, dynamic Forms, daily Spin wheel, and external Webview wrapper.",
-        "The embedded phone preview renders the live app; publishing wires the chat menu button in one click.",
-        "Orders and form submissions feed Webhooks events and the AI Assistant’s order-aware answers."
+        "ساخت و میزبانی مینی‌اپلیکیشن‌های تلگرام مستقیماً از استودیو روی پلتفرم یکپارچه /tma/* مسیر.",
+        "پنج قالب سازمانی: ویترین فروشگاه تجارت الکترونیک، مرکز وفاداری، فرم‌های پویا، چرخ چرخش روزانه و بسته‌بندی وب‌ویو خارجی.",
+        "پیش‌نمایش گوشی تعبیه‌شده، برنامه زنده را رندر می‌کند؛ انتشار، دکمه منوی چت را با یک کلیک فعال می‌کند.",
+        "سفارش‌ها و فرم‌های ارسالی، رویدادهای Webhooks و پاسخ‌های آگاه از سفارش دستیار هوش مصنوعی را تغذیه می‌کنند."
       ],
       "setup": [
-        "Create a BotFather bot and register it in the studio (the bot must be running).",
-        "Create a Mini App, pick a template, and adjust its JSON configuration.",
-        "Host HTTPS is required by Telegram: set the public base URL before publishing.",
-        "Publish to set the chat bottom-left menu button via setChatMenuButton.",
-        "Publishing requires a public HTTPS base URL and a running bot for setChatMenuButton."
+        "یک ربات BotFather ایجاد کنید و آن را در استودیو ثبت کنید (ربات باید در حال اجرا باشد).",
+        "یک مینی اپ ایجاد کنید، یک قالب انتخاب کنید و پیکربندی JSON آن را تنظیم کنید.",
+        "تلگرام به هاست HTTPS نیاز دارد: قبل از انتشار، آدرس پایه عمومی را تنظیم کنید.",
+        "برای تنظیم دکمه منوی پایین سمت چپ چت از طریق setChatMenuButton، آن را منتشر کنید.",
+        "انتشار به یک URL پایه HTTPS عمومی و یک ربات در حال اجرا برای setChatMenuButton نیاز دارد."
       ],
       "troubleshooting": [
-        "Telegram requires an HTTPS public URL for Mini Apps; localhost only works inside Telegram Desktop with flags.",
-        "Mini App API calls are validated with initData HMAC-SHA256 signatures tied to the owning bot token.",
-        "The Webview template cannot frame sites that send X-Frame-Options or CSP frame-ancestors restrictions.",
-        "Spin and loyalty data are per bot — cloning copies app shells, not player data."
+        "تلگرام برای برنامه‌های کوچک به یک URL عمومی HTTPS نیاز دارد؛ localhost فقط در داخل تلگرام دسکتاپ با پرچم‌ها کار می‌کند.",
+        "فراخوانی‌های Mini App API با امضاهای initData HMAC-SHA256 مرتبط با توکن ربات مالک، اعتبارسنجی می‌شوند.",
+        "قالب Webview نمی‌تواند سایت‌هایی را که محدودیت‌های X-Frame-Options یا CSP frame-ancestors ارسال می‌کنند، فریم‌بندی کند.",
+        "داده‌های چرخش و وفاداری به ازای هر ربات است - کپی‌برداری از پوسته‌های برنامه، نه داده‌های بازیکن."
       ]
     }
   },
@@ -891,47 +891,47 @@
     "description": "دستورهای مدیریتی مانند مسدودسازی، بی‌صداکردن، اخطار و پاک‌سازی.",
     "fields": {
       "warnLimit": {
-        "label": "Warning limit",
-        "help": "Warnings before the warn mode punishment fires (0 disables)"
+        "label": "حد هشدار",
+        "help": "هشدارها قبل از فعال شدن حالت هشدار (0 غیرفعال)"
       },
       "warnMode": {
-        "label": "Warning mode",
-        "help": "Punishment applied when the warn limit is reached"
+        "label": "حالت هشدار",
+        "help": "مجازات زمانی اعمال می‌شود که به حد هشدار رسیده باشد"
       },
       "warnTimeSeconds": {
-        "label": "Warn expiry (seconds, 0 = off)"
+        "label": "انقضای هشدار (ثانیه، ۰ = خاموش)"
       },
       "silentActions": {
-        "label": "Silent actions",
-        "help": "s-commands and punishments without confirmation messages"
+        "label": "اقدامات خاموش",
+        "help": "دستورات و تنبیهات s بدون پیام‌های تأیید"
       },
       "adminError": {
-        "label": "Reply to non-admins",
-        "help": "Show \"admin only\" errors to unauthorized users"
+        "label": "پاسخ به غیر مدیران",
+        "help": "نمایش خطاهای «فقط مدیر» به کاربران غیرمجاز"
       },
       "warnDurationSeconds": {
-        "label": "Warn mode duration (seconds)",
-        "help": "Duration for tban/tmute warn modes (0 = default)"
+        "label": "مدت زمان حالت هشدار (ثانیه)",
+        "help": "مدت زمان حالت‌های هشدار tban/tmute (0 = پیش‌فرض)"
       }
     },
     "docs": {
       "overview": [
-        "Full admin command set directly in the group chat.",
-        "ban/mute/kick families with timed (tban/tmute), delete (d*) and silent (s*) variants.",
-        "Persistent warnings with configurable limit, mode and expiry, plus purge commands.",
-        "Approvals make trusted members immune to automated moderation.",
-        "Warnings issued here share the ledger with the moderation module’s blocklist-warn mode; limits apply once across both."
+        "دستورات کامل مدیریتی مستقیماً در چت گروهی تنظیم می‌شوند.",
+        "خانواده‌های ban/mute/kick با انواع زمان‌بندی‌شده (tban/tmute)، delete (d*) و silent (s*).",
+        "هشدارهای مداوم با محدودیت، حالت و انقضای قابل تنظیم، به علاوه دستورات پاکسازی.",
+        "تأییدیه‌ها، اعضای مورد اعتماد را در برابر تعدیل خودکار مصون می‌کنند.",
+        "هشدارهای صادر شده در اینجا، دفتر کل را با حالت هشدار فهرست مسدودی ماژول مدیریت به اشتراک می‌گذارند؛ محدودیت‌ها یک بار در هر دو اعمال می‌شوند."
       ],
       "setup": [
-        "Enable the module, then use /ban, /mute, /warn, /purge and friends in the group.",
-        "The bot must be a group administrator with restrict and delete rights.",
-        "Tune defaults here; groups can override them with /setwarnlimit and /setwarnmode.",
-        "Every action is emitted to the Admin Log Channel module when it is enabled — run both for a full audit trail."
+        "ماژول را فعال کنید، سپس از آن استفاده کنید /ban, /mute, /warn, /purge و دوستان حاضر در گروه",
+        "ربات باید مدیر گروه با دسترسی‌های محدودکننده و حذف‌کننده باشد.",
+        "تنظیمات پیش‌فرض را اینجا تنظیم کنید؛ گروه‌ها می‌توانند با استفاده از /setwarnlimit و /setwarnmode.",
+        "هر عملی که فعال شود، به ماژول کانال گزارش مدیریت ارسال می‌شود - برای پیگیری کامل، هر دو را اجرا کنید."
       ],
       "troubleshooting": [
-        "Purges only reach messages younger than 48 hours (Telegram limitation).",
-        "Warnings persist in the database; /resetwarn clears a user entirely.",
-        "Commands respect Telegram admin rights, not studio roles: an admin without restrict rights cannot ban."
+        "پاکسازی‌ها فقط به پیام‌هایی که کمتر از ۴۸ ساعت از انتشارشان گذشته باشد، دسترسی پیدا می‌کنند (محدودیت تلگرام).",
+        "هشدارها در پایگاه داده باقی می‌مانند؛ /resetwarn یک کاربر را به طور کامل پاک می‌کند.",
+        "دستورات به حقوق ادمین تلگرام احترام می‌گذارند، نه به نقش‌های استودیو: ادمینی که حقوق محدودکننده ندارد نمی‌تواند مسدود کند."
       ]
     }
   },
@@ -940,34 +940,34 @@
     "description": "سنجاق‌کردن، گزارش کاربران، فهرست مدیران و فرمان‌های اطلاعاتی.",
     "fields": {
       "reportsEnabled": {
-        "label": "User reports enabled",
-        "help": "/report and @admin notify group admins"
+        "label": "گزارش‌های کاربری فعال شد",
+        "help": "/report و @admin به مدیران گروه اطلاع دهید"
       },
       "antichannelPins": {
-        "label": "Unpin linked channel posts"
+        "label": "پین کردن پست‌های کانال‌های لینک‌شده را بردارید"
       },
       "cleanLinked": {
-        "label": "Delete linked channel posts",
-        "help": "Removes forwarded channel messages from the discussion group"
+        "label": "پست‌های کانال لینک‌شده را حذف کنید",
+        "help": "پیام‌های کانال فوروارد شده را از گروه بحث حذف می‌کند"
       }
     },
     "docs": {
       "overview": [
-        "Pin family: /pin, /pin loud, /permapin, /unpin, /unpinall, plus linked-channel controls.",
-        "User reports: /report and @admin tag every admin invisibly.",
-        "Lookups (/id, /info), admin listing, promote/demote, and /echo.",
-        "Per-group command disabling with /disable and /enable.",
-        "Command disabling applies to this module’s user-facing commands (/adminlist, /id, /info, /report)."
+        "خانواده پین: /pin, /pin با صدای بلند، /permapin, /unpin, /unpinallبه علاوه کنترل‌های کانال‌های مرتبط.",
+        "گزارش‌های کاربران: /report و @admin هر مدیر را به صورت نامرئی تگ کنید.",
+        "جستجوها (/id, /info)، فهرست مدیریت، ارتقاء/تنزل رتبه، و /echo.",
+        "غیرفعال کردن دستورات به ازای هر گروه با /disable و /enable.",
+        "غیرفعال کردن فرمان برای فرمان‌های کاربرپسند این ماژول اعمال می‌شود (/adminlist, /id, /info, /report)."
       ],
       "setup": [
-        "Enable the module; every command checks native Telegram admin permissions.",
-        "Pin commands need the pin right; disabling commands needs change-info rights.",
-        "Reports skip admins and bot senders; only human members can trigger them."
+        "ماژول را فعال کنید؛ هر دستور، مجوزهای ادمین اصلی تلگرام را بررسی می‌کند.",
+        "دستورات پین کردن به پین ​​سمت راست نیاز دارند؛ غیرفعال کردن دستورات به حقوق تغییر اطلاعات نیاز دارد.",
+        "گزارش‌ها از دید مدیران و فرستندگان ربات پنهان می‌مانند؛ فقط اعضای انسانی می‌توانند آنها را فعال کنند."
       ],
       "troubleshooting": [
-        "Admins cannot be reported.",
-        "Anonymous admins are trusted with full non-owner rights.",
-        "/echo requires change-info rights because it posts as the bot."
+        "مدیران قابل گزارش نیستند.",
+        "مدیران ناشناس با حقوق کامل غیرمالکانه مورد اعتماد هستند.",
+        "/echo به دلیل اینکه به عنوان ربات پست می‌گذارد، به مجوز تغییر اطلاعات نیاز دارد."
       ]
     }
   },
@@ -976,38 +976,38 @@
     "description": "کنترل محتوای پیام، استیکر، گیف، نظرسنجی، پیوند و بازنشر.",
     "fields": {
       "lockedTypes": {
-        "label": "Locked types (one per line)",
-        "help": "Run /locktypes in the group for the full list"
+        "label": "انواع قفل‌شده (یکی در هر خط)",
+        "help": "اجرا کنید /locktypes برای مشاهده لیست کامل به گروه مراجعه کنید"
       },
       "lockWarns": {
-        "label": "Warn instead of just deleting"
+        "label": "به جای حذف کردن، هشدار دهید"
       },
       "allowlist": {
-        "label": "Allowlist entries (one per line)",
-        "help": "Domains, stickerpack:<name>, forward:<id>, command:/cmd"
+        "label": "ورودی‌های مجاز (هر ورودی در هر خط)",
+        "help": "دامنه‌ها، بسته استیکر:<name>، رو به جلو:<id>، دستور:/cmd"
       },
       "lockRules": {
-        "label": "Custom lock rules JSON",
-        "help": "{\"gif\": {\"reason\": \"No gifs\", \"action\": \"tmute\", \"durationSeconds\": 3600}}"
+        "label": "قوانین قفل سفارشی JSON",
+        "help": "{\"گیف\": {\"reason\": \"No gifs\", \"action\": \"tmute\", \"durationSeconds\": 3600}}"
       }
     },
     "docs": {
       "overview": [
-        "45+ lock types: media kinds, stickers, polls, forwards, links, buttons.",
-        "Script locks (rtl, cjk, cyrillic, zalgo) and anonymous-channel protection.",
-        "Allowlist entries exempt specific domains, packs, forwards and commands.",
-        "Custom punishments per lock via /lock <types> ### reason {action}.",
-        "Lock violations can write warnings that share the Group Moderation warn limit and mode."
+        "بیش از ۴۵ نوع قفل: انواع رسانه، استیکر، نظرسنجی، فوروارد، لینک، دکمه.",
+        "قفل‌های اسکریپت (rtl، cjk، سیریلیک، زالگو) و محافظت از کانال‌های ناشناس.",
+        "ورودی‌های لیست مجاز، دامنه‌ها، بسته‌ها، فورواردها و دستورات خاصی را معاف می‌کنند.",
+        "مجازات‌های سفارشی برای هر قفل از طریق /lock <types> ### دلیل {action}.",
+        "نقض قفل می‌تواند هشدارهایی بنویسد که محدودیت و حالت هشدار مدیریت گروهی را به اشتراک می‌گذارند."
       ],
       "setup": [
-        "Enable the module and lock content types with /lock gif poll url.",
-        "Admins and approved users are always exempt.",
-        "Lock evaluation runs before blocklists — enable Locks alongside Moderation for predictable stacking."
+        "ماژول را فعال کنید و انواع محتوا را با آن قفل کنید /lock آدرس نظرسنجی گیف.",
+        "مدیران و کاربران تأیید شده همیشه معاف هستند.",
+        "ارزیابی قفل قبل از لیست‌های مسدود شده اجرا می‌شود - برای انباشت قابل پیش‌بینی، قفل‌ها را در کنار مدیریت فعال کنید."
       ],
       "troubleshooting": [
-        "Locks run before blocklists.",
-        "Bot senders and service messages are never locked.",
-        "Grouped media counts per item; the album lock catches media groups even when single types pass."
+        "قفل‌ها قبل از لیست‌های مسدود شده اجرا می‌شوند.",
+        "فرستنده‌های ربات و پیام‌های سرویس هرگز قفل نمی‌شوند.",
+        "تعداد رسانه‌های گروه‌بندی‌شده برای هر مورد؛ قفل آلبوم، گروه‌های رسانه‌ای را حتی زمانی که انواع تکی عبور می‌کنند، شناسایی می‌کند."
       ]
     }
   },
@@ -1016,64 +1016,64 @@
     "description": "مسدودسازی موقت ورود اعضا هنگام هجوم، به‌صورت دستی یا خودکار.",
     "fields": {
       "raidTimeSeconds": {
-        "label": "Raid mode duration (seconds)"
+        "label": "مدت زمان حالت حمله (ثانیه)"
       },
       "raidActionTimeSeconds": {
-        "label": "Per-joiner ban (seconds)"
+        "label": "ممنوعیت هر عضو (ثانیه)"
       },
       "autoRaidJoinThreshold": {
-        "label": "Auto-enable after joins/minute (0 = off)"
+        "label": "فعال‌سازی خودکار پس از اتصال/دقیقه (۰ = خاموش)"
       }
     },
     "docs": {
       "overview": [
-        "Raid mode bans every new joiner for a short period so raids drain out.",
-        "Manual /antiraid on/off or a custom duration.",
-        "/autoantiraid N enables automatically when N users join within a minute.",
-        "Complements the Captcha module: AntiRaid drains join storms, the captcha then verifies the survivors."
+        "حالت حمله (Raid Mode) هر عضو جدید را برای مدت کوتاهی مسدود می‌کند، بنابراین حمله‌ها تمام می‌شوند.",
+        "دستی /antiraid روشن/خاموش یا مدت زمان دلخواه.",
+        "/autoantiraid وقتی N کاربر ظرف یک دقیقه به هم بپیوندند، N به‌طور خودکار فعال می‌شود.",
+        "ماژول کپچا را تکمیل می‌کند: زهکش‌های AntiRaid به طوفان‌ها می‌پیوندند، سپس کپچا بازماندگان را تأیید می‌کند."
       ],
       "setup": [
-        "Enable the module and arm raid mode with /antiraid on when under attack.",
-        "Tune durations so innocent late joiners are not banned for long.",
-        "State is in-memory by design — re-arm after restarts or set auto-antiraid for self-healing."
+        "ماژول و حالت حمله مسلح را با آن فعال کنید /antiraid روشن هنگام حمله.",
+        "مدت زمان‌ها را تنظیم کنید تا بازیکنان بی‌گناهی که دیر ملحق می‌شوند، برای مدت طولانی بن نشوند.",
+        "حالت (State) به صورت درون حافظه‌ای طراحی شده است - پس از راه‌اندازی مجدد، دوباره مسلح می‌شود یا برای خود-ترمیمی، آنتی‌هد خودکار تنظیم می‌شود."
       ],
       "troubleshooting": [
-        "Raid state lives in memory; a restart disarms active raid mode.",
-        "CAPTCHAs or join requests prevent spam-joining entirely.",
-        "Other bots joining the group are never banned by AntiRaid."
+        "حالت حمله (Raid) در حافظه ذخیره می‌شود؛ یک راه‌اندازی مجدد، حالت حمله فعال را غیرفعال می‌کند.",
+        "کپچاها یا درخواست‌های عضویت، به‌طور کامل از عضویت‌های اسپم جلوگیری می‌کنند.",
+        "ربات‌های دیگری که به گروه می‌پیوندند، هرگز توسط AntiRaid مسدود نمی‌شوند."
       ]
     }
   },
   "rules": {
     "name": "قوانین گروه",
-    "description": "قوانین اختصاصی گروه و نمایش با دستور /rules.",
+    "description": "قوانین ویژهٔ هر گروه با دستور /rules نمایش داده می‌شوند و می‌توان از دکمهٔ جای‌گذار {rules} نیز استفاده کرد.",
     "fields": {
       "rulesText": {
-        "label": "Rules text"
+        "label": "متن قوانین"
       },
       "privateRules": {
-        "label": "Deliver rules via PM button"
+        "label": "ارسال قوانین از طریق دکمه پیام خصوصی"
       },
       "rulesButton": {
-        "label": "Button label"
+        "label": "برچسب دکمه"
       }
     },
     "docs": {
       "overview": [
-        "/rules shows the group rules in chat or via a PM deep-link button.",
-        "The {rules} placeholder embeds the same link into welcome messages.",
-        "Manage with /setrules, /resetrules, /privaterules and /setrulesbutton.",
-        "The {rules} placeholder works in welcome texts, notes and any templated module message."
+        "/rules قوانین گروه را در چت یا از طریق دکمه‌ی لینک عمیق پیام خصوصی نشان می‌دهد.",
+        "این {rules} placeholder همان لینک را در پیام‌های خوشامدگویی جاسازی می‌کند.",
+        "مدیریت با /setrules, /resetrules, /privaterules و /setrulesbutton.",
+        "این {rules} جای‌نگهدار در متون خوش‌آمدگویی، یادداشت‌ها و هر پیام ماژول قالب‌بندی‌شده‌ای کار می‌کند."
       ],
       "setup": [
-        "Enable the module and set the rules text (or use /setrules in the group).",
-        "Users must start the bot in PM for private rule delivery.",
-        "Private delivery needs users to have started the bot; otherwise the button opens an empty chat."
+        "ماژول را فعال کنید و متن قوانین را تنظیم کنید (یا از /setrules در گروه).",
+        "کاربران برای اعمال قوانین خصوصی باید ربات را در پیام خصوصی (PM) اجرا کنند.",
+        "ارسال خصوصی مستلزم آن است که کاربران ربات را شروع کرده باشند؛ در غیر این صورت، دکمه یک چت خالی باز می‌کند."
       ],
       "troubleshooting": [
-        "Empty rules text makes /rules reply \"no rules set\".",
-        "The deep link only works with a public bot username.",
-        "Rules text supports the same HTML subset as every messaging module."
+        "متن قوانین خالی باعث می‌شود /rules پاسخ دهید «هیچ قانونی وضع نشده است».",
+        "لینک عمیق فقط با نام کاربری عمومی ربات کار می‌کند.",
+        "متن قوانین از همان زیرمجموعه HTML پشتیبانی می‌کند که هر ماژول پیام‌رسانی از آن پشتیبانی می‌کند."
       ]
     }
   },
@@ -1082,30 +1082,30 @@
     "description": "ارسال عملیات مدیران و مجازات‌های خودکار به کانال گزارش.",
     "fields": {
       "logChatId": {
-        "label": "Log channel",
-        "help": "Channel the bot posts logs to; manage the list in Chat Connections"
+        "label": "کانال ورود به سیستم",
+        "help": "گزارش‌های ارسالی ربات را به کانال مربوطه هدایت کنید؛ لیست را در Chat Connections مدیریت کنید"
       },
       "categories": {
-        "label": "Categories (one per line)",
-        "help": "settings, admin, user, automated, reports, other"
+        "label": "دسته‌ها (هر دسته در یک خط)",
+        "help": "تنظیمات، مدیر، کاربر، خودکار، گزارش‌ها، سایر"
       }
     },
     "docs": {
       "overview": [
-        "Persistent log of bans, mutes, warns, settings changes and reports.",
-        "Category filters: settings, admin, user, automated, reports, other.",
-        "Link with /setlog <channelId> (group owner) or from the dashboard.",
-        "Consumes events from Group Moderation, Locks, Moderation automation, Group Tools reports and settings changes."
+        "گزارش مداوم از ممنوعیت‌ها، بی‌صدا کردن‌ها، هشدارها، تغییرات تنظیمات و گزارش‌ها.",
+        "فیلترهای دسته‌بندی: تنظیمات، مدیر، کاربر، خودکار، گزارش‌ها، سایر.",
+        "پیوند با /setlog <channelId> (مالک گروه) یا از داشبورد.",
+        "رویدادهای مربوط به مدیریت گروه، قفل‌ها، اتوماسیون مدیریت، گزارش‌های ابزارهای گروه و تغییرات تنظیمات را مصرف می‌کند."
       ],
       "setup": [
-        "Create a channel, add the bot as administrator, and set its id here.",
-        "Run /setlog <channelId> in the group to bind logging.",
-        "One channel can receive logs from several groups; category filters are per group."
+        "یک کانال ایجاد کنید، ربات را به عنوان مدیر اضافه کنید و شناسه آن را اینجا تنظیم کنید.",
+        "اجرا کنید /setlog <channelId> در گروه برای اتصال ثبت وقایع.",
+        "یک کانال می‌تواند گزارش‌ها را از چندین گروه دریافت کند؛ فیلترهای دسته‌بندی برای هر گروه اعمال می‌شوند."
       ],
       "troubleshooting": [
-        "Log channels must be channels; groups cannot receive logs.",
-        "Removing the bot from the channel silently stops logging.",
-        "Log messages respect Telegram rate limits; bursts are retried by the auto-retry layer."
+        "کانال‌های گزارش باید کانال باشند؛ گروه‌ها نمی‌توانند گزارش‌ها را دریافت کنند.",
+        "حذف ربات از کانال، ثبت وقایع را بی‌سروصدا متوقف می‌کند.",
+        "پیام‌های لاگ محدودیت‌های نرخ تلگرام را رعایت می‌کنند؛ پیام‌های پشت سر هم توسط لایه‌ی خودکارِ تلاش مجدد، دوباره امتحان می‌شوند."
       ]
     }
   },
@@ -1114,32 +1114,32 @@
     "description": "حذف خودکار فرمان‌های استفاده‌شده و پیام‌های سیستمی.",
     "fields": {
       "cleanCommand": {
-        "label": "Clean used commands"
+        "label": "دستورات استفاده شده را تمیز کنید"
       },
       "cleanServiceTypes": {
-        "label": "Service types (one per line)",
-        "help": "join, leave, pin, title, photo, videochat, other"
+        "label": "انواع خدمات (یکی در هر خط)",
+        "help": "پیوستن، ترک کردن، پین کردن، عنوان، عکس، چت ویدیویی، موارد دیگر"
       },
       "cleanBotMessages": {
-        "label": "Delete bot messages after 5 minutes"
+        "label": "پیام‌های ربات را بعد از ۵ دقیقه حذف کنید"
       }
     },
     "docs": {
       "overview": [
-        "Used commands disappear after execution (by class: admin/user/other).",
-        "Service messages (joins, pins, title and photo changes) auto-delete per type.",
-        "The bot's own group messages can self-destruct after five minutes.",
-        "Removes command texts after execution without touching module replies or announcements."
+        "دستورات استفاده شده پس از اجرا ناپدید می‌شوند (بر اساس کلاس: admin/user/other).",
+        "پیام‌های سرویس (پیوستن، پین کردن، تغییر عنوان و عکس) به صورت خودکار و بر اساس نوع حذف می‌شوند.",
+        "پیام‌های گروهی خود ربات می‌توانند پس از پنج دقیقه خودبه‌خود از بین بروند.",
+        "متن‌های فرمان را پس از اجرا بدون تغییر در پاسخ‌ها یا اعلان‌های ماژول حذف می‌کند."
       ],
       "setup": [
-        "Enable the module and pick which command classes to clean.",
-        "Add service types like join and leave to keep the chat tidy.",
-        "Safe with every module: cleaning never deletes user content, only command and service messages."
+        "ماژول را فعال کنید و انتخاب کنید که کدام کلاس‌های فرمان را می‌خواهید پاک کنید.",
+        "برای مرتب نگه داشتن چت، انواع سرویس مانند پیوستن و ترک کردن را اضافه کنید.",
+        "ایمن با هر ماژول: تمیز کردن هرگز محتوای کاربر را حذف نمی‌کند، فقط پیام‌های دستور و سرویس را حذف می‌کند."
       ],
       "troubleshooting": [
-        "Commands are removed with a short delay so they still execute.",
-        "Bot-message cleanup needs no extra rights beyond sending.",
-        "cleanCommand only matches this bot’s known command classes, not other bots’ commands."
+        "دستورات با تأخیر کوتاهی حذف می‌شوند تا همچنان اجرا شوند.",
+        "پاکسازی پیام‌های ربات به هیچ دسترسی اضافی فراتر از ارسال نیاز ندارد.",
+        "cleanCommand فقط با کلاس‌های دستور شناخته‌شده‌ی این ربات مطابقت دارد، نه با دستورات ربات‌های دیگر."
       ]
     }
   },
@@ -1148,26 +1148,26 @@
     "description": "ایجاد، تغییر نام، بستن و حذف موضوعات انجمن.",
     "fields": {
       "actionTopicId": {
-        "label": "Action topic id (0 = general)",
-        "help": "Bot messages route to this forum topic"
+        "label": "شناسه موضوع اقدام (0 = عمومی)",
+        "help": "پیام‌های ربات به این موضوع انجمن هدایت می‌شوند"
       }
     },
     "docs": {
       "overview": [
-        "Forum topic commands: /newtopic, /renametopic, /closetopic, /reopentopic, /deletetopic.",
-        "/setactiontopic routes bot output to one topic.",
-        "Every command runs inside the topic it affects.",
-        "Independent of the Support Desk (which creates one topic per user); this module manages forum structure commands."
+        "دستورات موضوع انجمن: /newtopic, /renametopic, /closetopic, /reopentopic, /deletetopic.",
+        "/setactiontopic خروجی ربات را به یک موضوع هدایت می‌کند.",
+        "هر دستوری درون تاپیکی که روی آن تأثیر می‌گذارد اجرا می‌شود.",
+        "مستقل از میز پشتیبانی (که برای هر کاربر یک موضوع ایجاد می‌کند)؛ این ماژول دستورات ساختار انجمن را مدیریت می‌کند."
       ],
       "setup": [
-        "Enable the module in a forum-enabled supergroup.",
-        "Grant the bot the manage-topics administrator right.",
-        "Only forum-enabled supergroups accept these commands."
+        "ماژول را در یک سوپرگروه فعال در انجمن فعال کنید.",
+        "به ربات حق مدیریت موضوعات مدیریت (manage-topics) را بدهید.",
+        "فقط سوپرگروه‌های فعال در انجمن این دستورات را می‌پذیرند."
       ],
       "troubleshooting": [
-        "These commands only work in forum topics.",
-        "Deleting a topic removes its messages permanently.",
-        "Topic management checks the manage-topics right, the same right the Support Desk needs to create topics."
+        "این دستورات فقط در تاپیک‌های انجمن کار می‌کنند.",
+        "حذف یک تاپیک، پیام‌های آن را برای همیشه حذف می‌کند.",
+        "مدیریت موضوعات، مدیریت موضوعات را درست بررسی می‌کند، همان حقی که میز پشتیبانی برای ایجاد موضوعات به آن نیاز دارد."
       ]
     }
   },
@@ -1176,32 +1176,32 @@
     "description": "اعمال فهرست مشترک کاربران مسدودشده در گفتگوهای متصل.",
     "fields": {
       "quietFed": {
-        "label": "Suppress fed-ban announcements"
+        "label": "جلوگیری از اعلان‌های ممنوعیت فدرال رزرو"
       },
       "fedNotif": {
-        "label": "Notify the fed owner on actions"
+        "label": "مالک فِد شده را از اقدامات مطلع کنید"
       },
       "fedReasonRequired": {
-        "label": "Require a reason on /fban"
+        "label": "نیاز به دلیل دارد /fban"
       }
     },
     "docs": {
       "overview": [
-        "One ban list, every group: /fban removes users from all chats in the federation.",
-        "Works across every bot in the studio, not just one.",
-        "Fed admins, subscriptions (max 5), logs, and CSV/JSON imports.",
-        "Federated bans apply before locks and blocklists — a fed-banned user is removed on first sight of any joined chat."
+        "یک لیست ممنوعیت، برای هر گروه: /fban کاربران را از تمام چت‌های فدراسیون حذف می‌کند.",
+        "روی همه ربات‌های استودیو کار می‌کند، نه فقط روی یکی.",
+        "مدیران فدرال، اشتراک‌ها (حداکثر ۵)، گزارش‌ها و واردات CSV/JSON.",
+        "ممنوعیت‌های فدرال قبل از قفل‌ها و لیست‌های مسدودیت اعمال می‌شوند - یک کاربر فدرال ممنوع‌شده با اولین مشاهده هر چت ملحق‌شده‌ای حذف می‌شود."
       ],
       "setup": [
-        "Create a federation with /newfed <name> in the bot's PM.",
-        "Join groups with /joinfed <fedId> (group owner runs it).",
-        "Manage bans and imports from the manager below.",
-        "Federations work across every bot in the studio: join two bots’ groups to the same fed for one shared ban list."
+        "ایجاد فدراسیون با /newfed <name> در پیام خصوصی ربات.",
+        "به گروه‌ها بپیوندید با /joinfed <fedId> (مالک گروه آن را اداره می‌کند).",
+        "مدیریت ممنوعیت‌ها و واردات از مدیر زیر.",
+        "فدراسیون‌ها در تمام ربات‌های استودیو کار می‌کنند: دو گروه ربات را به یک گروه مشترک برای یک لیست ممنوعیت مشترک متصل کنید."
       ],
       "troubleshooting": [
-        "Passive enforcement needs the chat_member update (already enabled).",
-        "/leavefed keeps past bans in place until unbanned.",
-        "Cross-bot enforcement needs each bot online; offline bots apply bans lazily when they next see the user."
+        "اجرای غیرفعال نیاز به به‌روزرسانی chat_member دارد (که از قبل فعال شده است).",
+        "/leavefed ممنوعیت‌های گذشته را تا زمان رفع ممنوعیت، پابرجا نگه می‌دارد.",
+        "اجرای قوانین بین رباتی مستلزم آنلاین بودن هر ربات است؛ ربات‌های آفلاین دفعه‌ی بعد که کاربر را می‌بینند، با تنبلی او را مسدود می‌کنند."
       ]
     }
   },
@@ -1210,25 +1210,25 @@
     "description": "تعیین زبان پیام‌های مدیریتی و سیستمی ربات برای هر گروه.",
     "fields": {
       "language": {
-        "label": "Default language"
+        "label": "زبان پیش‌فرض"
       }
     },
     "docs": {
       "overview": [
-        "/setlang switches every bot reply between supported languages.",
-        "All moderation, captcha, federation and tool messages localize.",
-        "User-configured templates (welcome text, notes) stay as written.",
-        "Affects every group module’s fixed messages; user-authored templates stay exactly as written."
+        "/setlang هر پاسخ ربات را بین زبان‌های پشتیبانی‌شده تغییر می‌دهد.",
+        "تمام پیام‌های مربوط به مدیریت، کپچا، فدراسیون و ابزار، بومی‌سازی می‌شوند.",
+        "قالب‌های پیکربندی‌شده توسط کاربر (متن خوش‌آمدگویی، یادداشت‌ها) به همان شکل نوشته‌شده باقی می‌مانند.",
+        "روی پیام‌های ثابت هر ماژول گروهی تأثیر می‌گذارد؛ قالب‌های نوشته‌شده توسط کاربر دقیقاً به همان شکل نوشته‌شده باقی می‌مانند."
       ],
       "setup": [
-        "Enable the module and pick a default.",
-        "Groups change it any time with /setlang.",
-        "Group overrides beat the dashboard default; private chats always answer in English."
+        "ماژول را فعال کنید و یک پیش‌فرض انتخاب کنید.",
+        "گروه‌ها هر زمان آن را تغییر می‌دهند /setlang.",
+        "لغو عضویت در گروه‌ها، از پیش‌فرض داشبورد پیشی می‌گیرد؛ چت‌های خصوصی همیشه به زبان انگلیسی پاسخ می‌دهند."
       ],
       "troubleshooting": [
-        "Supported languages: English, Turkish, German, Russian, Spanish, Azerbaijani, Arabic, French, Italian, Portuguese, Ukrainian, Persian, Indonesian, Uzbek.",
-        "Private chats default to English.",
-        "A language change takes effect on the next message (short cache window)."
+        "زبان‌های پشتیبانی‌شده: انگلیسی، ترکی، آلمانی، روسی، اسپانیایی، آذربایجانی، عربی، فرانسوی، ایتالیایی، پرتغالی، اوکراینی، فارسی، اندونزیایی، ازبکی.",
+        "چت‌های خصوصی به صورت پیش‌فرض به زبان انگلیسی هستند.",
+        "تغییر زبان در پیام بعدی (پنجره کوتاه کش) اعمال می‌شود."
       ]
     }
   },
@@ -1237,30 +1237,30 @@
     "description": "اجازه به ربات‌های دیگر برای فرمان‌های گروه پس از تأیید مدیر.",
     "fields": {
       "mode": {
-        "label": "Mode",
-        "help": "off ignores bots, admin trusts admin-bots only, all allows every bot"
+        "label": "حالت",
+        "help": "خاموش ربات‌ها را نادیده می‌گیرد، مدیر فقط به ربات‌های مدیر اعتماد دارد، همه به همه ربات‌ها اجازه می‌دهد"
       },
       "skipReview": {
-        "label": "Skip the review queue",
-        "help": "Trusted bots act immediately without Approve/Deny buttons"
+        "label": "از صف بررسی عبور کنید",
+        "help": "ربات‌های مورد اعتماد بلافاصله و بدون دکمه‌های تأیید/رد عمل می‌کنند"
       }
     },
     "docs": {
       "overview": [
-        "Automation and AI bots can drive moderation commands.",
-        "Bot-issued admin actions queue behind inline Approve/Deny buttons.",
-        "Skip reviews for trusted bots while keeping their real permissions.",
-        "Gates the group command modules (Group Moderation, Group Tools); private-chat modules ignore bot senders regardless."
+        "ربات‌های اتوماسیون و هوش مصنوعی می‌توانند دستورات تعدیل را اجرا کنند.",
+        "اقدامات مدیریتی صادر شده توسط ربات، پشت دکمه‌های تأیید/رد درون‌خطی صف می‌شوند.",
+        "از بررسی ربات‌های مورد اعتماد صرف نظر کنید و در عین حال مجوزهای واقعی آنها را حفظ کنید.",
+        "ماژول‌های فرمان گروه (مدیریت گروه، ابزارهای گروه) را گیت می‌کند؛ ماژول‌های چت خصوصی، ارسال‌کنندگان ربات را در هر صورت نادیده می‌گیرند."
       ],
       "setup": [
-        "Enable the module and choose a mode (off by default).",
-        "Have the other bot send commands like /ban as a normal admin would.",
-        "Start with mode admin and skipReview off; move to all only for trusted automation fleets."
+        "ماژول را فعال کنید و یک حالت را انتخاب کنید (به طور پیش‌فرض خاموش است).",
+        "از ربات دیگر بخواهید دستوراتی مانند این ارسال کند /ban همانطور که یک مدیر معمولی انجام می‌دهد.",
+        "با حالت مدیر شروع کنید و skipReview را خاموش کنید؛ فقط برای ناوگان اتوماسیون مورد اعتماد به همه بروید."
       ],
       "troubleshooting": [
-        "The acting bot still needs its own Telegram admin rights.",
-        "Reviews live in memory and are dropped on restart.",
-        "Bot senders still need their own Telegram admin rights for restrict-capable commands."
+        "ربات فعال هنوز به دسترسی‌های ادمین تلگرام مخصوص به خود نیاز دارد.",
+        "نقدها در حافظه ذخیره می‌شوند و با راه‌اندازی مجدد، حذف می‌شوند.",
+        "فرستندگان ربات هنوز برای دستورات محدودکننده به حقوق ادمین تلگرام خود نیاز دارند."
       ]
     }
   },
@@ -1269,19 +1269,19 @@
     "description": "استفادهٔ دوباره از فایل‌های تلگرام و پیوندهای رسانه.",
     "docs": {
       "overview": [
-        "Save reusable media once (URL or Telegram file_id) and pick it from a library everywhere.",
-        "The picker is wired into broadcast, welcome, drip, flow, and autoresponder composers.",
-        "Assets are per bot; tags keep growing libraries searchable."
+        "یک بار رسانه‌های قابل استفاده مجدد (URL یا شناسه فایل تلگرام) را ذخیره کنید و آن را از کتابخانه‌ای که در همه جا وجود دارد، انتخاب کنید.",
+        "انتخابگر به آهنگسازهای broadcast، welcome، drip، flow و autoresponder متصل است.",
+        "دارایی‌ها به ازای هر ربات هستند؛ برچسب‌ها، کتابخانه‌های رو به رشد را قابل جستجو نگه می‌دارند."
       ],
       "setup": [
-        "Enable the module, then open Shared Media Library from the sidebar.",
-        "Add an asset: name it, choose URL or file_id, set the media kind.",
-        "Press \"Library\" next to any media field in the studio to pick it."
+        "ماژول را فعال کنید، سپس از نوار کناری، کتابخانه رسانه اشتراکی را باز کنید.",
+        "یک فایل اضافه کنید: نامی برایش انتخاب کنید، URL یا file_id را انتخاب کنید، نوع رسانه را تنظیم کنید.",
+        "برای انتخاب هر فیلد رسانه‌ای در استودیو، روی «کتابخانه» در کنار آن کلیک کنید."
       ],
       "troubleshooting": [
-        "Telegram file_id values are only valid for the bot that sent/received the file.",
-        "URL assets must be reachable by Telegram servers (public https).",
-        "Expired file_ids fail silently — re-add the asset with a fresh id."
+        "مقادیر file_id تلگرام فقط برای رباتی که فایل را ارسال/دریافت کرده است، معتبر هستند.",
+        "آدرس‌های اینترنتی (URL) باید توسط سرورهای تلگرام (https عمومی) قابل دسترسی باشند.",
+        "شناسه‌های فایل منقضی‌شده بی‌سروصدا از کار می‌افتند — دارایی را با یک شناسه جدید دوباره اضافه کنید."
       ]
     }
   },
@@ -1290,67 +1290,67 @@
     "description": "نمایه‌سازی فایل‌های گروه و پاسخ خودکار با پیوند تلگرام.",
     "fields": {
       "builtInTriggers": {
-        "label": "Built-in question triggers",
-        "help": "Detect Turkish/English question phrases like “var mı” or “does anyone have”."
+        "label": "محرک‌های پرسش داخلی",
+        "help": "عبارات سوالی ترکی/انگلیسی مانند «var mı» یا «dos any someone have» را تشخیص دهید."
       },
       "extraTriggerPatterns": {
-        "label": "Extra trigger patterns (regex)",
-        "help": "Case-insensitive regexes; a match marks the message as a search question."
+        "label": "الگوهای محرک اضافی (regex)",
+        "help": "عبارات منظم غیر حساس به حروف بزرگ و کوچک؛ تطابق، پیام را به عنوان یک سوال جستجو علامت‌گذاری می‌کند."
       },
       "matchMode": {
-        "label": "Match mode",
-        "help": "all: every term must hit; any: at least one term."
+        "label": "حالت تطبیق",
+        "help": "همه: هر اصطلاح باید مورد اصابت قرار گیرد؛ هر: حداقل یک اصطلاح."
       },
       "includeCaptions": {
-        "label": "Index media captions",
-        "help": "Captions of photos/videos join the searchable text."
+        "label": "زیرنویس‌های رسانه‌ای فهرست‌شده",
+        "help": "زیرنویس عکس‌ها/ویدیوها به متن قابل جستجو می‌پیوندد."
       },
       "minQueryLength": {
-        "label": "Minimum query length",
-        "help": "Shorter questions are ignored."
+        "label": "حداقل طول پرس و جو",
+        "help": "سوالات کوتاه‌تر نادیده گرفته می‌شوند."
       },
       "maxResults": {
-        "label": "Max results per answer",
-        "help": "How many files one answer lists at most."
+        "label": "حداکثر نتایج در هر پاسخ",
+        "help": "یک پاسخ حداکثر چند فایل را فهرست می‌کند."
       },
       "userCooldownSeconds": {
-        "label": "Per-user cooldown (s)",
-        "help": "Minimum seconds between auto-answers for the same user."
+        "label": "زمان استراحت به ازای هر کاربر",
+        "help": "حداقل ثانیه بین پاسخ‌های خودکار برای یک کاربر."
       },
       "chatCooldownSeconds": {
-        "label": "Per-chat cooldown (s)",
-        "help": "Minimum seconds between answers in the same chat."
+        "label": "زمان استراحت به ازای هر چت",
+        "help": "حداقل فاصله زمانی بین پاسخ‌ها در یک چت."
       },
       "noResultReply": {
-        "label": "Reply when nothing found",
-        "help": "Off: stay silent. On: tell the asker nothing matched."
+        "label": "وقتی چیزی پیدا نشد، پاسخ دهید",
+        "help": "خاموش: ساکت بمانید. روشن: به سوال کننده بگویید که هیچ چیز مطابقت ندارد."
       },
       "fallbackCopy": {
-        "label": "Re-share files in basic groups",
-        "help": "Basic groups have no message links; copy the file as the answer."
+        "label": "اشتراک‌گذاری مجدد فایل‌ها در گروه‌های پایه",
+        "help": "گروه‌های پایه لینک پیام ندارند؛ فایل را به عنوان پاسخ کپی کنید."
       }
     },
     "docs": {
       "overview": [
-        "Every file shared in a targeted group (documents, videos, audio, photos with captions) is indexed with its filename and caption.",
-        "When someone asks “X var mı?” / “does anyone have X?”, the bot replies with a mention and t.me links to the matching files.",
-        "/ara and /find search the index on demand without needing a question phrase.",
-        "Turkish characters fold automatically: typing “basvuru” finds “Başvuru Formu.pdf”.",
-        "Need older files too? Connect a scan account (Connections → Scan Accounts) and run a history backfill from this page."
+        "هر فایلی که در گروه هدف به اشتراک گذاشته شود (سند، ویدئو، صوت یا عکس دارای توضیح)، همراه با نام فایل و متن توضیح آن نمایه‌سازی می‌شود.",
+        "وقتی کسی می‌پرسد «X var mı?» / «کسی X دارد؟»، ربات با اشاره به آن و لینک‌های t.me به فایل‌های منطبق پاسخ می‌دهد.",
+        "/ara و /find بدون نیاز به عبارت سوالی، فهرست را بر اساس تقاضا جستجو کنید.",
+        "حروف ترکی به طور خودکار تا می‌شوند: با تایپ کردن «basvuru»، فایل «Başvuru Formu.pdf» نمایش داده می‌شود.",
+        "به فایل‌های قدیمی‌تر هم نیاز دارید؟ یک حساب اسکن (اتصالات → حساب‌های اسکن) ایجاد کنید و از این صفحه، تاریخچه را دوباره پر کنید."
       ],
       "setup": [
-        "The bot must see member messages: make it a group admin or disable privacy mode via @BotFather (/setprivacy).",
-        "Enable the module, then open its per-chat configuration and add the target groups from Chat Connections.",
-        "Files shared from that moment on are indexed — the Bot API cannot read message history, so the index builds going forward.",
-        "Optionally add extra trigger regexes for other languages.",
-        "Optional: connect a scan account and run the backfill to index files shared before the module was enabled."
+        "ربات باید به پیام‌های اعضا دسترسی داشته باشد: یا آن را مدیر گروه کنید، یا حالت حریم خصوصی را در @BotFather با دستور /setprivacy غیرفعال کنید.",
+        "ماژول را فعال کنید، سپس پیکربندی هر چت آن را باز کنید و گروه‌های هدف را از Chat Connections اضافه کنید.",
+        "فایل‌هایی که از آن لحظه به بعد به اشتراک گذاشته می‌شوند، ایندکس می‌شوند - رابط برنامه‌نویسی کاربردی ربات نمی‌تواند تاریخچه پیام‌ها را بخواند، بنابراین ایندکس از آن لحظه به بعد ساخته می‌شود.",
+        "به صورت اختیاری، regexe های trigger اضافی برای زبان های دیگر اضافه کنید.",
+        "اختیاری: یک حساب اسکن متصل کنید و backfill را برای فهرست‌بندی فایل‌هایی که قبل از فعال شدن ماژول به اشتراک گذاشته شده‌اند، اجرا کنید."
       ],
       "troubleshooting": [
-        "Bot answers nothing: check privacy mode / admin rights and that the chat is targeted in the per-chat editor.",
-        "Old files cannot be searched: the index only contains files shared after enabling.",
-        "In basic (non-supergroup) groups message links do not exist; the bot re-sends the file itself when fallbackCopy is on.",
-        "Too chatty? Raise the cooldowns or turn off the built-in triggers and keep only /ara.",
-        "Backfill says the account is not a member: the chosen scan account must be a member of that group."
+        "ربات به هیچ چیزی پاسخ نمی‌دهد: حالت حریم خصوصی / حقوق مدیر را بررسی کنید و اینکه چت در ویرایشگر هر چت هدفمند است.",
+        "فایل‌های قدیمی قابل جستجو نیستند: ایندکس فقط شامل فایل‌هایی است که پس از فعال‌سازی به اشتراک گذاشته شده‌اند.",
+        "در گروه‌های پایه (غیر سوپرگروه) لینک پیام وجود ندارد؛ ربات وقتی fallbackCopy فعال باشد، خود فایل را دوباره ارسال می‌کند.",
+        "خیلی پرحرف هستید؟ زمان‌های استراحت (cooldown) را افزایش دهید یا تریگرهای داخلی را خاموش کنید و فقط ... را نگه دارید. /ara.",
+        "Backfill می‌گوید که حساب کاربری عضو نیست: حساب اسکن انتخاب شده باید عضو آن گروه باشد."
       ]
     }
   },
@@ -1359,19 +1359,19 @@
     "description": "پاسخ به جست‌وجوی @bot با پاسخ آماده یا هوش مصنوعی.",
     "docs": {
       "overview": [
-        "Type @yourbot <query> in any chat to search your saved quick answers.",
-        "The picked answer is injected into the chat as a message on behalf of the bot.",
-        "Optionally route non-trivial queries through the AI assistant (uses its provider config)."
+        "نوع @yourbot <query> در هر گفتگویی برای جستجوی پاسخ‌های سریع ذخیره‌شده‌تان.",
+        "پاسخ انتخاب شده به عنوان یک پیام از طرف ربات به چت تزریق می‌شود.",
+        "به صورت اختیاری، کوئری‌های غیر بدیهی را از طریق دستیار هوش مصنوعی مسیریابی کنید (از پیکربندی ارائه‌دهنده آن استفاده می‌کند)."
       ],
       "setup": [
-        "Enable inline mode for the bot in @BotFather first: /setinline.",
-        "Enable the module and add quick answers (title + message content).",
-        "Optional: turn on AI answers after configuring the AI assistant module."
+        "ابتدا در @BotFather با دستور /setinline حالت درون‌خطی ربات را فعال کنید.",
+        "ماژول را فعال کنید و پاسخ‌های سریع (عنوان + محتوای پیام) را اضافه کنید.",
+        "اختیاری: پس از پیکربندی ماژول دستیار هوش مصنوعی، پاسخ‌های هوش مصنوعی را فعال کنید."
       ],
       "troubleshooting": [
-        "\"Unexpected thing happened\" means inline mode is not enabled via @BotFather.",
-        "AI answers need the ai-assistant module enabled with a working API key.",
-        "Inline results are cached per user — lower cache seconds while tuning."
+        "پیغام «Unexpected thing happened» معمولاً یعنی حالت درون‌خطی هنوز از طریق @BotFather فعال نشده است.",
+        "پاسخ‌های هوش مصنوعی نیاز به فعال بودن ماژول دستیار هوش مصنوعی با یک کلید API فعال دارند.",
+        "نتایج درون‌خطی برای هر کاربر ذخیره می‌شوند — در هنگام تنظیم، ثانیه‌های ذخیره کمتری ذخیره می‌شوند."
       ]
     }
   },
@@ -1380,21 +1380,21 @@
     "description": "ساخت گفتگوهای چندمرحله‌ای با پیام، ورودی، شرط، تأخیر و برچسب.",
     "docs": {
       "overview": [
-        "Design guided conversations: trigger → message → input → branching → follow-up.",
-        "Nodes: message (media + buttons), input (capture variables), condition (branch), delay (schedule), tag (segment).",
-        "Sessions are per user and persistent — users resume where they left off, even after restarts.",
-        "Test any flow instantly in the sandbox simulator from the flow list."
+        "طراحی مکالمات هدایت‌شده: محرک → پیام → ورودی → شاخه‌بندی → پیگیری.",
+        "گره‌ها: پیام (رسانه + دکمه‌ها)، ورودی (متغیرهای ضبط)، شرط (شاخه)، تأخیر (زمان‌بندی)، برچسب (بخش).",
+        "جلسات به ازای هر کاربر و دائمی هستند - کاربران حتی پس از راه‌اندازی مجدد، از همان جایی که متوقف شده بودند، از سر می‌گیرند.",
+        "هر جریانی را فوراً در شبیه‌ساز جعبه شنی از لیست جریان‌ها آزمایش کنید."
       ],
       "setup": [
-        "Enable the module and create a flow with a /command, keyword, or /start trigger.",
-        "Wire nodes with the Next selectors; add buttons that jump to other nodes.",
-        "Press the play icon to run the trigger in the sandbox before going live."
+        "ماژول را فعال کنید و یک جریان بسازید که با یک دستور مانند /command، یک کلیدواژه یا دستور /start آغاز شود.",
+        "گره‌ها را با انتخابگرهای Next سیم‌کشی کنید؛ دکمه‌هایی اضافه کنید که به گره‌های دیگر پرش کنند.",
+        "قبل از پخش زنده، روی آیکون پخش کلیک کنید تا تریگر در محیط سندباکس اجرا شود."
       ],
       "troubleshooting": [
-        "Buttons without a URL jump to the wired node; buttons with a URL are plain links.",
-        "Flow triggers only start in private chats.",
-        "Editing a flow resets active sessions so users restart on the new graph.",
-        "Delay nodes resume within ~30 seconds of the scheduled time."
+        "دکمه‌های بدون URL به گره سیمی پرش می‌کنند؛ دکمه‌های دارای URL پیوندهای ساده هستند.",
+        "محرک‌های جریان فقط در چت‌های خصوصی شروع می‌شوند.",
+        "ویرایش یک جریان، جلسات فعال را بازنشانی می‌کند تا کاربران در نمودار جدید مجدداً شروع به کار کنند.",
+        "گره‌های تأخیری ظرف حدود ۳۰ ثانیه از زمان برنامه‌ریزی‌شده، فعالیت خود را از سر می‌گیرند."
       ]
     }
   }
