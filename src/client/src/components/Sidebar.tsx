@@ -737,8 +737,8 @@ export default function Sidebar({
                   })}
                 >
                   <LogoutOutlinedIcon
-                  sx={{ fontSize: 18, transform: isRtl ? 'scaleX(-1)' : 'none' }}
-                />
+                    sx={{ fontSize: 18, transform: isRtl ? 'scaleX(-1)' : 'none' }}
+                  />
                 </IconButton>
               </Tooltip>
             </Stack>
