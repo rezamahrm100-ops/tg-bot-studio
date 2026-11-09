@@ -10,10 +10,12 @@ import en from '../locales/en.json';
 import tr from '../locales/tr.json';
 import de from '../locales/de.json';
 import ru from '../locales/ru.json';
+import fa from '../locales/fa.json';
 import modulesEn from '../locales/modules.en.json';
 import modulesTr from '../locales/modules.tr.json';
 import modulesDe from '../locales/modules.de.json';
 import modulesRu from '../locales/modules.ru.json';
+import modulesFa from '../locales/modules.fa.json';
 import { MODULES, MINI_APPS_DOCS_ENTRY, PLACEHOLDERS } from '../../registry/modules';
 
 type Json = Record<string, unknown>;
@@ -24,6 +26,7 @@ const LANGUAGES: Record<string, { shell: Json; modules: Json }> = {
   tr: { shell: tr as Json, modules: modulesTr as Json },
   de: { shell: de as Json, modules: modulesDe as Json },
   ru: { shell: ru as Json, modules: modulesRu as Json },
+  fa: { shell: fa as Json, modules: modulesFa as Json },
 };
 
 /** Shell keys living in the shared `modules` namespace (deepMerge partners). */
