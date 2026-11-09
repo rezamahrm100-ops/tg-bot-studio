@@ -71,7 +71,7 @@ export function NavItem({
           <Box
             component="span"
             sx={(theme) => ({
-              ml: 1,
+              marginInlineStart: 8,
               px: 0.75,
               minWidth: 22,
               height: 20,
@@ -293,7 +293,7 @@ export function ModuleNavSections({
               <Typography
                 component="span"
                 noWrap
-                sx={{ ...sectionLabelSx, flex: 1, textAlign: 'left' }}
+                sx={{ ...sectionLabelSx, flex: 1, textAlign: 'start' }}
               >
                 {categoryLabel.toLocaleUpperCase(i18n.language)}
               </Typography>
