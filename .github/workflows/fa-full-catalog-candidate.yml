@@ -5,7 +5,6 @@ on:
     paths:
       - scripts/i18n/generate_fa_candidate.py
       - .github/workflows/fa-full-catalog-candidate.yml
-  workflow_dispatch:
 permissions:
   contents: write
 concurrency:
@@ -13,10 +12,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   generate:
-    if: >-
-      github.repository == 'rezamahrm100-ops/tg-bot-studio' &&
-      github.ref == 'refs/heads/feature/persian-full-catalog-candidate' &&
-      github.actor == 'rezamahrm100-ops'
     runs-on: ubuntu-latest
     timeout-minutes: 100
     env:
