@@ -1,0 +1,51 @@
+name: Publish verified Persian beta frontend assets
+on:
+  push:
+    branches: [master]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: tgbs-fa-beta-release-8bb8ff4
+  cancel-in-progress: false
+jobs:
+  release-verified-assets:
+    if: >-
+      github.repository == 'rezamahrm100-ops/tg-bot-studio' &&
+      github.actor == 'rezamahrm100-ops' &&
+      github.event.head_commit.message == 'ops(i18n): publish prebuilt fa assets 8bb8ff4'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out known feature commit
+        uses: actions/checkout@v4
+      - name: Verify previously green fork master build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$(gh api repos/rezamahrm100-ops/tg-bot-studio/actions/runs/42662009738 --jq '.conclusion')" = success
+          test "$(gh api repos/rezamahrm100-ops/tg-bot-studio/actions/runs/42662009738 --jq '.head_sha')" = 8bb8ff4f3d3152b6fd2be5b031de20c1980ffec9
+      - name: Download immutable successful build artifact
+        uses: actions/download-artifact@v4
+        with:
+          repository: rezamahrm100-ops/tg-bot-studio
+          run-id: 42662009738
+          github-token: ${{ github.token }}
+          name: dist
+          path: dist
+      - name: Validate and package only browser static assets
+        run: |
+          test -f dist/client/index.html
+          test -d dist/client/assets
+          grep -R -q 'فارسی' dist/client/assets
+          ! test -e dist/client/.env
+          tar -czf tgbs-fa-beta-client.tar.gz -C dist client
+          sha256sum tgbs-fa-beta-client.tar.gz > tgbs-fa-beta-client.sha256
+          echo 'TGBS_FA_PUBLIC_ASSET_PACKAGE=PASS'
+          cat tgbs-fa-beta-client.sha256
+      - name: Publish frontend-only immutable release artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create fa-beta-8bb8ff4 tgbs-fa-beta-client.tar.gz tgbs-fa-beta-client.sha256 --repo rezamahrm100-ops/tg-bot-studio --target 8bb8ff4f3d3152b6fd2be5b031de20c1980ffec9 --title "TG Bot Studio Persian beta frontend assets" --notes "Public static dashboard files only from successful GitHub Actions build 42662009738. Translation is partial beta: 301/1697 strings. Never contains bot credentials, production SQLite, TLS secrets or backend executables." --latest=false
+          echo 'TGBS_FA_RELEASE_ARTIFACT=PUBLISHED'
