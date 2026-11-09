@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Box, Tooltip } from '@mui/material';
-import { alpha, type Theme } from '@mui/material/styles';
+import { alpha, type Theme, useTheme } from '@mui/material/styles';
 import { keyframes } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -109,12 +109,12 @@ export function itemSx(theme: Theme, collapsed: boolean) {
       '&::before': {
         content: '""',
         position: 'absolute',
-        left: -12,
+        insetInlineStart: -12,
         top: '50%',
         transform: 'translateY(-50%)',
         width: 3,
         height: 20,
-        borderRadius: '0 4px 4px 0',
+        borderRadius: '4px',
         bgcolor: dark ? theme.palette.primary.light : primary,
       },
     },
@@ -138,9 +138,15 @@ export function RailTooltip({
   title: string;
   children: React.ReactElement;
 }): React.ReactElement {
+  const theme = useTheme();
   if (!collapsed) return children;
   return (
-    <Tooltip title={title} placement="right" arrow disableInteractive>
+    <Tooltip
+      title={title}
+      placement={theme.direction === 'rtl' ? 'left' : 'right'}
+      arrow
+      disableInteractive
+    >
       {children}
     </Tooltip>
   );

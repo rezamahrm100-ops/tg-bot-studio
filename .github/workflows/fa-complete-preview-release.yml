@@ -38,7 +38,10 @@ jobs:
           run_info="$(gh api "repos/rezamahrm100-ops/tg-bot-studio/actions/runs/$SOURCE_RUN" --jq '[.head_sha,.head_branch,.event,.conclusion] | join(" ")')"
           test "$run_info" = "$SOURCE_SHA master push success"
           title="$(git log -1 --pretty=%s)"
-          test "$title" = 'feat(i18n): full-coverage Persian dashboard catalog preview'
+          case "$title" in
+            'feat(i18n): full-coverage Persian dashboard catalog preview'|'fix(rtl): correct directional navigation in Persian dashboard') ;;
+            *) echo 'TGBS_FA_PREVIEW_UNRECOGNIZED_RELEASE_COMMIT'; exit 16 ;;
+          esac
           test -f src/client/src/i18n/locales/fa.json
           test -f src/client/src/i18n/locales/modules.fa.json
           echo 'TGBS_FA_PREVIEW_PROVENANCE=PASS'

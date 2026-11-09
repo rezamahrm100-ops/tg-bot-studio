@@ -76,7 +76,7 @@ export default function Layout(): React.ReactElement {
             height: '100vh',
             position: 'sticky',
             top: 0,
-            borderRight: '1px solid',
+            borderInlineEnd: '1px solid',
             borderColor: 'divider',
             transition: theme.transitions.create('width', {
               easing: theme.transitions.easing.sharp,
@@ -91,6 +91,7 @@ export default function Layout(): React.ReactElement {
       {/* Temporary drawer below md */}
       <Drawer
         variant="temporary"
+        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
         open={isCompact && drawerOpen}
         onClose={closeDrawer}
         ModalProps={{ keepMounted: true }}
@@ -100,7 +101,7 @@ export default function Layout(): React.ReactElement {
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: SIDEBAR_WIDTH,
-            borderRight: '1px solid',
+            borderInlineEnd: '1px solid',
             borderColor: 'divider',
           },
         }}
