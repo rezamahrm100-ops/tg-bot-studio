@@ -79,6 +79,22 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const botId = activeBot?.id;
 
   useEffect(() => {
+    // Keep the signed launch marker in the WebView URL even when the
+    // existing Studio pages navigate without carrying query parameters.
+    // A WebView reload then reinitializes the Telegram SDK and re-verifies
+    // its initData with the server instead of falling back to desktop UI.
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('tg_admin') !== '1') {
+      url.searchParams.set('tg_admin', '1');
+      window.history.replaceState(
+        window.history.state,
+        '',
+        url.pathname + url.search + url.hash,
+      );
+    }
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
     // Keep status and module enablement in sync when the operator returns
     // from another Telegram screen or another administrator changes Studio.
     const refreshVisible = (): void => {
