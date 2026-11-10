@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  UnauthorizedException,
   Body,
   Controller,
   Delete,
@@ -17,6 +18,7 @@ import { ChangeMasterKeyDto, LoginDto } from './dto/auth.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { CurrentSession } from '../common/decorators/current-session.decorator';
 import { SESSION_COOKIE } from './jwt.strategy';
+import { authorizedOperatorId } from '../operator-client/operator-access';
 
 /** Session cookie lifetime, matching the JWT expiry. */
 const SESSION_COOKIE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -61,6 +63,34 @@ export class AuthController {
       httpOnly: true,
       sameSite: 'strict',
       secure: req.secure,
+      path: '/',
+      maxAge: SESSION_COOKIE_MAX_AGE_MS,
+    });
+    return result;
+  }
+
+  /**
+   * Signs a Telegram operator into the SAME dashboard as a master-key login.
+   * Telegram initData is signed by the dedicated BotFather token and is valid
+   * for no more than five minutes; usernames/IDs supplied by clients are ignored.
+   */
+  @Public()
+  @Post('telegram-login')
+  @HttpCode(200)
+  async telegramLogin(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const initData = req.headers['x-telegram-init-data'];
+    const telegramId = typeof initData === 'string' ? authorizedOperatorId(initData) : null;
+    if (telegramId === null) throw new UnauthorizedException('Telegram operator authentication failed');
+    const ip = req.ip || 'unknown';
+    const userAgent = (req.headers['user-agent'] as string) || 'unknown';
+    const result = await this.authService.loginVerifiedTelegramOperator(telegramId, ip, userAgent);
+    res.cookie(SESSION_COOKIE, result.token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
       path: '/',
       maxAge: SESSION_COOKIE_MAX_AGE_MS,
     });
