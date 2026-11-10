@@ -611,7 +611,12 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                     >
                       <ListItemButton
                         onClick={() => go(modulePath(module.key))}
-                        sx={{ py: preferences.compactMode ? 0.5 : 1.1, gap: 1, minWidth: 0, flex: 1 }}
+                        sx={{
+                          py: preferences.compactMode ? 0.5 : 1.1,
+                          gap: 1,
+                          minWidth: 0,
+                          flex: 1,
+                        }}
                       >
                         <ListItemText
                           disableTypography
@@ -645,16 +650,23 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                           disabled={preferencesBusy || !preferencesAvailable}
                           aria-label={
                             (preferences.favoriteModules.includes(module.key)
-                              ? fa ? 'حذف از نشان‌شده‌ها' : 'Remove favorite'
-                              : fa ? 'نشان‌کردن ماژول' : 'Add favorite') +
-                            ': ' + (nameByKey.get(module.key) ?? module.name)
+                              ? fa
+                                ? 'حذف از نشان‌شده‌ها'
+                                : 'Remove favorite'
+                              : fa
+                                ? 'نشان‌کردن ماژول'
+                                : 'Add favorite') +
+                            ': ' +
+                            (nameByKey.get(module.key) ?? module.name)
                           }
                           aria-pressed={preferences.favoriteModules.includes(module.key)}
                           onClick={() => toggleFavorite(module.key)}
                         >
-                          {preferences.favoriteModules.includes(module.key)
-                            ? <StarIcon color="warning" fontSize="small" />
-                            : <StarOutlineIcon fontSize="small" />}
+                          {preferences.favoriteModules.includes(module.key) ? (
+                            <StarIcon color="warning" fontSize="small" />
+                          ) : (
+                            <StarOutlineIcon fontSize="small" />
+                          )}
                         </IconButton>
                       )}
                     </Box>
