@@ -180,6 +180,17 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async home(ctx: Context): Promise<void> {
+    // Telegram creates a private chat only after /start. Configure the native
+    // menu button again at that moment if registration before /start failed.
+    const webAppUrl = operatorWebAppUrl();
+    if (webAppUrl && ctx.chat?.type === 'private') {
+      await ctx.api
+        .setChatMenuButton({
+          chat_id: ctx.chat.id,
+          menu_button: { type: 'web_app', text: 'داشبورد', web_app: { url: webAppUrl } },
+        })
+        .catch(() => undefined);
+    }
     const all = await this.bots.findAll();
     const running = all.filter((bot) => bot.status === 'active').length;
     await this.respond(
