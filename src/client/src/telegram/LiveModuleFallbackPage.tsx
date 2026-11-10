@@ -77,10 +77,13 @@ export default function LiveModuleFallbackPage({
     setBusy(true);
     setError(null);
     try {
-      await apiFetch(`/api/bots/${encodeURIComponent(botId)}/modules/${encodeURIComponent(moduleKey)}`, {
-        method: 'PUT',
-        body: JSON.stringify({ isEnabled: !module.isEnabled }),
-      });
+      await apiFetch(
+        `/api/bots/${encodeURIComponent(botId)}/modules/${encodeURIComponent(moduleKey)}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify({ isEnabled: !module.isEnabled }),
+        },
+      );
       setConfirm(false);
       setReload((value) => value + 1);
       refresh();
@@ -101,14 +104,20 @@ export default function LiveModuleFallbackPage({
           {fa ? 'اطلاعات زنده از هسته TG Bot Studio' : 'Live from the TG Bot Studio engine'}
         </Typography>
       </Box>
-      {error && <Alert severity="error" role="alert">{error}</Alert>}
+      {error && (
+        <Alert severity="error" role="alert">
+          {error}
+        </Alert>
+      )}
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
           <CircularProgress aria-label={fa ? 'در حال بارگذاری' : 'Loading'} />
         </Box>
       ) : !module ? (
         <Alert severity="info">
-          {fa ? 'این ماژول در فهرست فعلی هسته وجود ندارد.' : 'This module is not in the current server catalog.'}
+          {fa
+            ? 'این ماژول در فهرست فعلی هسته وجود ندارد.'
+            : 'This module is not in the current server catalog.'}
         </Alert>
       ) : (
         <Card>
@@ -122,7 +131,7 @@ export default function LiveModuleFallbackPage({
                   size="small"
                   color={module.isEnabled ? 'success' : 'default'}
                   variant="outlined"
-                  label={module.isEnabled ? (fa ? 'فعال' : 'Enabled') : (fa ? 'غیرفعال' : 'Disabled')}
+                  label={module.isEnabled ? (fa ? 'فعال' : 'Enabled') : fa ? 'غیرفعال' : 'Disabled'}
                 />
               </Stack>
               <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
@@ -136,8 +145,12 @@ export default function LiveModuleFallbackPage({
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                 <Button variant="contained" onClick={() => setConfirm(true)}>
                   {module.isEnabled
-                    ? (fa ? 'غیرفعال‌کردن ماژول' : 'Disable module')
-                    : (fa ? 'فعال‌کردن ماژول' : 'Enable module')}
+                    ? fa
+                      ? 'غیرفعال‌کردن ماژول'
+                      : 'Disable module'
+                    : fa
+                      ? 'فعال‌کردن ماژول'
+                      : 'Enable module'}
                 </Button>
                 <Button variant="outlined" onClick={() => navigate(`/bots/${botId}/modules`)}>
                   {fa ? 'بازگشت به ماژول‌ها' : 'Back to modules'}
@@ -147,7 +160,12 @@ export default function LiveModuleFallbackPage({
           </CardContent>
         </Card>
       )}
-      <Dialog open={confirm} onClose={busy ? undefined : () => setConfirm(false)} fullWidth maxWidth="xs">
+      <Dialog
+        open={confirm}
+        onClose={busy ? undefined : () => setConfirm(false)}
+        fullWidth
+        maxWidth="xs"
+      >
         <DialogTitle>{fa ? 'تأیید تغییر' : 'Confirm change'}</DialogTitle>
         <DialogContent>
           <Typography variant="body2">
@@ -161,7 +179,7 @@ export default function LiveModuleFallbackPage({
             {fa ? 'انصراف' : 'Cancel'}
           </Button>
           <Button disabled={busy} variant="contained" onClick={() => void saveToggle()}>
-            {busy ? (fa ? 'در حال ثبت…' : 'Saving…') : (fa ? 'تأیید' : 'Confirm')}
+            {busy ? (fa ? 'در حال ثبت…' : 'Saving…') : fa ? 'تأیید' : 'Confirm'}
           </Button>
         </DialogActions>
       </Dialog>
