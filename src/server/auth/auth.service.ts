@@ -11,6 +11,7 @@ import { argon2id, argon2Verify } from 'hash-wasm';
 import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../database/prisma.service';
 import { SessionModel } from './session.model';
+import { isCurrentOperator } from '../operator-client/operator-access';
 import type { SecurityLogEntity, SessionEntity } from './session.entity';
 import { parseUserAgent } from '../common/utils/user-agent.util';
 import {
@@ -217,6 +218,31 @@ export class AuthService implements OnModuleInit {
   }
 
   /**
+   * Issues an ordinary revocable Studio session after the controller has
+   * validated the Telegram WebApp HMAC and operator allowlist. The original
+   * Telegram identity is marked on the session, permitting immediate revocation
+   * if ADMIN_CLIENT_USER_IDS or ADMIN_CLIENT_BOT_TOKEN changes.
+   */
+  async loginVerifiedTelegramOperator(
+    telegramId: number,
+    ip: string,
+    userAgent: string,
+  ): Promise<{ token: string; session: SessionRow }> {
+    const sessionId = randomUUID();
+    const { browser, os, deviceType } = parseUserAgent(userAgent);
+    const session = await this.sessionModel.createSession({
+      id: sessionId,
+      ip,
+      userAgent: `studio-operator:${telegramId}; ${userAgent.slice(0, 200)}`,
+      browser,
+      os,
+      deviceType,
+    });
+    await this.logSecurityEvent('telegram_operator_login', ip, userAgent, `Telegram ID ${telegramId}; session ${sessionId}`);
+    return { token: this.jwtService.sign({ sessionId }), session };
+  }
+
+  /**
    * Loads a session row by identifier.
    * @param {string} sessionId - Session identifier.
    * @returns {Promise<SessionRow | null>} The row when found.
@@ -233,6 +259,8 @@ export class AuthService implements OnModuleInit {
   async isSessionValid(sessionId: string): Promise<boolean> {
     const session = await this.getSession(sessionId);
     if (!session || session.is_revoked) return false;
+    const telegramOperator = /^studio-operator:(\d+);/.exec(session.user_agent ?? '');
+    if (telegramOperator && !isCurrentOperator(Number(telegramOperator[1]))) return false;
     const now = Date.now();
     const lastWrite = this.lastActiveWrites.get(sessionId) ?? 0;
     if (now - lastWrite > 120_000) {
