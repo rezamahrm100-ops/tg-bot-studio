@@ -34,7 +34,7 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import { useTranslation } from 'react-i18next';
 import { useBots } from '../context/BotContext';
 import { apiFetch } from '../services/api';
-import { useLocalizedModules } from '../registry/localize';
+import { localizedCategory, useLocalizedModules } from '../registry/localize';
 import BotSimulatorDrawer from '../components/BotSimulatorDrawer';
 import { getOperatorWebApp, telegramSelectionFeedback } from './operator-webapp';
 
@@ -119,6 +119,10 @@ export default function TelegramOperatorLayout(): React.ReactElement {
     return () => backButton.offClick(handleBack);
   }, [location.pathname, navigate]);
 
+  const moduleMeta = useMemo(
+    () => new Map(localizedModules.map((item) => [item.key, item])),
+    [localizedModules],
+  );
   const nameByKey = useMemo(
     () => new Map(localizedModules.map((item) => [item.key, item.name])),
     [localizedModules],
@@ -241,6 +245,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             onClick={() => {
               telegramSelectionFeedback();
               setDrawerOpen(true);
+              setReloadKey((value) => value + 1);
             }}
           >
             <MenuOutlinedIcon />
@@ -361,7 +366,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               {grouped.map(([category, modules]) => (
                 <React.Fragment key={category}>
                   <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 700 }}>
-                    {category} · {modules.length}
+                    {localizedCategory(t, category)} · {modules.length}
                   </ListSubheader>
                   {modules.map((module) => (
                     <ListItemButton
@@ -374,7 +379,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                     >
                       <ListItemText
                         primary={nameByKey.get(module.key) ?? module.name}
-                        secondary={module.description}
+                        secondary={moduleMeta.get(module.key)?.description ?? module.description}
                         primaryTypographyProps={{ noWrap: true, variant: 'body2', fontWeight: 600 }}
                         secondaryTypographyProps={{ noWrap: true, variant: 'caption' }}
                       />
