@@ -14,8 +14,9 @@ describe('operator presentation preferences', () => {
       compactMode: false,
       favoriteModules: [],
     });
-    expect(readOperatorPreferences(JSON.stringify({ compactMode: true, favoriteModules: ['welcome'] })))
-      .toEqual({ compactMode: true, favoriteModules: ['welcome'] });
+    expect(
+      readOperatorPreferences(JSON.stringify({ compactMode: true, favoriteModules: ['welcome'] })),
+    ).toEqual({ compactMode: true, favoriteModules: ['welcome'] });
   });
 
   test('accepts only bounded, unique, simple module keys', () => {
@@ -54,7 +55,9 @@ describe('per-owner persistence', () => {
         findUnique: async ({ where }: { where: { key: string } }) =>
           storage.has(where.key) ? { value: storage.get(where.key) } : null,
         upsert: async ({
-          where, create, update,
+          where,
+          create,
+          update,
         }: {
           where: { key: string };
           create: { key: string; value: string };

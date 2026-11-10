@@ -21,15 +21,9 @@ export class OperatorPreferencesController {
       where: { id: sessionId },
       select: { userAgent: true },
     });
-    const match = /^studio-operator:([1-9]\d*):([a-f0-9]{16});/.exec(
-      session?.userAgent ?? '',
-    );
+    const match = /^studio-operator:([1-9]\d*):([a-f0-9]{16});/.exec(session?.userAgent ?? '');
     const operatorId = match ? Number(match[1]) : 0;
-    if (
-      !match ||
-      !Number.isSafeInteger(operatorId) ||
-      !isCurrentOperator(operatorId, match[2])
-    ) {
+    if (!match || !Number.isSafeInteger(operatorId) || !isCurrentOperator(operatorId, match[2])) {
       throw new UnauthorizedException('Active Telegram operator session required');
     }
     return operatorId;
@@ -41,10 +35,7 @@ export class OperatorPreferencesController {
   }
 
   @Put()
-  async save(
-    @CurrentSession() session: { sessionId: string },
-    @Body() input: unknown,
-  ) {
+  async save(@CurrentSession() session: { sessionId: string }, @Body() input: unknown) {
     return this.preferences.save(await this.operatorId(session.sessionId), input);
   }
 }

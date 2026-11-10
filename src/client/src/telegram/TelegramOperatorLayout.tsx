@@ -91,7 +91,12 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   const {
-    bots, activeBot, setActiveBotId, loading: botsLoading, error: botsError, refresh,
+    bots,
+    activeBot,
+    setActiveBotId,
+    loading: botsLoading,
+    error: botsError,
+    refresh,
   } = useBots();
   const localizedModules = useLocalizedModules();
 
@@ -132,12 +137,15 @@ export default function TelegramOperatorLayout(): React.ReactElement {
         if (!cancelled) {
           setPreferencesAvailable(false);
           setPreferencesError(
-            fa ? 'تنظیمات شخصی بارگذاری نشد؛ نمای پیش‌فرض فعال است.' :
-              'Personal settings could not load; using the default view.',
+            fa
+              ? 'تنظیمات شخصی بارگذاری نشد؛ نمای پیش‌فرض فعال است.'
+              : 'Personal settings could not load; using the default view.',
           );
         }
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [fa]);
 
   const savePreferences = async (next: OperatorPreferences): Promise<void> => {
@@ -165,7 +173,9 @@ export default function TelegramOperatorLayout(): React.ReactElement {
       ? preferences.favoriteModules.filter((item) => item !== key)
       : [...preferences.favoriteModules, key];
     if (favoriteModules.length > 20) {
-      setPreferencesError(fa ? 'حداکثر ۲۰ ماژول قابل نشان‌کردن است.' : 'Up to 20 favorites are supported.');
+      setPreferencesError(
+        fa ? 'حداکثر ۲۰ ماژول قابل نشان‌کردن است.' : 'Up to 20 favorites are supported.',
+      );
       return;
     }
     telegramSelectionFeedback();
@@ -271,8 +281,8 @@ export default function TelegramOperatorLayout(): React.ReactElement {
     return [...groups.entries()];
   }, [liveModules, search, nameByKey]);
 
-  const favoriteModules = liveModules.filter(
-    (module) => preferences.favoriteModules.includes(module.key),
+  const favoriteModules = liveModules.filter((module) =>
+    preferences.favoriteModules.includes(module.key),
   );
 
   const current = location.pathname;
@@ -520,7 +530,9 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               }}
             >
               {bots.map((bot) => (
-                <MenuItem key={bot.id} value={bot.id}>{bot.name}</MenuItem>
+                <MenuItem key={bot.id} value={bot.id}>
+                  {bot.name}
+                </MenuItem>
               ))}
             </TextField>
           </Box>
@@ -624,8 +636,12 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                           disabled={preferencesBusy || !preferencesAvailable}
                           aria-label={
                             preferences.favoriteModules.includes(module.key)
-                              ? fa ? 'حذف از نشان‌شده‌ها' : 'Remove favorite'
-                              : fa ? 'نشان‌کردن ماژول' : 'Add favorite'
+                              ? fa
+                                ? 'حذف از نشان‌شده‌ها'
+                                : 'Remove favorite'
+                              : fa
+                                ? 'نشان‌کردن ماژول'
+                                : 'Add favorite'
                           }
                           aria-pressed={preferences.favoriteModules.includes(module.key)}
                           onClick={(event) => {
@@ -633,9 +649,11 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                             toggleFavorite(module.key);
                           }}
                         >
-                          {preferences.favoriteModules.includes(module.key)
-                            ? <StarIcon color="warning" fontSize="small" />
-                            : <StarOutlineIcon fontSize="small" />}
+                          {preferences.favoriteModules.includes(module.key) ? (
+                            <StarIcon color="warning" fontSize="small" />
+                          ) : (
+                            <StarOutlineIcon fontSize="small" />
+                          )}
                         </IconButton>
                       )}
                       <Chip
