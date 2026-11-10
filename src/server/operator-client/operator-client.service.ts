@@ -265,7 +265,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       await this.respond(
         ctx,
         settings.favoriteModules.length
-          ? 'علاقه‌مندی‌های شخصی شما\\nیک ربات را انتخاب کنید. فقط ماژول‌های موجود در هسته نمایش داده می‌شوند.'
+          ? 'علاقه‌مندی‌های شخصی شما\nیک ربات را انتخاب کنید. فقط ماژول‌های موجود در هسته نمایش داده می‌شوند.'
           : 'هنوز ماژولی نشان نکرده‌اید. از جزئیات هر ماژول می‌توانید آن را به علاقه‌مندی‌ها اضافه کنید.',
         keyboard,
       );
@@ -287,7 +287,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     keyboard.row().text('انتخاب ربات', this.callback(ownerId, { type: 'favorites' }));
     await this.respond(
       ctx,
-      'علاقه‌مندی‌های «' + buttonLabel(bot.name, 50) + '»\\n' +
+      'علاقه‌مندی‌های «' + buttonLabel(bot.name, 50) + '»\n' +
         (modules.length ? 'برای مدیریت ماژول، آن را انتخاب کنید.' : 'ماژول نشان‌شده‌ای در این ربات وجود ندارد.'),
       keyboard,
     );
