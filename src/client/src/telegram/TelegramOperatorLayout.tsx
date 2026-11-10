@@ -86,11 +86,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
     const url = new URL(window.location.href);
     if (url.searchParams.get('tg_admin') !== '1') {
       url.searchParams.set('tg_admin', '1');
-      window.history.replaceState(
-        window.history.state,
-        '',
-        url.pathname + url.search + url.hash,
-      );
+      window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
     }
   }, [location.pathname, location.search]);
 
