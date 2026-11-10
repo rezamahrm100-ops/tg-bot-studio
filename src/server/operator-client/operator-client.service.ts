@@ -4,6 +4,7 @@ import { Bot, Context, InlineKeyboard } from 'grammy';
 import { BotsService } from '../bots/bots.service';
 import { PrismaService } from '../database/prisma.service';
 import { allowedOperatorIds, operatorWebAppUrl } from './operator-access';
+import { buttonLabel, categoryCounts, getPage } from './operator-view';
 
 type ActionType =
   | 'home'
@@ -25,19 +26,6 @@ interface OperatorAction {
   category?: string;
   expected?: boolean;
   page?: number;
-}
-
-/** Compact text for Telegram buttons; dynamic names come from Studio. */
-function buttonLabel(value: unknown, max = 35): string {
-  return String(value ?? '')
-    .replace(/[\n\r\t\u202a-\u202e]/g, ' ')
-    .trim()
-    .slice(0, max);
-}
-
-function getPage(total: number, page: number, size: number): { current: number; pages: number } {
-  const pages = Math.max(1, Math.ceil(total / size));
-  return { pages, current: Math.min(Math.max(0, Math.trunc(page) || 0), pages - 1) };
 }
 
 /**
@@ -290,23 +278,15 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
 
   private async showCategories(ctx: Context, botId: string, page = 0): Promise<void> {
     const modules = await this.bots.listModules(botId);
-    const groups = new Map<string, { count: number; enabled: number }>();
-    for (const module of modules) {
-      const key = String(module.category || 'Other');
-      const previous = groups.get(key) ?? { count: 0, enabled: 0 };
-      groups.set(key, {
-        count: previous.count + 1,
-        enabled: previous.enabled + (module.isEnabled ? 1 : 0),
-      });
-    }
-    const categories = [...groups.entries()];
+    const categories = categoryCounts(modules);
     const size = 8;
     const { current, pages } = getPage(categories.length, page, size);
     const ownerId = ctx.from!.id;
     const keyboard = new InlineKeyboard()
       .text(`همه ماژول‌ها (${modules.length})`, this.callback(ownerId, { type: 'modules', botId, page: 0 }))
       .row();
-    for (const [category, counts] of categories.slice(current * size, (current + 1) * size)) {
+    for (const counts of categories.slice(current * size, (current + 1) * size)) {
+      const category = counts.name;
       keyboard.text(
         `${buttonLabel(category, 22)} · ${counts.enabled}/${counts.count}`,
         this.callback(ownerId, { type: 'modules', botId, category, page: 0 }),
