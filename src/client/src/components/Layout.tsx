@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import TelegramOperatorLayout from '../telegram/TelegramOperatorLayout';
+import { isOperatorWebApp } from '../telegram/operator-webapp';
 import { Outlet, useLocation, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -29,6 +31,11 @@ const SIDEBAR_COLLAPSED_KEY = 'studio-sidebar-collapsed';
  * @returns {React.ReactElement} The layout.
  */
 export default function Layout(): React.ReactElement {
+  return isOperatorWebApp() ? <TelegramOperatorLayout /> : <DashboardLayout />;
+}
+
+/** Existing responsive web shell, unchanged for browsers outside Telegram. */
+function DashboardLayout(): React.ReactElement {
   const { t } = useTranslation();
   const theme = useTheme();
   const location = useLocation();

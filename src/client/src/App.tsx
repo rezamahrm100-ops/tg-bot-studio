@@ -42,6 +42,7 @@ const MessageScorePage = lazy(() => import('./pages/modules/MessageScorePage'));
 const MediaLibraryPage = lazy(() => import('./pages/modules/MediaLibraryPage'));
 const InlineModePage = lazy(() => import('./pages/modules/InlineModePage'));
 const FlowBuilderPage = lazy(() => import('./pages/modules/FlowBuilderPage'));
+const LiveModuleFallbackPage = lazy(() => import('./telegram/LiveModuleFallbackPage'));
 
 /**
  * Centered spinner shown while a lazily loaded route chunk is downloading.
@@ -75,7 +76,7 @@ function ModulePageDispatcher({
   moduleKey: string;
 }): React.ReactElement | null {
   const module = useLocalizedModule(moduleKey);
-  if (!module) return null;
+  if (!module) return <LiveModuleFallbackPage botId={botId} moduleKey={moduleKey} />;
 
   switch (module.pageType) {
     case 'config':
