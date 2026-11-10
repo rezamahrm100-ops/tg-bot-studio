@@ -1,0 +1,31 @@
+name: One-time Telegram operator UX formatter
+on:
+  push:
+    branches:
+      - feat/telegram-native-operator-ux
+permissions:
+  contents: write
+jobs:
+  format:
+    if: github.repository == 'rezamahrm100-ops/tg-bot-studio'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/telegram-native-operator-ux
+          persist-credentials: true
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier --write src/client/src/telegram/operator-webapp.ts src/client/src/telegram/TelegramOperatorLayout.tsx src/client/src/theme.tsx src/client/src/components/Layout.tsx src/client/src/styles.css src/client/src/main.tsx src/client/src/context/AuthContext.tsx src/server/operator-client/operator-client.service.ts src/server/operator-client/operator-view.ts src/server/operator-client/operator-view.test.ts src/server/auth/auth.controller.ts
+      - name: Commit formatted changes
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/client/src/telegram/operator-webapp.ts src/client/src/telegram/TelegramOperatorLayout.tsx src/client/src/theme.tsx src/client/src/components/Layout.tsx src/client/src/styles.css src/client/src/main.tsx src/client/src/context/AuthContext.tsx src/server/operator-client/operator-client.service.ts src/server/operator-client/operator-view.ts src/server/operator-client/operator-view.test.ts src/server/auth/auth.controller.ts
+          if ! git diff --cached --quiet; then
+            git commit -m 'style(telegram-ux): apply project Prettier formatting'
+            git push origin HEAD:feat/telegram-native-operator-ux
+          fi
