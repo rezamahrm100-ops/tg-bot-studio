@@ -215,12 +215,27 @@ export class BotsService {
   }
 
   /**
+   * Keeps the dedicated operator bot out of the managed bot pool.
+   * Otherwise two getUpdates pollers could run with the same BotFather token.
+   */
+  private assertNotOperatorToken(token: string): void {
+    const reserved = process.env.ADMIN_CLIENT_BOT_TOKEN?.trim();
+    if (reserved && token.trim() === reserved) {
+      throw new StudioException(
+        'OPERATOR_TOKEN_RESERVED',
+        'The Telegram operator token cannot be registered as a managed Studio bot',
+      );
+    }
+  }
+
+  /**
    * Registers a bot after validating its token against Telegram `getMe`.
    * @param {CreateBotDto} dto - Token and optional display name.
    * @returns {Promise<BotWithStatus>} The created bot with metrics.
    * @throws {BadRequestException} When Telegram rejects the token.
    */
   async create(dto: CreateBotDto): Promise<BotWithStatus> {
+    this.assertNotOperatorToken(dto.token);
     const check = await callGetMe(dto.token);
     if (!check.ok || !check.bot) {
       throw new BadRequestException(
@@ -459,6 +474,8 @@ export class BotsService {
     const token = data.token.trim();
     if (!token)
       throw new StudioException('CLONE_TOKEN_REQUIRED', 'New bot token is required for cloning');
+
+    this.assertNotOperatorToken(token);
 
     const check = await callGetMe(token);
     if (!check.ok || !check.bot) {
