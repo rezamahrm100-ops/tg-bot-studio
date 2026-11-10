@@ -38,7 +38,9 @@ describe('Telegram operator authorization', () => {
 
   test('rejects a modified signature or user identity', () => {
     const payload = signedLaunch(Math.floor(Date.now() / 1000));
-    expect(authorizedOperatorId(payload.replace('Operator', 'Attacker'), token, String(owner))).toBeNull();
+    expect(
+      authorizedOperatorId(payload.replace('Operator', 'Attacker'), token, String(owner)),
+    ).toBeNull();
     const other = signedLaunch(Math.floor(Date.now() / 1000), owner + 1);
     expect(authorizedOperatorId(other, token, String(owner))).toBeNull();
   });

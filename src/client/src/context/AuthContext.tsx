@@ -43,9 +43,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }): React
       return;
     }
     let cancelled = false;
-    const telegram = (window as Window & {
-      Telegram?: { WebApp?: { initData?: string; ready?: () => void; expand?: () => void } };
-    }).Telegram?.WebApp;
+    const telegram = (
+      window as Window & {
+        Telegram?: { WebApp?: { initData?: string; ready?: () => void; expand?: () => void } };
+      }
+    ).Telegram?.WebApp;
     const launchedFromOperatorBot =
       new URLSearchParams(window.location.search).get('tg_admin') === '1';
     if (launchedFromOperatorBot && telegram) {

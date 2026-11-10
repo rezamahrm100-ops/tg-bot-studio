@@ -5,7 +5,8 @@ import { BotsService } from '../bots/bots.service';
 import { PrismaService } from '../database/prisma.service';
 import { allowedOperatorIds, operatorWebAppUrl } from './operator-access';
 
-type ActionType = 'home' | 'bots' | 'status' | 'bot' | 'modules' | 'preview-toggle' | 'confirm-toggle';
+type ActionType =
+  'home' | 'bots' | 'status' | 'bot' | 'modules' | 'preview-toggle' | 'confirm-toggle';
 interface OperatorAction {
   type: ActionType;
   ownerId: number;
@@ -38,14 +39,18 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const allowed = allowedOperatorIds(process.env.ADMIN_CLIENT_USER_IDS);
     if (!token && allowed.size === 0) return; // Safe opt-in.
     if (!token || allowed.size === 0) {
-      this.logger.warn('Operator bot disabled: configure both ADMIN_CLIENT_BOT_TOKEN and ADMIN_CLIENT_USER_IDS');
+      this.logger.warn(
+        'Operator bot disabled: configure both ADMIN_CLIENT_BOT_TOKEN and ADMIN_CLIENT_USER_IDS',
+      );
       return;
     }
 
     // Never run two getUpdates pollers against the same token.
     const existing = await this.prisma.bot.findFirst({ where: { token }, select: { id: true } });
     if (existing) {
-      this.logger.error('Operator bot token matches a managed Studio bot; configure a separate BotFather token');
+      this.logger.error(
+        'Operator bot token matches a managed Studio bot; configure a separate BotFather token',
+      );
       return;
     }
 
@@ -77,14 +82,21 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       if (!operatorWebAppUrl()) {
         this.logger.warn('Operator dashboard button disabled: APP_URL must be public HTTPS');
       }
-      void bot.start({
-        onStart: () => this.logger.log('Private Telegram operator client is running'),
-      }).catch((error: unknown) => {
-        this.logger.error('Operator polling stopped: ' + (error instanceof Error ? error.message : String(error)));
-      });
+      void bot
+        .start({
+          onStart: () => this.logger.log('Private Telegram operator client is running'),
+        })
+        .catch((error: unknown) => {
+          this.logger.error(
+            'Operator polling stopped: ' + (error instanceof Error ? error.message : String(error)),
+          );
+        });
     } catch (error) {
       this.bot = undefined;
-      this.logger.error('Cannot start Telegram operator client: ' + (error instanceof Error ? error.message : String(error)));
+      this.logger.error(
+        'Cannot start Telegram operator client: ' +
+          (error instanceof Error ? error.message : String(error)),
+      );
     }
   }
 
@@ -93,7 +105,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     try {
       if (this.bot.isRunning()) await this.bot.stop();
     } catch (error) {
-      this.logger.warn('Operator bot shutdown: ' + (error instanceof Error ? error.message : String(error)));
+      this.logger.warn(
+        'Operator bot shutdown: ' + (error instanceof Error ? error.message : String(error)),
+      );
     }
     this.bot = undefined;
   }
@@ -149,15 +163,19 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const bots = await this.bots.findAll();
     const keyboard = new InlineKeyboard();
     for (const item of bots.slice(0, 30)) {
-      keyboard.text(
-        (item.is_active ? '● ' : '○ ') + item.name.slice(0, 28),
-        this.callback(owner, { type: 'bot', botId: item.id }),
-      ).row();
+      keyboard
+        .text(
+          (item.is_active ? '● ' : '○ ') + item.name.slice(0, 28),
+          this.callback(owner, { type: 'bot', botId: item.id }),
+        )
+        .row();
     }
     keyboard.text('منوی اصلی', this.callback(owner, { type: 'home' }));
     await this.respond(
       ctx,
-      'ربات‌های متصل: ' + bots.length + '\n' +
+      'ربات‌های متصل: ' +
+        bots.length +
+        '\n' +
         (bots.length ? 'برای مشاهده و تنظیم هر ربات انتخاب کنید.' : 'هنوز رباتی ثبت نشده است.') +
         (bots.length > 30 ? '\n۳۰ مورد اول نمایش داده شده‌اند؛ فهرست کامل در داشبورد است.' : ''),
       keyboard,
@@ -189,15 +207,27 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       .row()
       .text('فهرست ربات‌ها', this.callback(owner, { type: 'bots' }));
     const url = operatorWebAppUrl();
-    if (url) keyboard.row().webApp('تنظیمات کامل', new URL('/bots/' + encodeURIComponent(botId) + '?tg_admin=1', url).toString());
-    await this.respond(ctx, [
-      'ربات: ' + item.name,
-      item.username ? '@' + item.username : '',
-      'وضعیت: ' + item.status,
-      'ماژول‌های فعال: ' + item.activeModules,
-      'کاربران: ' + item.subscribers,
-      'حجم پیام امروز: ' + item.dailyVolume,
-    ].filter(Boolean).join('\n'), keyboard);
+    if (url)
+      keyboard
+        .row()
+        .webApp(
+          'تنظیمات کامل',
+          new URL('/bots/' + encodeURIComponent(botId) + '?tg_admin=1', url).toString(),
+        );
+    await this.respond(
+      ctx,
+      [
+        'ربات: ' + item.name,
+        item.username ? '@' + item.username : '',
+        'وضعیت: ' + item.status,
+        'ماژول‌های فعال: ' + item.activeModules,
+        'کاربران: ' + item.subscribers,
+        'حجم پیام امروز: ' + item.dailyVolume,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      keyboard,
+    );
   }
 
   private async showModules(ctx: Context, botId: string, page: number): Promise<void> {
@@ -209,22 +239,41 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const currentPage = Math.max(0, Math.min(page, maxPage));
     const keyboard = new InlineKeyboard();
     for (const module of modules.slice(currentPage * pageSize, (currentPage + 1) * pageSize)) {
-      keyboard.text(
-        (module.isEnabled ? '● ' : '○ ') + String(module.name).slice(0, 38),
-        this.callback(owner, {
-          type: 'preview-toggle',
-          botId,
-          moduleKey: String(module.key),
-          expected: Boolean(module.isEnabled),
-          page: currentPage,
-        }),
-      ).row();
+      keyboard
+        .text(
+          (module.isEnabled ? '● ' : '○ ') + String(module.name).slice(0, 38),
+          this.callback(owner, {
+            type: 'preview-toggle',
+            botId,
+            moduleKey: String(module.key),
+            expected: Boolean(module.isEnabled),
+            page: currentPage,
+          }),
+        )
+        .row();
     }
-    if (currentPage > 0) keyboard.text('قبلی', this.callback(owner, { type: 'modules', botId, page: currentPage - 1 }));
-    if (currentPage < maxPage) keyboard.text('بعدی', this.callback(owner, { type: 'modules', botId, page: currentPage + 1 }));
+    if (currentPage > 0)
+      keyboard.text(
+        'قبلی',
+        this.callback(owner, { type: 'modules', botId, page: currentPage - 1 }),
+      );
+    if (currentPage < maxPage)
+      keyboard.text(
+        'بعدی',
+        this.callback(owner, { type: 'modules', botId, page: currentPage + 1 }),
+      );
     keyboard.row().text('بازگشت به ربات', this.callback(owner, { type: 'bot', botId }));
-    await this.respond(ctx, 'ماژول‌های ' + bot.name + '\nصفحه ' + (currentPage + 1) + ' از ' + (maxPage + 1) +
-      '\n● فعال | ○ غیرفعال\nبرای تغییر وضعیت یک ماژول آن را انتخاب کنید.', keyboard);
+    await this.respond(
+      ctx,
+      'ماژول‌های ' +
+        bot.name +
+        '\nصفحه ' +
+        (currentPage + 1) +
+        ' از ' +
+        (maxPage + 1) +
+        '\n● فعال | ○ غیرفعال\nبرای تغییر وضعیت یک ماژول آن را انتخاب کنید.',
+      keyboard,
+    );
   }
 
   private async previewToggle(ctx: Context, action: OperatorAction): Promise<void> {
@@ -237,11 +286,22 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       return;
     }
     const keyboard = new InlineKeyboard()
-      .text('تأیید تغییر', this.callback(ctx.from!.id, { type: 'confirm-toggle', botId, moduleKey, expected, page }))
+      .text(
+        'تأیید تغییر',
+        this.callback(ctx.from!.id, { type: 'confirm-toggle', botId, moduleKey, expected, page }),
+      )
       .row()
       .text('انصراف', this.callback(ctx.from!.id, { type: 'modules', botId, page }));
-    await this.respond(ctx, 'آیا ماژول «' + module.name + '» ' + (expected ? 'غیرفعال' : 'فعال') + ' شود؟\n' +
-      'این تغییر موتور ربات را مجدداً بارگذاری می‌کند.', keyboard);
+    await this.respond(
+      ctx,
+      'آیا ماژول «' +
+        module.name +
+        '» ' +
+        (expected ? 'غیرفعال' : 'فعال') +
+        ' شود؟\n' +
+        'این تغییر موتور ربات را مجدداً بارگذاری می‌کند.',
+      keyboard,
+    );
   }
 
   private async confirmToggle(ctx: Context, action: OperatorAction): Promise<void> {
@@ -262,23 +322,42 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const key = raw.startsWith('op:') ? raw.slice(3) : '';
     const action = this.callbacks.get(key);
     if (!action || action.ownerId !== ctx.from!.id || action.expires < Date.now()) {
-      await ctx.answerCallbackQuery({ text: 'این دکمه منقضی شده است؛ /start را بزنید.', show_alert: true });
+      await ctx.answerCallbackQuery({
+        text: 'این دکمه منقضی شده است؛ /start را بزنید.',
+        show_alert: true,
+      });
       return;
     }
     if (action.type === 'confirm-toggle') this.callbacks.delete(key); // Single-use dangerous action.
     await ctx.answerCallbackQuery();
     try {
       switch (action.type) {
-        case 'home': await this.home(ctx); break;
-        case 'bots': await this.showBots(ctx); break;
-        case 'status': await this.showStatus(ctx); break;
-        case 'bot': if (action.botId) await this.showBot(ctx, action.botId); break;
-        case 'modules': if (action.botId) await this.showModules(ctx, action.botId, action.page ?? 0); break;
-        case 'preview-toggle': await this.previewToggle(ctx, action); break;
-        case 'confirm-toggle': await this.confirmToggle(ctx, action); break;
+        case 'home':
+          await this.home(ctx);
+          break;
+        case 'bots':
+          await this.showBots(ctx);
+          break;
+        case 'status':
+          await this.showStatus(ctx);
+          break;
+        case 'bot':
+          if (action.botId) await this.showBot(ctx, action.botId);
+          break;
+        case 'modules':
+          if (action.botId) await this.showModules(ctx, action.botId, action.page ?? 0);
+          break;
+        case 'preview-toggle':
+          await this.previewToggle(ctx, action);
+          break;
+        case 'confirm-toggle':
+          await this.confirmToggle(ctx, action);
+          break;
       }
     } catch (error) {
-      this.logger.warn('Operator action failed: ' + (error instanceof Error ? error.message : String(error)));
+      this.logger.warn(
+        'Operator action failed: ' + (error instanceof Error ? error.message : String(error)),
+      );
       await ctx.reply('انجام عملیات ممکن نشد. دوباره تلاش کنید یا داشبورد را باز کنید.');
     }
   }

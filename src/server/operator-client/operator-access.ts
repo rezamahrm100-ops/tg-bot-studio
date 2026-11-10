@@ -31,7 +31,11 @@ export function authorizedOperatorId(
   const nowSeconds = Math.floor(Date.now() / 1000);
   // Restrict administrative exchanges to a five-minute window and reject
   // tokens allegedly issued far in the future (clock skew allowance: 60s).
-  if (!Number.isSafeInteger(authDate) || authDate < nowSeconds - 300 || authDate > nowSeconds + 60) {
+  if (
+    !Number.isSafeInteger(authDate) ||
+    authDate < nowSeconds - 300 ||
+    authDate > nowSeconds + 60
+  ) {
     return null;
   }
 
@@ -50,8 +54,10 @@ export function operatorTokenFingerprint(): string | null {
 
 /** Revoking an operator ID or rotating the token invalidates their sessions. */
 export function isCurrentOperator(id: number, fingerprint: string): boolean {
-  return operatorTokenFingerprint() === fingerprint &&
-    allowedOperatorIds(process.env.ADMIN_CLIENT_USER_IDS).has(id);
+  return (
+    operatorTokenFingerprint() === fingerprint &&
+    allowedOperatorIds(process.env.ADMIN_CLIENT_USER_IDS).has(id)
+  );
 }
 
 /** Open the existing dashboard as a Telegram Mini App, never an HTTP URL. */

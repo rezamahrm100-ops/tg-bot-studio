@@ -238,7 +238,12 @@ export class AuthService implements OnModuleInit {
       os,
       deviceType,
     });
-    await this.logSecurityEvent('telegram_operator_login', ip, userAgent, `Telegram ID ${telegramId}; session ${sessionId}`);
+    await this.logSecurityEvent(
+      'telegram_operator_login',
+      ip,
+      userAgent,
+      `Telegram ID ${telegramId}; session ${sessionId}`,
+    );
     return { token: this.jwtService.sign({ sessionId }), session };
   }
 
@@ -259,8 +264,11 @@ export class AuthService implements OnModuleInit {
   async isSessionValid(sessionId: string): Promise<boolean> {
     const session = await this.getSession(sessionId);
     if (!session || session.is_revoked) return false;
-    const telegramOperator = /^studio-operator:(\d+):([a-f0-9]{16});/.exec(session.user_agent ?? '');
-    if (telegramOperator && !isCurrentOperator(Number(telegramOperator[1]), telegramOperator[2])) return false;
+    const telegramOperator = /^studio-operator:(\d+):([a-f0-9]{16});/.exec(
+      session.user_agent ?? '',
+    );
+    if (telegramOperator && !isCurrentOperator(Number(telegramOperator[1]), telegramOperator[2]))
+      return false;
     const now = Date.now();
     const lastWrite = this.lastActiveWrites.get(sessionId) ?? 0;
     if (now - lastWrite > 120_000) {

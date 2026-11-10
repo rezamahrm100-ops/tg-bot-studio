@@ -77,13 +77,11 @@ export class AuthController {
   @Public()
   @Post('telegram-login')
   @HttpCode(200)
-  async telegramLogin(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async telegramLogin(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const initData = req.headers['x-telegram-init-data'];
     const telegramId = typeof initData === 'string' ? authorizedOperatorId(initData) : null;
-    if (telegramId === null) throw new UnauthorizedException('Telegram operator authentication failed');
+    if (telegramId === null)
+      throw new UnauthorizedException('Telegram operator authentication failed');
     const ip = req.ip || 'unknown';
     const userAgent = (req.headers['user-agent'] as string) || 'unknown';
     const result = await this.authService.loginVerifiedTelegramOperator(telegramId, ip, userAgent);
