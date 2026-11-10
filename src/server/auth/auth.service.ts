@@ -11,7 +11,7 @@ import { argon2id, argon2Verify } from 'hash-wasm';
 import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../database/prisma.service';
 import { SessionModel } from './session.model';
-import { isCurrentOperator } from '../operator-client/operator-access';
+import { isCurrentOperator, operatorTokenFingerprint } from '../operator-client/operator-access';
 import type { SecurityLogEntity, SessionEntity } from './session.entity';
 import { parseUserAgent } from '../common/utils/user-agent.util';
 import {
@@ -233,7 +233,7 @@ export class AuthService implements OnModuleInit {
     const session = await this.sessionModel.createSession({
       id: sessionId,
       ip,
-      userAgent: `studio-operator:${telegramId}; ${userAgent.slice(0, 200)}`,
+      userAgent: `studio-operator:${telegramId}:${operatorTokenFingerprint()}; ${userAgent.slice(0, 200)}`,
       browser,
       os,
       deviceType,
@@ -259,8 +259,8 @@ export class AuthService implements OnModuleInit {
   async isSessionValid(sessionId: string): Promise<boolean> {
     const session = await this.getSession(sessionId);
     if (!session || session.is_revoked) return false;
-    const telegramOperator = /^studio-operator:(\d+);/.exec(session.user_agent ?? '');
-    if (telegramOperator && !isCurrentOperator(Number(telegramOperator[1]))) return false;
+    const telegramOperator = /^studio-operator:(\d+):([a-f0-9]{16});/.exec(session.user_agent ?? '');
+    if (telegramOperator && !isCurrentOperator(Number(telegramOperator[1]), telegramOperator[2])) return false;
     const now = Date.now();
     const lastWrite = this.lastActiveWrites.get(sessionId) ?? 0;
     if (now - lastWrite > 120_000) {
