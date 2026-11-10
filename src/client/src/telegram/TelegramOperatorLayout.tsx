@@ -189,9 +189,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   };
 
   const modulePath = (key: string): string =>
-    botId
-      ? `/bots/${encodeURIComponent(botId)}/m/${encodeURIComponent(key)}`
-      : '/';
+    botId ? `/bots/${encodeURIComponent(botId)}/m/${encodeURIComponent(key)}` : '/';
 
   const title =
     current === '/'
@@ -210,7 +208,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             ? fa
               ? 'امنیت'
               : 'Security'
-            : activeBot?.name ?? t('app.title');
+            : (activeBot?.name ?? t('app.title'));
 
   return (
     <Box
@@ -225,7 +223,10 @@ export default function TelegramOperatorLayout(): React.ReactElement {
         overflow: 'hidden',
       }}
     >
-      <Box component="header" sx={{ flexShrink: 0, bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
+      <Box
+        component="header"
+        sx={{ flexShrink: 0, bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}
+      >
         <Toolbar
           disableGutters
           sx={{ minHeight: '56px !important', px: 1.5, display: 'flex', gap: 1 }}
@@ -252,7 +253,11 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               TG Bot Studio · {botsLoading ? '…' : bots.length} {fa ? 'ربات' : 'bots'}
             </Typography>
           </Box>
-          <IconButton aria-label={fa ? 'به‌روزرسانی داده‌ها' : 'Refresh data'} onClick={refreshAll} size="medium">
+          <IconButton
+            aria-label={fa ? 'به‌روزرسانی داده‌ها' : 'Refresh data'}
+            onClick={refreshAll}
+            size="medium"
+          >
             <RefreshOutlinedIcon fontSize="small" />
           </IconButton>
           <IconButton
@@ -273,10 +278,17 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               size="small"
               variant="outlined"
               color={activeBot.status === 'active' ? 'success' : 'default'}
-              label={activeBot.status === 'active' ? (fa ? 'در حال اجرا' : 'Running') : activeBot.status}
+              label={
+                activeBot.status === 'active' ? (fa ? 'در حال اجرا' : 'Running') : activeBot.status
+              }
               sx={{ height: 24, maxWidth: '50%' }}
             />
-            <Typography variant="caption" color="text.secondary" noWrap sx={{ flex: 1, textAlign: 'end' }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              noWrap
+              sx={{ flex: 1, textAlign: 'end' }}
+            >
               {activeBot.name}
             </Typography>
           </Box>
@@ -297,7 +309,11 @@ export default function TelegramOperatorLayout(): React.ReactElement {
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {botsError && <Alert severity="warning" sx={{ mb: 2 }}>{botsError}</Alert>}
+        {botsError && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {botsError}
+          </Alert>
+        )}
         <Outlet />
         <BotSimulatorDrawer />
       </Box>
@@ -324,10 +340,30 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             '& .MuiBottomNavigationAction-label.Mui-selected': { fontSize: '0.72rem' },
           }}
         >
-          <BottomNavigationAction value="home" label={fa ? 'خانه' : 'Home'} icon={<DashboardOutlinedIcon />} onClick={() => go('/')} />
-          <BottomNavigationAction value="bots" label={fa ? 'ربات' : 'Bot'} icon={<SmartToyOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}` : '/')} />
-          <BottomNavigationAction value="modules" label={fa ? 'ماژول‌ها' : 'Modules'} icon={<ExtensionOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}/modules` : '/')} />
-          <BottomNavigationAction value="apps" label={fa ? 'مینی‌اپ' : 'Mini Apps'} icon={<AppsOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}/mini-apps` : '/')} />
+          <BottomNavigationAction
+            value="home"
+            label={fa ? 'خانه' : 'Home'}
+            icon={<DashboardOutlinedIcon />}
+            onClick={() => go('/')}
+          />
+          <BottomNavigationAction
+            value="bots"
+            label={fa ? 'ربات' : 'Bot'}
+            icon={<SmartToyOutlinedIcon />}
+            onClick={() => go(botId ? `/bots/${botId}` : '/')}
+          />
+          <BottomNavigationAction
+            value="modules"
+            label={fa ? 'ماژول‌ها' : 'Modules'}
+            icon={<ExtensionOutlinedIcon />}
+            onClick={() => go(botId ? `/bots/${botId}/modules` : '/')}
+          />
+          <BottomNavigationAction
+            value="apps"
+            label={fa ? 'مینی‌اپ' : 'Mini Apps'}
+            icon={<AppsOutlinedIcon />}
+            onClick={() => go(botId ? `/bots/${botId}/mini-apps` : '/')}
+          />
         </BottomNavigation>
       </Box>
 
@@ -358,7 +394,15 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             size="small"
             placeholder={fa ? 'جست‌وجو در ماژول‌ها…' : 'Search modules…'}
             aria-label={fa ? 'جست‌وجوی ماژول' : 'Search modules'}
-            slotProps={{ input: { startAdornment: <InputAdornment position="start"><SearchOutlinedIcon fontSize="small" /></InputAdornment> } }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchOutlinedIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
         </Box>
         <Divider />
@@ -368,9 +412,15 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               {fa ? 'ابتدا یک ربات ایجاد یا انتخاب کنید.' : 'Create or select a bot first.'}
             </Alert>
           ) : modulesLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress size={26} /></Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+              <CircularProgress size={26} />
+            </Box>
           ) : modulesError ? (
-            <Alert severity="warning" sx={{ m: 2 }} action={<Button onClick={refreshAll}>{fa ? 'تلاش مجدد' : 'Retry'}</Button>}>
+            <Alert
+              severity="warning"
+              sx={{ m: 2 }}
+              action={<Button onClick={refreshAll}>{fa ? 'تلاش مجدد' : 'Retry'}</Button>}
+            >
               {modulesError}
             </Alert>
           ) : grouped.length === 0 ? (
@@ -402,7 +452,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                         size="small"
                         color={module.isEnabled ? 'success' : 'default'}
                         variant="outlined"
-                        label={module.isEnabled ? (fa ? 'فعال' : 'On') : (fa ? 'خاموش' : 'Off')}
+                        label={module.isEnabled ? (fa ? 'فعال' : 'On') : fa ? 'خاموش' : 'Off'}
                         sx={{ fontSize: '0.67rem', height: 22 }}
                       />
                     </ListItemButton>

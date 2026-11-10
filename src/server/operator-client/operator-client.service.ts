@@ -49,13 +49,17 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const allowed = allowedOperatorIds(process.env.ADMIN_CLIENT_USER_IDS);
     if (!token && allowed.size === 0) return;
     if (!token || allowed.size === 0) {
-      this.logger.warn('Operator bot disabled: both ADMIN_CLIENT_BOT_TOKEN and ADMIN_CLIENT_USER_IDS are required');
+      this.logger.warn(
+        'Operator bot disabled: both ADMIN_CLIENT_BOT_TOKEN and ADMIN_CLIENT_USER_IDS are required',
+      );
       return;
     }
 
     const existing = await this.prisma.bot.findFirst({ where: { token }, select: { id: true } });
     if (existing) {
-      this.logger.error('Operator bot token belongs to a managed bot: use a separate BotFather token');
+      this.logger.error(
+        'Operator bot token belongs to a managed bot: use a separate BotFather token',
+      );
       return;
     }
 
@@ -116,7 +120,8 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       this.bot = undefined;
       this.logger.error(
-        'Cannot start Telegram operator: ' + (error instanceof Error ? error.message : String(error)),
+        'Cannot start Telegram operator: ' +
+          (error instanceof Error ? error.message : String(error)),
       );
     }
   }
@@ -126,7 +131,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     try {
       if (this.bot.isRunning()) await this.bot.stop();
     } catch (error) {
-      this.logger.warn('Operator shutdown error: ' + (error instanceof Error ? error.message : String(error)));
+      this.logger.warn(
+        'Operator shutdown error: ' + (error instanceof Error ? error.message : String(error)),
+      );
     }
     this.bot = undefined;
   }
@@ -183,7 +190,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const running = all.filter((bot) => bot.status === 'active').length;
     await this.respond(
       ctx,
-      ['TG Bot Studio | مدیریت یکپارچه', '',
+      [
+        'TG Bot Studio | مدیریت یکپارچه',
+        '',
         `ربات‌های متصل: ${all.length}`,
         `در حال اجرا: ${running}`,
         '',
@@ -220,7 +229,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     await this.respond(
       ctx,
       `ربات‌های TG Bot Studio: ${all.length}\nصفحه ${current + 1} از ${pages}\n\n` +
-        (all.length ? 'برای جزئیات و ماژول‌ها یک ربات را انتخاب کنید.' : 'رباتی ثبت نشده است. از داشبورد کامل ربات بسازید.'),
+        (all.length
+          ? 'برای جزئیات و ماژول‌ها یک ربات را انتخاب کنید.'
+          : 'رباتی ثبت نشده است. از داشبورد کامل ربات بسازید.'),
       keyboard,
     );
   }
@@ -254,10 +265,12 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       .text('فهرست ربات‌ها', this.callback(ownerId, { type: 'bots', page: 0 }));
     const url = operatorWebAppUrl();
     if (url) {
-      keyboard.row().webApp(
-        'تنظیمات و گزارش‌های کامل',
-        new URL(`/bots/${encodeURIComponent(botId)}?tg_admin=1`, url).toString(),
-      );
+      keyboard
+        .row()
+        .webApp(
+          'تنظیمات و گزارش‌های کامل',
+          new URL(`/bots/${encodeURIComponent(botId)}?tg_admin=1`, url).toString(),
+        );
     }
     await this.respond(
       ctx,
@@ -271,7 +284,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
         `مینی‌اپ‌ها: ${item.miniApps}`,
         `کاربران: ${item.subscribers}`,
         `پیام‌های امروز: ${item.dailyVolume}`,
-      ].filter(Boolean).join('\n'),
+      ]
+        .filter(Boolean)
+        .join('\n'),
       keyboard,
     );
   }
@@ -283,20 +298,31 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     const { current, pages } = getPage(categories.length, page, size);
     const ownerId = ctx.from!.id;
     const keyboard = new InlineKeyboard()
-      .text(`همه ماژول‌ها (${modules.length})`, this.callback(ownerId, { type: 'modules', botId, page: 0 }))
+      .text(
+        `همه ماژول‌ها (${modules.length})`,
+        this.callback(ownerId, { type: 'modules', botId, page: 0 }),
+      )
       .row();
     for (const counts of categories.slice(current * size, (current + 1) * size)) {
       const category = counts.name;
-      keyboard.text(
-        `${buttonLabel(category, 22)} · ${counts.enabled}/${counts.count}`,
-        this.callback(ownerId, { type: 'modules', botId, category, page: 0 }),
-      ).row();
+      keyboard
+        .text(
+          `${buttonLabel(category, 22)} · ${counts.enabled}/${counts.count}`,
+          this.callback(ownerId, { type: 'modules', botId, category, page: 0 }),
+        )
+        .row();
     }
     if (current > 0) {
-      keyboard.text('قبلی', this.callback(ownerId, { type: 'categories', botId, page: current - 1 }));
+      keyboard.text(
+        'قبلی',
+        this.callback(ownerId, { type: 'categories', botId, page: current - 1 }),
+      );
     }
     if (current < pages - 1) {
-      keyboard.text('بعدی', this.callback(ownerId, { type: 'categories', botId, page: current + 1 }));
+      keyboard.text(
+        'بعدی',
+        this.callback(ownerId, { type: 'categories', botId, page: current + 1 }),
+      );
     }
     keyboard.row().text('بازگشت به ربات', this.callback(ownerId, { type: 'bot', botId }));
     await this.respond(
@@ -307,37 +333,54 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     );
   }
 
-  private async showModules(ctx: Context, botId: string, page = 0, category?: string): Promise<void> {
+  private async showModules(
+    ctx: Context,
+    botId: string,
+    page = 0,
+    category?: string,
+  ): Promise<void> {
     const bot = await this.bots.findOne(botId);
     const all = await this.bots.listModules(botId);
-    const modules = category ? all.filter((module) => String(module.category || 'Other') === category) : all;
+    const modules = category
+      ? all.filter((module) => String(module.category || 'Other') === category)
+      : all;
     const size = 7;
     const { current, pages } = getPage(modules.length, page, size);
     const ownerId = ctx.from!.id;
     const keyboard = new InlineKeyboard();
     for (const module of modules.slice(current * size, (current + 1) * size)) {
-      keyboard.text(
-        (module.isEnabled ? 'فعال' : 'خاموش') + ' | ' + buttonLabel(module.name),
-        this.callback(ownerId, {
-          type: 'module',
-          botId,
-          moduleKey: String(module.key),
-          page: current,
-          category,
-        }),
-      ).row();
+      keyboard
+        .text(
+          (module.isEnabled ? 'فعال' : 'خاموش') + ' | ' + buttonLabel(module.name),
+          this.callback(ownerId, {
+            type: 'module',
+            botId,
+            moduleKey: String(module.key),
+            page: current,
+            category,
+          }),
+        )
+        .row();
     }
     if (current > 0) {
-      keyboard.text('قبلی', this.callback(ownerId, { type: 'modules', botId, page: current - 1, category }));
+      keyboard.text(
+        'قبلی',
+        this.callback(ownerId, { type: 'modules', botId, page: current - 1, category }),
+      );
     }
     if (current < pages - 1) {
-      keyboard.text('بعدی', this.callback(ownerId, { type: 'modules', botId, page: current + 1, category }));
+      keyboard.text(
+        'بعدی',
+        this.callback(ownerId, { type: 'modules', botId, page: current + 1, category }),
+      );
     }
     keyboard.row().text('دسته‌ها', this.callback(ownerId, { type: 'categories', botId, page: 0 }));
     await this.respond(
       ctx,
       `ماژول‌های «${buttonLabel(bot.name, 45)}»\n${category ? category + '\n' : ''}صفحه ${current + 1} از ${pages}\n\n` +
-        (modules.length ? 'برای نمایش توضیحات و تنظیمات هر ماژول آن را انتخاب کنید.' : 'ماژولی در این دسته وجود ندارد.'),
+        (modules.length
+          ? 'برای نمایش توضیحات و تنظیمات هر ماژول آن را انتخاب کنید.'
+          : 'ماژولی در این دسته وجود ندارد.'),
       keyboard,
     );
   }
@@ -368,10 +411,15 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       .text('بازگشت به فهرست', this.callback(ownerId, { type: 'modules', botId, page, category }));
     const url = operatorWebAppUrl();
     if (url) {
-      keyboard.row().webApp(
-        'تنظیمات پیشرفته در مینی‌اپ',
-        new URL(`/bots/${encodeURIComponent(botId)}/m/${encodeURIComponent(moduleKey)}?tg_admin=1`, url).toString(),
-      );
+      keyboard
+        .row()
+        .webApp(
+          'تنظیمات پیشرفته در مینی‌اپ',
+          new URL(
+            `/bots/${encodeURIComponent(botId)}/m/${encodeURIComponent(moduleKey)}?tg_admin=1`,
+            url,
+          ).toString(),
+        );
     }
     await this.respond(
       ctx,
