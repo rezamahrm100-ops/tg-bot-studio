@@ -38,7 +38,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarOutlineIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import { useTranslation } from 'react-i18next';
