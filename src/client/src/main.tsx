@@ -5,6 +5,7 @@ import '@fontsource-variable/vazirmatn';
 import App from './App';
 import './i18n';
 import './styles.css';
+import { markOperatorWebAppLaunch } from './telegram/operator-webapp';
 
 /**
  * Mounts the React 19 Studio dashboard root.
@@ -40,4 +41,7 @@ async function loadOperatorWebAppSdk(): Promise<void> {
   });
 }
 
-void loadOperatorWebAppSdk().then(bootstrap);
+void loadOperatorWebAppSdk().then(() => {
+  markOperatorWebAppLaunch();
+  bootstrap();
+});
