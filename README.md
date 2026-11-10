@@ -82,6 +82,23 @@ Backups are atomic (`VACUUM INTO`) and run **automatically once per UTC day** (d
 - **AI translation**: translate any studio text (welcome templates, rules, broadcasts) into a subset of the 14 supported bot languages in one provider call, then apply the result to the field.
 - **Mini App templates**: seven ready templates — e-commerce (Stars checkout), loyalty hub, forms, reward wheel, webview, points leaderboard, and a support desk that relays requests to the support module's admin chat.
 
+## Integrated Telegram Operator Client (opt-in)
+
+TG Bot Studio can also be controlled from a **private Telegram operator bot**.
+The chat provides a bot list, live status, and confirmation-gated module
+toggles; the **داشبورد کامل** Mini App button opens this same complete React
+dashboard inside Telegram with signed Telegram authentication. No second
+database or Studio instance is created.
+
+Set `ADMIN_CLIENT_BOT_TOKEN` (a dedicated BotFather token),
+`ADMIN_CLIENT_USER_IDS` (comma-separated numeric Telegram user IDs) and
+`APP_URL` (public HTTPS URL) on the existing Studio deployment. Both new
+variables are mandatory; leaving them empty disables the feature. Do not
+reuse any bot token that is already polled by the Studio runtime.
+
+See [Telegram Operator Client deployment and security guide](docs/TELEGRAM_OPERATOR_CLIENT.md).
+The dashboard's Persian localization remains a candidate pending human QA.
+
 ## Docker & Coolify Deployment
 
 ### Standard Docker Compose
