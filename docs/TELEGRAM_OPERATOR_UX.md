@@ -28,7 +28,7 @@ Implementation follows the official references:
   `GET /api/bots/:botId/modules` on bot selection, drawer opening, periodic
   visible refresh and app resume. Display translations use the local
   i18n catalog when available; unknown **server** module keys/categories
-  remain visible and link to the generic module manager. Local static
+  remain visible and open a safe live-core module inspector, which supports\n  toggling state without guessing unknown configuration fields. Local static
   metadata never determines whether a module exists or is enabled.
 - The Telegram native back button, selection haptic feedback (only after a
   user action), current theme colors, bottom navigation, dynamic viewport,
@@ -60,9 +60,9 @@ server's module catalog and enablement flags, and the content of normal Studio
 features over their existing APIs.
 
 The existing dashboard still ships **client-side page definitions, forms and
-field metadata** for known modules. A future backend-only module can appear in
-the operator catalog automatically, but its future bespoke visual editor will
-not be invented automatically. New front-end UI definitions will be necessary
+field metadata** for known modules. A future backend-only module appears in
+the operator catalog automatically and gets a safe server-backed detail/toggle
+page, but its future bespoke visual editor will not be invented automatically. New front-end UI definitions will be necessary
 for new bespoke module types. Telegram itself also has platform limits for
 complex drag-and-drop, downloads, external auth and some browser integrations.
 
