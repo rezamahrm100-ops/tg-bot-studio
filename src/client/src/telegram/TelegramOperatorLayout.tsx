@@ -78,6 +78,23 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const [reloadKey, setReloadKey] = useState(0);
 
   const botId = activeBot?.id;
+
+  useEffect(() => {
+    // Keep status and module enablement in sync when the operator returns
+    // from another Telegram screen or another administrator changes Studio.
+    const refreshVisible = (): void => {
+      if (document.visibilityState !== 'visible') return;
+      refresh();
+      setReloadKey((value) => value + 1);
+    };
+    const timer = window.setInterval(refreshVisible, 60_000);
+    document.addEventListener('visibilitychange', refreshVisible);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', refreshVisible);
+    };
+  }, [refresh]);
+
   useEffect(() => {
     if (!botId) {
       setLiveModules([]);
