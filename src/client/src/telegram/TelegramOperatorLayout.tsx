@@ -103,6 +103,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const [reloadKey, setReloadKey] = useState(0);
   const [preferences, setPreferences] = useState<OperatorPreferences>(DEFAULT_PREFERENCES);
   const [preferencesBusy, setPreferencesBusy] = useState(false);
+  const [preferencesAvailable, setPreferencesAvailable] = useState(false);
   const [preferencesError, setPreferencesError] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -123,11 +124,13 @@ export default function TelegramOperatorLayout(): React.ReactElement {
       .then((value) => {
         if (!cancelled) {
           setPreferences(value);
+          setPreferencesAvailable(true);
           setPreferencesError(null);
         }
       })
       .catch(() => {
         if (!cancelled) {
+          setPreferencesAvailable(false);
           setPreferencesError(
             fa ? 'تنظیمات شخصی بارگذاری نشد؛ نمای پیش‌فرض فعال است.' :
               'Personal settings could not load; using the default view.',
@@ -138,6 +141,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   }, [fa]);
 
   const savePreferences = async (next: OperatorPreferences): Promise<void> => {
+    if (!preferencesAvailable || preferencesBusy) return;
     setPreferencesBusy(true);
     setPreferencesError(null);
     try {
@@ -156,7 +160,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   };
 
   const toggleFavorite = (key: string): void => {
-    if (!canFavoriteModule(key) || preferencesBusy) return;
+    if (!canFavoriteModule(key) || preferencesBusy || !preferencesAvailable) return;
     const favoriteModules = preferences.favoriteModules.includes(key)
       ? preferences.favoriteModules.filter((item) => item !== key)
       : [...preferences.favoriteModules, key];
@@ -616,7 +620,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                       {canFavoriteModule(module.key) && (
                         <IconButton
                           edge="end"
-                          disabled={preferencesBusy}
+                          disabled={preferencesBusy || !preferencesAvailable}
                           aria-label={
                             preferences.favoriteModules.includes(module.key)
                               ? fa ? 'حذف از نشان‌شده‌ها' : 'Remove favorite'
@@ -684,7 +688,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               control={
                 <Switch
                   checked={preferences.compactMode}
-                  disabled={preferencesBusy}
+                  disabled={preferencesBusy || !preferencesAvailable}
                   onChange={(event) =>
                     void savePreferences({ ...preferences, compactMode: event.target.checked })
                   }
