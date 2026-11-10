@@ -462,7 +462,12 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                           </Typography>
                         }
                         secondary={
-                          <Typography variant="caption" noWrap color="text.secondary" sx={{ display: 'block' }}>
+                          <Typography
+                            variant="caption"
+                            noWrap
+                            color="text.secondary"
+                            sx={{ display: 'block' }}
+                          >
                             {moduleMeta.get(module.key)?.description ?? module.description}
                           </Typography>
                         }
