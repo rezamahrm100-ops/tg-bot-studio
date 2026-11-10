@@ -83,6 +83,8 @@ function detectLanguage(): string {
   if (typeof window === 'undefined') return 'en';
   const saved = localStorage.getItem('studio_language');
   if (saved && UI_LANGUAGE_CODES.includes(saved)) return saved;
+  // A first-time operator opening the dashboard from Telegram gets Persian.
+  if (new URLSearchParams(window.location.search).get('tg_admin') === '1') return 'fa';
   const candidates = navigator.languages ?? [navigator.language ?? 'en'];
   for (const candidate of candidates) {
     const lower = candidate.toLowerCase();
