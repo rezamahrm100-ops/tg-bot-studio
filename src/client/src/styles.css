@@ -69,6 +69,19 @@ html[data-telegram-operator='true'] #root {
   overscroll-behavior: none;
 }
 
+.telegram-operator-shell {
+  padding-inline-start: max(
+    0px,
+    env(safe-area-inset-left, 0px),
+    var(--tg-content-safe-area-inset-left, 0px)
+  );
+  padding-inline-end: max(
+    0px,
+    env(safe-area-inset-right, 0px),
+    var(--tg-content-safe-area-inset-right, 0px)
+  );
+}
+
 .telegram-operator-shell > header {
   padding-top: var(--tg-content-safe-area-inset-top, 0px);
 }
