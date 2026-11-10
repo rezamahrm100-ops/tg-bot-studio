@@ -1,0 +1,31 @@
+name: One-time operator branch formatting
+on:
+  push:
+    branches:
+      - feat/integrated-telegram-operator-client
+permissions:
+  contents: write
+jobs:
+  format:
+    if: github.repository == 'rezamahrm100-ops/tg-bot-studio'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/integrated-telegram-operator-client
+          persist-credentials: true
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier --write src/client/src/context/AuthContext.tsx src/server/auth/auth.controller.ts src/server/auth/auth.service.ts src/server/operator-client/operator-access.test.ts src/server/operator-client/operator-access.ts src/server/operator-client/operator-client.service.ts
+      - name: Commit formatted files
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/client/src/context/AuthContext.tsx src/server/auth/auth.controller.ts src/server/auth/auth.service.ts src/server/operator-client/operator-access.test.ts src/server/operator-client/operator-access.ts src/server/operator-client/operator-client.service.ts
+          if ! git diff --cached --quiet; then
+            git commit -m 'style(operator): apply repository Prettier formatting'
+            git push origin HEAD:feat/integrated-telegram-operator-client
+          fi
