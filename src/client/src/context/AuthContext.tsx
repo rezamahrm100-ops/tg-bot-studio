@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { apiFetch, getToken, setToken } from '../services/api';
+import { getOperatorWebApp } from '../telegram/operator-webapp';
 
 /**
  * Authentication context value.
@@ -43,41 +44,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }): React
       return;
     }
     let cancelled = false;
-    const telegram = (
-      window as Window & {
-        Telegram?: { WebApp?: { initData?: string; ready?: () => void; expand?: () => void } };
-      }
-    ).Telegram?.WebApp;
+    const telegram = getOperatorWebApp();
     const launchedFromOperatorBot =
       new URLSearchParams(window.location.search).get('tg_admin') === '1';
-    if (launchedFromOperatorBot && telegram) {
-      telegram.ready?.();
-      telegram.expand?.();
-    }
 
-    // Preserve ordinary dashboard cookie login. Only a signed, explicit
-    // operator WebApp launch may exchange initData for a Studio session.
     const restoreSession = async (): Promise<void> => {
       try {
+        if (launchedFromOperatorBot) {
+          // A Telegram launch MUST authenticate the currently signed user,
+          // even if a cookie for another Studio session already exists.
+          if (!telegram?.initData) throw new Error('Missing signed Telegram launch');
+          await apiFetch<{ authenticated: boolean }>('/api/auth/telegram-login', {
+            method: 'POST',
+            headers: { 'X-Telegram-Init-Data': telegram.initData },
+          });
+          if (!cancelled) {
+            setToken(null);
+            setAuthenticated(true);
+          }
+          return;
+        }
         await apiFetch('/api/auth/me');
         if (!cancelled) setAuthenticated(true);
       } catch {
-        if (launchedFromOperatorBot && telegram?.initData) {
-          try {
-            await apiFetch<{ authenticated: boolean }>('/api/auth/telegram-login', {
-              method: 'POST',
-              headers: { 'X-Telegram-Init-Data': telegram.initData },
-            });
-            if (!cancelled) {
-              // The Telegram operator session uses HttpOnly cookies only.
-              setToken(null);
-              setAuthenticated(true);
-            }
-          } catch {
-            if (!cancelled) setToken(null);
-          }
-        } else if (!cancelled) {
+        if (!cancelled) {
           setToken(null);
+          setAuthenticated(false);
         }
       } finally {
         if (!cancelled) setChecking(false);
