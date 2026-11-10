@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { validateInitData } from '../common/utils/telegram.util';
 
 /**
@@ -41,9 +42,15 @@ export function authorizedOperatorId(
   return result.userId!;
 }
 
-/** Revoking an operator ID also invalidates all of their existing sessions. */
-export function isCurrentOperator(id: number): boolean {
-  return Boolean(process.env.ADMIN_CLIENT_BOT_TOKEN) &&
+/** Fingerprint the configured token without persisting or echoing the credential. */
+export function operatorTokenFingerprint(): string | null {
+  const token = process.env.ADMIN_CLIENT_BOT_TOKEN?.trim();
+  return token ? createHash('sha256').update(token).digest('hex').slice(0, 16) : null;
+}
+
+/** Revoking an operator ID or rotating the token invalidates their sessions. */
+export function isCurrentOperator(id: number, fingerprint: string): boolean {
+  return operatorTokenFingerprint() === fingerprint &&
     allowedOperatorIds(process.env.ADMIN_CLIENT_USER_IDS).has(id);
 }
 
