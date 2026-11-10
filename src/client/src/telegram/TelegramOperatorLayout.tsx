@@ -208,6 +208,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
     }
     let cancelled = false;
     setModulesLoading(true);
+    setLiveModules([]);
     setModulesError(null);
     apiFetch<LiveModule[]>(`/api/bots/${encodeURIComponent(botId)}/modules`)
       .then((modules) => {
@@ -550,7 +551,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
               {preferencesError}
             </Alert>
           )}
-          {favoriteModules.length > 0 && !search.trim() && (
+          {favoriteModules.length > 0 && !modulesLoading && !modulesError && !search.trim() && (
             <List dense disablePadding aria-label={fa ? 'ماژول‌های نشان‌شده' : 'Favorite modules'}>
               <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 700 }}>
                 {fa ? 'نشان‌شده‌ها' : 'Favorites'} · {favoriteModules.length}
