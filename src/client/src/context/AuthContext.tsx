@@ -43,17 +43,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }): React
       return;
     }
     let cancelled = false;
-    apiFetch('/api/auth/me')
-      .then(() => {
+    const telegram = (window as Window & {
+      Telegram?: { WebApp?: { initData?: string; ready?: () => void; expand?: () => void } };
+    }).Telegram?.WebApp;
+    const launchedFromOperatorBot =
+      new URLSearchParams(window.location.search).get('tg_admin') === '1';
+    if (launchedFromOperatorBot && telegram) {
+      telegram.ready?.();
+      telegram.expand?.();
+    }
+
+    // Preserve ordinary dashboard cookie login. Only a signed, explicit
+    // operator WebApp launch may exchange initData for a Studio session.
+    const restoreSession = async (): Promise<void> => {
+      try {
+        await apiFetch('/api/auth/me');
         if (!cancelled) setAuthenticated(true);
-      })
-      .catch(() => {
-        // Cookie is missing/expired — stay signed out.
-        setToken(null);
-      })
-      .finally(() => {
+      } catch {
+        if (launchedFromOperatorBot && telegram?.initData) {
+          try {
+            const result = await apiFetch<{ token: string }>('/api/auth/telegram-login', {
+              method: 'POST',
+              headers: { 'X-Telegram-Init-Data': telegram.initData },
+            });
+            if (!cancelled) {
+              setToken(result.token);
+              setAuthenticated(true);
+            }
+          } catch {
+            if (!cancelled) setToken(null);
+          }
+        } else if (!cancelled) {
+          setToken(null);
+        }
+      } finally {
         if (!cancelled) setChecking(false);
-      });
+      }
+    };
+    void restoreSession();
     return () => {
       cancelled = true;
     };
