@@ -605,65 +605,59 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                     {localizedCategory(t, category)} · {modules.length}
                   </ListSubheader>
                   {modules.map((module) => (
-                    <ListItemButton
+                    <Box
                       key={module.key}
-                      onClick={() => {
-                        go(modulePath(module.key));
-                      }}
-                      sx={{ py: preferences.compactMode ? 0.5 : 1.1, gap: 1 }}
+                      sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}
                     >
-                      <ListItemText
-                        disableTypography
-                        primary={
-                          <Typography variant="body2" noWrap sx={{ fontWeight: 600 }}>
-                            {nameByKey.get(module.key) ?? module.name}
-                          </Typography>
-                        }
-                        secondary={
-                          <Typography
-                            variant="caption"
-                            noWrap
-                            color="text.secondary"
-                            sx={{ display: 'block' }}
-                          >
-                            {moduleMeta.get(module.key)?.description ?? module.description}
-                          </Typography>
-                        }
-                      />
+                      <ListItemButton
+                        onClick={() => go(modulePath(module.key))}
+                        sx={{ py: preferences.compactMode ? 0.5 : 1.1, gap: 1, minWidth: 0, flex: 1 }}
+                      >
+                        <ListItemText
+                          disableTypography
+                          primary={
+                            <Typography variant="body2" noWrap sx={{ fontWeight: 600 }}>
+                              {nameByKey.get(module.key) ?? module.name}
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="caption"
+                              noWrap
+                              color="text.secondary"
+                              sx={{ display: 'block' }}
+                            >
+                              {moduleMeta.get(module.key)?.description ?? module.description}
+                            </Typography>
+                          }
+                        />
+                        <Chip
+                          size="small"
+                          color={module.isEnabled ? 'success' : 'default'}
+                          variant="outlined"
+                          label={module.isEnabled ? (fa ? 'فعال' : 'On') : fa ? 'خاموش' : 'Off'}
+                          sx={{ fontSize: '0.67rem', height: 22 }}
+                        />
+                      </ListItemButton>
                       {canFavoriteModule(module.key) && (
                         <IconButton
-                          edge="end"
+                          sx={{ mx: 0.5 }}
                           disabled={preferencesBusy || !preferencesAvailable}
                           aria-label={
-                            preferences.favoriteModules.includes(module.key)
-                              ? fa
-                                ? 'حذف از نشان‌شده‌ها'
-                                : 'Remove favorite'
-                              : fa
-                                ? 'نشان‌کردن ماژول'
-                                : 'Add favorite'
+                            (preferences.favoriteModules.includes(module.key)
+                              ? fa ? 'حذف از نشان‌شده‌ها' : 'Remove favorite'
+                              : fa ? 'نشان‌کردن ماژول' : 'Add favorite') +
+                            ': ' + (nameByKey.get(module.key) ?? module.name)
                           }
                           aria-pressed={preferences.favoriteModules.includes(module.key)}
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            toggleFavorite(module.key);
-                          }}
+                          onClick={() => toggleFavorite(module.key)}
                         >
-                          {preferences.favoriteModules.includes(module.key) ? (
-                            <StarIcon color="warning" fontSize="small" />
-                          ) : (
-                            <StarOutlineIcon fontSize="small" />
-                          )}
+                          {preferences.favoriteModules.includes(module.key)
+                            ? <StarIcon color="warning" fontSize="small" />
+                            : <StarOutlineIcon fontSize="small" />}
                         </IconButton>
                       )}
-                      <Chip
-                        size="small"
-                        color={module.isEnabled ? 'success' : 'default'}
-                        variant="outlined"
-                        label={module.isEnabled ? (fa ? 'فعال' : 'On') : fa ? 'خاموش' : 'Off'}
-                        sx={{ fontSize: '0.67rem', height: 22 }}
-                      />
-                    </ListItemButton>
+                    </Box>
                   ))}
                 </React.Fragment>
               ))}
