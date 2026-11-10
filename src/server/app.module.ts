@@ -48,6 +48,7 @@ import { FlowsModule } from './modules/flows/flows.module';
 import { HealthMonitorModule } from './modules/health-monitor/health-monitor.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { TemplatesModule } from './templates/templates.module';
+import { OperatorClientModule } from './operator-client/operator-client.module';
 
 /**
  * Root application module composing the unified single-port deployment:
@@ -117,6 +118,7 @@ import { TemplatesModule } from './templates/templates.module';
     HealthMonitorModule,
     MetricsModule,
     TemplatesModule,
+    OperatorClientModule,
   ],
   controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
