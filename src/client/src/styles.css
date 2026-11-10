@@ -55,3 +55,49 @@ html[lang='fa'] .skip-link {
 html[lang='fa'] .skip-link:focus {
   inset-inline-start: 0;
 }
+
+/*
+ * Telegram's viewport is not the physical screen: its top controls, safe
+ * areas and bottom gesture region must remain tappable on iOS/Android.
+ */
+html[data-telegram-operator='true'],
+html[data-telegram-operator='true'] body,
+html[data-telegram-operator='true'] #root {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.telegram-operator-shell > header {
+  padding-top: var(--tg-content-safe-area-inset-top, 0px);
+}
+
+.telegram-operator-shell > nav {
+  padding-bottom: max(
+    0px,
+    env(safe-area-inset-bottom, 0px),
+    var(--tg-content-safe-area-inset-bottom, 0px)
+  );
+}
+
+.telegram-operator-shell .MuiButton-root {
+  min-height: 44px;
+}
+
+.telegram-operator-shell .MuiIconButton-root {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.telegram-operator-shell .MuiButtonBase-root {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (max-width: 360px) {
+  .telegram-operator-shell .MuiBottomNavigationAction-label,
+  .telegram-operator-shell .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: 0.67rem;
+  }
+}
