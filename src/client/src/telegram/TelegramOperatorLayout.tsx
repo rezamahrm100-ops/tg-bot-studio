@@ -325,7 +325,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
           }}
         >
           <BottomNavigationAction value="home" label={fa ? 'خانه' : 'Home'} icon={<DashboardOutlinedIcon />} onClick={() => go('/')} />
-          <BottomNavigationAction value="bots" label={fa ? 'ربات‌ها' : 'Bots'} icon={<SmartToyOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}` : '/')} />
+          <BottomNavigationAction value="bots" label={fa ? 'ربات' : 'Bot'} icon={<SmartToyOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}` : '/')} />
           <BottomNavigationAction value="modules" label={fa ? 'ماژول‌ها' : 'Modules'} icon={<ExtensionOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}/modules` : '/')} />
           <BottomNavigationAction value="apps" label={fa ? 'مینی‌اپ' : 'Mini Apps'} icon={<AppsOutlinedIcon />} onClick={() => go(botId ? `/bots/${botId}/mini-apps` : '/')} />
         </BottomNavigation>
@@ -388,8 +388,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                     <ListItemButton
                       key={module.key}
                       onClick={() => {
-                        if (nameByKey.has(module.key)) go(modulePath(module.key));
-                        else go(`/bots/${botId}/modules`);
+                        go(modulePath(module.key));
                       }}
                       sx={{ py: 1.1, gap: 1 }}
                     >
