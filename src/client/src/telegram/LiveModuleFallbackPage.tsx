@@ -97,7 +97,7 @@ export default function LiveModuleFallbackPage({
   return (
     <Stack spacing={2}>
       <Box>
-        <Typography variant="h6" fontWeight={700}>
+        <Typography variant="h6" sx={{ fontWeight: 700 }}>
           {module?.name ?? (fa ? 'ماژول هسته' : 'Core module')}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -123,7 +123,10 @@ export default function LiveModuleFallbackPage({
         <Card>
           <CardContent>
             <Stack spacing={2}>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
+              <Stack
+                direction="row"
+                sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1 }}
+              >
                 <Typography variant="subtitle2" sx={{ overflowWrap: 'anywhere' }}>
                   {module.category}
                 </Typography>
@@ -142,7 +145,7 @@ export default function LiveModuleFallbackPage({
                   ? 'این ماژول در هسته شناخته شده است، اما ویرایشگر اختصاصی آن هنوز در نسخهٔ فعلی رابط وجود ندارد. برای جلوگیری از تغییر ناامن تنظیمات ناشناخته، فقط مدیریت وضعیت در دسترس است.'
                   : 'The server recognizes this module, but no bespoke editor is installed. Only its enable/disable state can be changed safely until a supported editor ships.'}
               </Alert>
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
                 <Button variant="contained" onClick={() => setConfirm(true)}>
                   {module.isEnabled
                     ? fa
