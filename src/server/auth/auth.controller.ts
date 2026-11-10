@@ -92,7 +92,9 @@ export class AuthController {
       path: '/',
       maxAge: SESSION_COOKIE_MAX_AGE_MS,
     });
-    return result;
+    // Keep privileged session JWT inside the HttpOnly cookie. Telegram WebApp
+    // JavaScript receives only the successful exchange acknowledgement.
+    return { authenticated: true };
   }
 
   /**
