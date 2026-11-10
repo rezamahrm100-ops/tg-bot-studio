@@ -97,6 +97,9 @@ variables are mandatory; leaving them empty disables the feature. Do not
 reuse any bot token that is already polled by the Studio runtime.
 
 See [Telegram Operator Client deployment and security guide](docs/TELEGRAM_OPERATOR_CLIENT.md).
+For the Telegram-native design system, live core navigation, responsive
+safe-area handling, and limits of automatic module discovery, see
+[Telegram Operator UX design and quality criteria](docs/TELEGRAM_OPERATOR_UX.md).
 The dashboard's Persian localization remains a candidate pending human QA.
 
 ## Docker & Coolify Deployment
