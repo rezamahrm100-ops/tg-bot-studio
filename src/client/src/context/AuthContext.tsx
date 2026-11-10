@@ -64,12 +64,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }): React
       } catch {
         if (launchedFromOperatorBot && telegram?.initData) {
           try {
-            const result = await apiFetch<{ token: string }>('/api/auth/telegram-login', {
+            await apiFetch<{ authenticated: boolean }>('/api/auth/telegram-login', {
               method: 'POST',
               headers: { 'X-Telegram-Init-Data': telegram.initData },
             });
             if (!cancelled) {
-              setToken(result.token);
+              // The Telegram operator session uses HttpOnly cookies only.
+              setToken(null);
               setAuthenticated(true);
             }
           } catch {
