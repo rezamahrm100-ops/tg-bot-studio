@@ -70,6 +70,52 @@ This update does **not** claim that all Telegram clients render identically
 or that human UX validation has been completed on every supported device.
 The Persian dashboard catalog is still subject to human linguistic review.
 
+## Product architecture: stable shell + live core + owner preferences
+
+The operator client deliberately separates three layers:
+
+1. **Stable, user-centered shell:** four predictable bottom destinations
+   (overview, selected bot, modules, Mini Apps), accessible touch targets,
+   screen readers, contextual BackButton, Telegram light/dark theme and
+   safe-area insets. The bot chat uses concise inline-keyboard hierarchy and
+   answers callbacks before slow server requests.
+2. **Dynamic, core-sourced capabilities:** bot lists, runtime states,
+   statistics, categories, module descriptors, enablement flags, and features
+   of the full dashboard come from the **existing** Studio API/SQLite.
+   A route/bot switch refreshes the selected core entity. New server categories
+   appear automatically. Unknown module types receive only a safe generic
+   details/toggle view until an appropriate editor exists.
+3. **Optional, owner-scoped personalization:** each authenticated, Telegram-
+   verified operator can star up to 20 module keys and enable compact display.
+   The favorites are stored in the existing `system_settings` table under
+   operator-specific keys and are shared by the private management bot and
+   its Mini App. Favorites are filtered against the **live module catalog**,
+   so an obsolete favorite never invents a missing module. These preferences
+   affect presentation only; they cannot configure or authorize modules.
+
+### API and security contract
+
+- `GET /api/operator/preferences`: return the current signed operator's
+  `{ compactMode, favoriteModules }` (defaults: false, []).
+- `PUT /api/operator/preferences`: strictly validate and save those two
+  presentation-only fields for the current operator.
+- Both routes require a revocable Studio JWT session created by a signed
+  Telegram operator launch. A normal master-key dashboard session is **not**
+  a Telegram operator identity and cannot access these routes.
+- Operator identity is derived from the server's session record and verified
+  against the active token fingerprint and numeric allowlist; **never** from
+  a client-provided operator ID.
+- Server-side owner preferences persist independently without a schema
+  migration, separate database, or extra polling process.
+
+### Remaining platform and product limits
+
+A truly arbitrary future module cannot gain a custom visual editor without
+a supported declarative schema or a frontend editor implementation. Mini App
+WebView behaviors still vary by device; the final device/browser acceptance
+checks below are required before calling a live installation production-
+verified. No source-level check proves successful VPS deployment.
+
 ## Quality gates / acceptance checklist
 
 Automated:

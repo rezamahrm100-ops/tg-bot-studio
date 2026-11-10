@@ -5,6 +5,7 @@ import { BotsService } from '../bots/bots.service';
 import { PrismaService } from '../database/prisma.service';
 import { allowedOperatorIds, operatorWebAppUrl } from './operator-access';
 import { buttonLabel, categoryCounts, getPage } from './operator-view';
+import { OperatorPreferencesService, validFavoriteModuleKey } from './operator-preferences';
 
 type ActionType =
   | 'home'
@@ -15,7 +16,9 @@ type ActionType =
   | 'modules'
   | 'module'
   | 'preview-toggle'
-  | 'confirm-toggle';
+  | 'confirm-toggle'
+  | 'favorites'
+  | 'favorite-toggle';
 
 interface OperatorAction {
   type: ActionType;
@@ -42,6 +45,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly bots: BotsService,
     private readonly prisma: PrismaService,
+    private readonly preferences: OperatorPreferencesService,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -77,6 +81,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
     bot.command('panel', (ctx) => this.home(ctx));
     bot.command('bots', (ctx) => this.showBots(ctx, 0));
     bot.command('status', (ctx) => this.showStatus(ctx));
+    bot.command('favorites', (ctx) => this.showFavorites(ctx));
     bot.callbackQuery(/^op:[A-Za-z0-9_-]+$/, (ctx) => this.handleCallback(ctx));
 
     try {
@@ -85,6 +90,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
         { command: 'start', description: 'منوی مدیریت' },
         { command: 'bots', description: 'فهرست زنده ربات‌ها' },
         { command: 'status', description: 'وضعیت و آمار زنده' },
+        { command: 'favorites', description: 'ماژول‌های نشان‌شده' },
         { command: 'panel', description: 'داشبورد کامل' },
         { command: 'help', description: 'راهنما' },
       ]);
@@ -154,7 +160,9 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
   private mainKeyboard(ownerId: number): InlineKeyboard {
     const keyboard = new InlineKeyboard()
       .text('ربات‌ها', this.callback(ownerId, { type: 'bots', page: 0 }))
-      .text('وضعیت', this.callback(ownerId, { type: 'status' }));
+      .text('وضعیت', this.callback(ownerId, { type: 'status' }))
+      .row()
+      .text('علاقه‌مندی‌ها', this.callback(ownerId, { type: 'favorites' }));
     const app = operatorWebAppUrl();
     if (app) keyboard.row().webApp('بازکردن داشبورد کامل', app);
     return keyboard;
@@ -232,6 +240,81 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
         (all.length
           ? 'برای جزئیات و ماژول‌ها یک ربات را انتخاب کنید.'
           : 'رباتی ثبت نشده است. از داشبورد کامل ربات بسازید.'),
+      keyboard,
+    );
+  }
+
+  /** Favorites are an owner-specific view of the same live server catalog. */
+  private async showFavorites(ctx: Context, botId?: string, page = 0): Promise<void> {
+    const ownerId = ctx.from!.id;
+    const settings = await this.preferences.get(ownerId);
+    if (!botId) {
+      const all = await this.bots.findAll();
+      const { current, pages } = getPage(all.length, page, 7);
+      const keyboard = new InlineKeyboard();
+      for (const bot of all.slice(current * 7, (current + 1) * 7)) {
+        keyboard
+          .text(
+            buttonLabel(bot.name, 35),
+            this.callback(ownerId, {
+              type: 'favorites',
+              botId: bot.id,
+              page: 0,
+            }),
+          )
+          .row();
+      }
+      if (current > 0)
+        keyboard.text('قبلی', this.callback(ownerId, { type: 'favorites', page: current - 1 }));
+      if (current < pages - 1)
+        keyboard.text('بعدی', this.callback(ownerId, { type: 'favorites', page: current + 1 }));
+      keyboard.row().text('خانه', this.callback(ownerId, { type: 'home' }));
+      await this.respond(
+        ctx,
+        settings.favoriteModules.length
+          ? 'علاقه‌مندی‌های شخصی شما\nیک ربات را انتخاب کنید. فقط ماژول‌های موجود در هسته نمایش داده می‌شوند.'
+          : 'هنوز ماژولی نشان نکرده‌اید. از جزئیات هر ماژول می‌توانید آن را به علاقه‌مندی‌ها اضافه کنید.',
+        keyboard,
+      );
+      return;
+    }
+    const bot = await this.bots.findOne(botId);
+    const modules = (await this.bots.listModules(botId)).filter((item) =>
+      settings.favoriteModules.includes(String(item.key)),
+    );
+    const { current, pages } = getPage(modules.length, page, 7);
+    const keyboard = new InlineKeyboard();
+    for (const module of modules.slice(current * 7, (current + 1) * 7)) {
+      keyboard
+        .text(
+          buttonLabel(module.name, 35),
+          this.callback(ownerId, {
+            type: 'module',
+            botId,
+            moduleKey: String(module.key),
+          }),
+        )
+        .row();
+    }
+    if (current > 0)
+      keyboard.text(
+        'قبلی',
+        this.callback(ownerId, { type: 'favorites', botId, page: current - 1 }),
+      );
+    if (current < pages - 1)
+      keyboard.text(
+        'بعدی',
+        this.callback(ownerId, { type: 'favorites', botId, page: current + 1 }),
+      );
+    keyboard.row().text('انتخاب ربات', this.callback(ownerId, { type: 'favorites' }));
+    await this.respond(
+      ctx,
+      'علاقه‌مندی‌های «' +
+        buttonLabel(bot.name, 50) +
+        '»\n' +
+        (modules.length
+          ? 'برای مدیریت ماژول، آن را انتخاب کنید.'
+          : 'ماژول نشان‌شده‌ای در این ربات وجود ندارد.'),
       keyboard,
     );
   }
@@ -395,6 +478,7 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       return;
     }
     const ownerId = ctx.from!.id;
+    const favorite = (await this.preferences.get(ownerId)).favoriteModules.includes(moduleKey);
     const keyboard = new InlineKeyboard()
       .text(
         module.isEnabled ? 'غیرفعال‌کردن' : 'فعال‌کردن',
@@ -407,8 +491,19 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
           category,
         }),
       )
-      .row()
-      .text('بازگشت به فهرست', this.callback(ownerId, { type: 'modules', botId, page, category }));
+      .row();
+    if (validFavoriteModuleKey(moduleKey)) {
+      keyboard
+        .text(
+          favorite ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها',
+          this.callback(ownerId, { type: 'favorite-toggle', botId, moduleKey, page, category }),
+        )
+        .row();
+    }
+    keyboard.text(
+      'بازگشت به فهرست',
+      this.callback(ownerId, { type: 'modules', botId, page, category }),
+    );
     const url = operatorWebAppUrl();
     if (url) {
       keyboard
@@ -483,7 +578,8 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
       });
       return;
     }
-    if (action.type === 'confirm-toggle') this.callbacks.delete(key);
+    if (action.type === 'confirm-toggle' || action.type === 'favorite-toggle')
+      this.callbacks.delete(key);
     // Telegram requires a timely callback answer; the data fetch can then run.
     await ctx.answerCallbackQuery();
     try {
@@ -496,6 +592,18 @@ export class OperatorClientService implements OnModuleInit, OnModuleDestroy {
           break;
         case 'status':
           await this.showStatus(ctx);
+          break;
+        case 'favorites':
+          await this.showFavorites(ctx, action.botId, action.page);
+          break;
+        case 'favorite-toggle':
+          if (action.botId && action.moduleKey) {
+            const modules = await this.bots.listModules(action.botId);
+            if (modules.some((module) => module.key === action.moduleKey)) {
+              await this.preferences.toggleFavorite(ctx.from!.id, action.moduleKey);
+            }
+            await this.showModule(ctx, action);
+          }
           break;
         case 'bot':
           if (action.botId) await this.showBot(ctx, action.botId);
