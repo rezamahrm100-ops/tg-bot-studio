@@ -387,7 +387,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', p: 2, gap: 1 }}>
           <Box sx={{ flex: 1 }}>
-            <Typography variant="subtitle1" fontWeight={700}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
               {fa ? 'دسترسی سریع' : 'Quick access'}
             </Typography>
             <Typography variant="caption" color="text.secondary">
@@ -455,10 +455,17 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                       sx={{ py: 1.1, gap: 1 }}
                     >
                       <ListItemText
-                        primary={nameByKey.get(module.key) ?? module.name}
-                        secondary={moduleMeta.get(module.key)?.description ?? module.description}
-                        primaryTypographyProps={{ noWrap: true, variant: 'body2', fontWeight: 600 }}
-                        secondaryTypographyProps={{ noWrap: true, variant: 'caption' }}
+                        disableTypography
+                        primary={
+                          <Typography variant="body2" noWrap sx={{ fontWeight: 600 }}>
+                            {nameByKey.get(module.key) ?? module.name}
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography variant="caption" noWrap color="text.secondary" sx={{ display: 'block' }}>
+                            {moduleMeta.get(module.key)?.description ?? module.description}
+                          </Typography>
+                        }
                       />
                       <Chip
                         size="small"
