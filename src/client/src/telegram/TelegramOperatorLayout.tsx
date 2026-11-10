@@ -8,6 +8,10 @@ import {
   Button,
   Chip,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Drawer,
   IconButton,
@@ -16,6 +20,9 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
+  MenuItem,
+  FormControlLabel,
+  Switch,
   Stack,
   TextField,
   Toolbar,
@@ -31,12 +38,29 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import { useTranslation } from 'react-i18next';
 import { useBots } from '../context/BotContext';
 import { apiFetch } from '../services/api';
 import { localizedCategory, useLocalizedModules } from '../registry/localize';
 import BotSimulatorDrawer from '../components/BotSimulatorDrawer';
 import { getOperatorWebApp, telegramSelectionFeedback } from './operator-webapp';
+
+interface OperatorPreferences {
+  compactMode: boolean;
+  favoriteModules: string[];
+}
+
+const DEFAULT_PREFERENCES: OperatorPreferences = {
+  compactMode: false,
+  favoriteModules: [],
+};
+
+function canFavoriteModule(key: string): boolean {
+  return /^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,95}$/.test(key);
+}
 
 interface LiveModule {
   key: string;
@@ -66,7 +90,9 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const fa = i18n.resolvedLanguage === 'fa';
   const navigate = useNavigate();
   const location = useLocation();
-  const { bots, activeBot, loading: botsLoading, error: botsError, refresh } = useBots();
+  const {
+    bots, activeBot, setActiveBotId, loading: botsLoading, error: botsError, refresh,
+  } = useBots();
   const localizedModules = useLocalizedModules();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -75,8 +101,72 @@ export default function TelegramOperatorLayout(): React.ReactElement {
   const [modulesLoading, setModulesLoading] = useState(false);
   const [modulesError, setModulesError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [preferences, setPreferences] = useState<OperatorPreferences>(DEFAULT_PREFERENCES);
+  const [preferencesBusy, setPreferencesBusy] = useState(false);
+  const [preferencesError, setPreferencesError] = useState<string | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const botId = activeBot?.id;
+
+  useEffect(() => {
+    // A route reached from a deep link or bot list must also select its bot
+    // in the shared core context. Previously this only happened in desktop UI.
+    const match = location.pathname.match(/^\/bots\/([^/]+)/);
+    if (match?.[1] && bots.some((bot) => bot.id === match[1]) && activeBot?.id !== match[1]) {
+      setActiveBotId(match[1]);
+    }
+  }, [location.pathname, bots, activeBot?.id, setActiveBotId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    apiFetch<OperatorPreferences>('/api/operator/preferences')
+      .then((value) => {
+        if (!cancelled) {
+          setPreferences(value);
+          setPreferencesError(null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setPreferencesError(
+            fa ? 'تنظیمات شخصی بارگذاری نشد؛ نمای پیش‌فرض فعال است.' :
+              'Personal settings could not load; using the default view.',
+          );
+        }
+      });
+    return () => { cancelled = true; };
+  }, [fa]);
+
+  const savePreferences = async (next: OperatorPreferences): Promise<void> => {
+    setPreferencesBusy(true);
+    setPreferencesError(null);
+    try {
+      const updated = await apiFetch<OperatorPreferences>('/api/operator/preferences', {
+        method: 'PUT',
+        body: JSON.stringify(next),
+      });
+      setPreferences(updated);
+    } catch {
+      setPreferencesError(
+        fa ? 'ذخیرهٔ تنظیمات شخصی ناموفق بود.' : 'Could not save personal settings.',
+      );
+    } finally {
+      setPreferencesBusy(false);
+    }
+  };
+
+  const toggleFavorite = (key: string): void => {
+    if (!canFavoriteModule(key) || preferencesBusy) return;
+    const favoriteModules = preferences.favoriteModules.includes(key)
+      ? preferences.favoriteModules.filter((item) => item !== key)
+      : [...preferences.favoriteModules, key];
+    if (favoriteModules.length > 20) {
+      setPreferencesError(fa ? 'حداکثر ۲۰ ماژول قابل نشان‌کردن است.' : 'Up to 20 favorites are supported.');
+      return;
+    }
+    telegramSelectionFeedback();
+    void savePreferences({ ...preferences, favoriteModules });
+  };
 
   useEffect(() => {
     // Keep the signed launch marker in the WebView URL even when the
@@ -176,6 +266,10 @@ export default function TelegramOperatorLayout(): React.ReactElement {
     return [...groups.entries()];
   }, [liveModules, search, nameByKey]);
 
+  const favoriteModules = liveModules.filter(
+    (module) => preferences.favoriteModules.includes(module.key),
+  );
+
   const current = location.pathname;
   const activeNavigation =
     current === '/'
@@ -273,6 +367,12 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             <RefreshOutlinedIcon fontSize="small" />
           </IconButton>
           <IconButton
+            aria-label={fa ? 'شخصی‌سازی رابط' : 'Personalize interface'}
+            onClick={() => setSettingsOpen(true)}
+          >
+            <TuneOutlinedIcon fontSize="small" />
+          </IconButton>
+          <IconButton
             aria-label={fa ? 'جست‌وجو و منوی همه ماژول‌ها' : 'Search modules and options'}
             aria-expanded={drawerOpen}
             onClick={() => {
@@ -316,8 +416,8 @@ export default function TelegramOperatorLayout(): React.ReactElement {
           overscrollBehaviorY: 'contain',
           width: '100%',
           px: { xs: 1.5, sm: 2.5 },
-          pt: 2,
-          pb: 3,
+          pt: preferences.compactMode ? 1 : 2,
+          pb: preferences.compactMode ? 1.5 : 3,
           WebkitOverflowScrolling: 'touch',
         }}
       >
@@ -398,6 +498,28 @@ export default function TelegramOperatorLayout(): React.ReactElement {
             <CloseOutlinedIcon />
           </IconButton>
         </Box>
+        {bots.length > 1 && (
+          <Box sx={{ px: 2, pb: 1.5 }}>
+            <TextField
+              select
+              fullWidth
+              size="small"
+              label={fa ? 'ربات انتخاب‌شده' : 'Selected bot'}
+              value={botId ?? ''}
+              onChange={(event) => {
+                const id = event.target.value;
+                if (!bots.some((bot) => bot.id === id)) return;
+                setActiveBotId(id);
+                setSearch('');
+                go(`/bots/${encodeURIComponent(id)}`);
+              }}
+            >
+              {bots.map((bot) => (
+                <MenuItem key={bot.id} value={bot.id}>{bot.name}</MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        )}
         <Box sx={{ px: 2, pb: 1.5 }}>
           <TextField
             value={search}
@@ -419,6 +541,25 @@ export default function TelegramOperatorLayout(): React.ReactElement {
         </Box>
         <Divider />
         <Box sx={{ overflowY: 'auto', flex: 1 }}>
+          {preferencesError && (
+            <Alert severity="warning" sx={{ m: 2 }} role="status">
+              {preferencesError}
+            </Alert>
+          )}
+          {favoriteModules.length > 0 && !search.trim() && (
+            <List dense disablePadding aria-label={fa ? 'ماژول‌های نشان‌شده' : 'Favorite modules'}>
+              <ListSubheader sx={{ bgcolor: 'background.paper', fontWeight: 700 }}>
+                {fa ? 'نشان‌شده‌ها' : 'Favorites'} · {favoriteModules.length}
+              </ListSubheader>
+              {favoriteModules.map((module) => (
+                <ListItemButton key={module.key} onClick={() => go(modulePath(module.key))}>
+                  <StarIcon color="warning" fontSize="small" sx={{ mr: 1 }} />
+                  <ListItemText primary={nameByKey.get(module.key) ?? module.name} />
+                </ListItemButton>
+              ))}
+              <Divider />
+            </List>
+          )}
           {!botId ? (
             <Alert severity="info" sx={{ m: 2 }}>
               {fa ? 'ابتدا یک ربات ایجاد یا انتخاب کنید.' : 'Create or select a bot first.'}
@@ -452,7 +593,7 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                       onClick={() => {
                         go(modulePath(module.key));
                       }}
-                      sx={{ py: 1.1, gap: 1 }}
+                      sx={{ py: preferences.compactMode ? 0.5 : 1.1, gap: 1 }}
                     >
                       <ListItemText
                         disableTypography
@@ -472,6 +613,26 @@ export default function TelegramOperatorLayout(): React.ReactElement {
                           </Typography>
                         }
                       />
+                      {canFavoriteModule(module.key) && (
+                        <IconButton
+                          edge="end"
+                          disabled={preferencesBusy}
+                          aria-label={
+                            preferences.favoriteModules.includes(module.key)
+                              ? fa ? 'حذف از نشان‌شده‌ها' : 'Remove favorite'
+                              : fa ? 'نشان‌کردن ماژول' : 'Add favorite'
+                          }
+                          aria-pressed={preferences.favoriteModules.includes(module.key)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            toggleFavorite(module.key);
+                          }}
+                        >
+                          {preferences.favoriteModules.includes(module.key)
+                            ? <StarIcon color="warning" fontSize="small" />
+                            : <StarOutlineIcon fontSize="small" />}
+                        </IconButton>
+                      )}
                       <Chip
                         size="small"
                         color={module.isEnabled ? 'success' : 'default'}
@@ -502,6 +663,49 @@ export default function TelegramOperatorLayout(): React.ReactElement {
           </Button>
         </Stack>
       </Drawer>
+      <Dialog
+        open={settingsOpen}
+        onClose={() => !preferencesBusy && setSettingsOpen(false)}
+        fullWidth
+        maxWidth="xs"
+        aria-labelledby="operator-personalization-title"
+      >
+        <DialogTitle id="operator-personalization-title">
+          {fa ? 'شخصی‌سازی اختیاری' : 'Optional personalization'}
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={2}>
+            <Typography variant="body2" color="text.secondary">
+              {fa
+                ? 'فقط چیدمان شخصی تغییر می‌کند؛ قابلیت‌ها و وضعیت ربات‌ها همیشه از هسته دریافت می‌شوند.'
+                : 'Only your view changes. Capabilities and bot states always come from the core.'}
+            </Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={preferences.compactMode}
+                  disabled={preferencesBusy}
+                  onChange={(event) =>
+                    void savePreferences({ ...preferences, compactMode: event.target.checked })
+                  }
+                />
+              }
+              label={fa ? 'نمای فشرده' : 'Compact view'}
+            />
+            <Typography variant="caption" color="text.secondary">
+              {fa
+                ? 'برای نشان‌کردن هر ماژول، از ستارهٔ کنار آن در فهرست استفاده کنید. نشان‌شده‌ها بین ربات مدیریتی و مینی‌اپ همگام‌اند.'
+                : 'Star a module in the module list. Favorites are shared between chat and the Mini App.'}
+            </Typography>
+            {preferencesError && <Alert severity="warning">{preferencesError}</Alert>}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSettingsOpen(false)} disabled={preferencesBusy}>
+            {fa ? 'بستن' : 'Close'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
