@@ -21,7 +21,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
@@ -64,7 +64,6 @@ function backRoute(pathname: string): string {
 export default function TelegramOperatorLayout(): React.ReactElement {
   const { t, i18n } = useTranslation();
   const fa = i18n.resolvedLanguage === 'fa';
-  const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const { bots, activeBot, loading: botsLoading, error: botsError, refresh } = useBots();
