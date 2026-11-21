@@ -45,35 +45,38 @@ describe('agent tokens reuse protected bot REST APIs', () => {
   });
 
   test('read credential cannot mutate state', () => {
-    expect(() => guard.canActivate(context('DELETE', '/api/bots/abc', read)))
-      .toThrow(ForbiddenException);
-    expect(() => guard.canActivate(context('PUT', '/api/bots/abc/modules/xyz', read)))
-      .toThrow(ForbiddenException);
+    expect(() => guard.canActivate(context('DELETE', '/api/bots/abc', read))).toThrow(
+      ForbiddenException,
+    );
+    expect(() => guard.canActivate(context('PUT', '/api/bots/abc/modules/xyz', read))).toThrow(
+      ForbiddenException,
+    );
   });
 
   test('write credential can manage modules via existing controller', () => {
-    expect(guard.canActivate(context('PUT', '/api/bots/abc/modules/x', write)))
-      .toBe(true);
+    expect(guard.canActivate(context('PUT', '/api/bots/abc/modules/x', write))).toBe(true);
   });
 
   test('auth, backup and unrecognized API roots are forbidden', () => {
     for (const path of ['/api/auth/sessions', '/api/backup', '/api/metrics', '/api/tma']) {
-      expect(() => guard.canActivate(context('GET', path, write)))
-        .toThrow(ForbiddenException);
+      expect(() => guard.canActivate(context('GET', path, write))).toThrow(ForbiddenException);
     }
   });
 
   test('invalid and short secrets fail closed', () => {
-    expect(() => guard.canActivate(context('GET', '/api/bots', 'wrong'.repeat(10))))
-      .toThrow(UnauthorizedException);
+    expect(() => guard.canActivate(context('GET', '/api/bots', 'wrong'.repeat(10)))).toThrow(
+      UnauthorizedException,
+    );
     process.env.STUDIO_AGENT_READ_TOKEN = 'short';
-    expect(() => guard.canActivate(context('GET', '/api/bots', 'short')))
-      .toThrow(UnauthorizedException);
+    expect(() => guard.canActivate(context('GET', '/api/bots', 'short'))).toThrow(
+      UnauthorizedException,
+    );
     process.env.STUDIO_AGENT_READ_TOKEN = read;
   });
 
   test('encoded path variants are denied', () => {
-    expect(() => guard.canActivate(context('GET', '/api/bots/%2e%2e/auth', write)))
-      .toThrow(ForbiddenException);
+    expect(() => guard.canActivate(context('GET', '/api/bots/%2e%2e/auth', write))).toThrow(
+      ForbiddenException,
+    );
   });
 });
