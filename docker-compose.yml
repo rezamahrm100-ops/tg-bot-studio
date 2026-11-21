@@ -32,6 +32,11 @@ services:
       - ADMIN_MASTER_KEY=${ADMIN_MASTER_KEY}
       - JWT_SECRET=${JWT_SECRET}
 
+      # Dedicated machine API credentials for owner-operated WICC bridge
+      # Empty by default; never substitute the panel master key.
+      - STUDIO_AGENT_READ_TOKEN=${STUDIO_AGENT_READ_TOKEN:-}
+      - STUDIO_AGENT_WRITE_TOKEN=${STUDIO_AGENT_WRITE_TOKEN:-}
+
       # SQLite persistent storage path inside container
       - DATA_DIR=/app/data
       - DB_PATH=/app/data/studio.sqlite
